@@ -2,7 +2,7 @@
 // Strategy: cache-first for the app shell (fast, offline), refreshed in the background (stale-while-revalidate),
 // so a new deploy is picked up on the next launch. Bump CACHE_VERSION to drop old caches immediately.
 const CACHE_VERSION = 'v2';
-const CACHE = `corp-${CACHE_VERSION}`;
+const CACHE = `design-${CACHE_VERSION}`;
 const ASSETS = [
   "./",
   "index.html",
@@ -43,10 +43,9 @@ const ASSETS = [
   "data/events/work1.js",
   "data/events/work2.js",
   "data/events/work3.js",
-  "fonts/archivo-black-latin-400-normal.woff2",
-  "fonts/archivo-latin-400-normal.woff2",
-  "fonts/archivo-latin-500-normal.woff2",
-  "fonts/archivo-latin-600-normal.woff2",
+  "fonts/nunito-latin-400-normal.woff2",
+  "fonts/nunito-latin-600-normal.woff2",
+  "fonts/nunito-latin-700-normal.woff2",
   "icons/apple-touch-icon.png",
   "icons/favicon-32.png",
   "icons/icon-192.png",
@@ -61,7 +60,7 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('corp-') && k !== CACHE).map(k => caches.delete(k))))
+    caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('design-') && k !== CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim()),
   );
 });

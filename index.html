@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-  <meta name="theme-color" content="#f4f1e8">
+  <meta name="theme-color" content="#f1f5f7">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="48: Laws of Power, Corporate Edition. A game about power at the office. Swipe to choose. Every decision creates a rival. Every alliance has a price.">
-  <title>48: Laws of Power (Corporate Edition)</title>
+  <meta name="description" content="48: Laws of Power, Design Team Edition. Join a product design team. Swipe to choose. Every decision creates a rival. Every alliance has a price.">
+  <title>48: Laws of Power (Design Team Edition)</title>
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
@@ -14,7 +14,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="48">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="preload" href="fonts/archivo-black-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/nunito-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -27,6 +27,8 @@
     <symbol id="i-hands" viewBox="0 0 24 24"><path d="M12 20 C5 15 3 11 3 8.5 C3 6 5 4.5 7 4.5 C9 4.5 11 6 12 7.5 C13 6 15 4.5 17 4.5 C19 4.5 21 6 21 8.5 C21 11 19 15 12 20 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
     <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5 V16.5 M9.5 10 Q12 8 14.5 10 M9.5 14 Q12 16 14.5 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5 Q8 4 12 6 Q16 4 20 5 V19 Q16 18 12 20 Q8 18 4 19 Z M12 6 V20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-door" viewBox="0 0 24 24"><path d="M9 4H5v16h4M14 8l5 4-5 4M19 12H9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7 H20 M4 12 H20 M4 17 H20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
     <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 20 Q3 13.5 9 13.5 Q15 13.5 15 20" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16.5 13.8 Q21 14 21 19.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
     <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M6 4 H18 V17 Q18 20 15 20 H6 Q9 20 9 17 V7 Q9 4 6 4 Z M12 9 H15 M12 12 H15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol>
@@ -36,33 +38,21 @@
   <div id="app">
     <!-- Title screen -->
     <main id="screen-title" class="screen title" aria-labelledby="title-h">
-      <div class="title-art" aria-hidden="true">
-        <i class="art-flag"></i><i class="art-dots dots"></i><i class="art-stripe"></i>
-        <svg class="art-person" viewBox="0 0 200 250" fill="none" stroke="#111" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
-          <rect x="6" y="196" width="18" height="18" fill="#111"/><rect x="18" y="208" width="18" height="18" fill="#ffc21a"/>
-          <path d="M34 182 Q18 214 32 238 L58 236 Q54 208 62 178Z" fill="#ffc21a"/>
-          <path d="M30 244 L36 162 Q40 140 72 134 L128 134 Q160 140 164 162 L172 244Z" fill="#ffc21a"/>
-          <path d="M70 134 Q100 164 130 134 Q120 118 100 118 Q80 118 70 134Z" fill="#f0a800"/>
-          <path d="M150 176 Q182 166 176 124 L154 128 Q156 152 142 160Z" fill="#ffc21a"/>
-          <rect x="154" y="62" width="30" height="52" rx="5" fill="#111" transform="rotate(12 169 88)"/><rect x="159" y="70" width="20" height="30" fill="#ff5b1f" stroke="none" transform="rotate(12 169 88)"/>
-          <circle cx="164" cy="122" r="11" fill="#f1c9a5"/>
-          <circle cx="100" cy="84" r="34" fill="#f1c9a5"/>
-          <path d="M66 82 Q62 44 100 44 Q138 44 134 82 Q122 62 100 64 Q80 62 66 82Z" fill="#111"/><path d="M94 48 Q110 26 130 44 Q112 44 108 58Z" fill="#111"/>
-          <circle cx="88" cy="88" r="3" fill="#111" stroke="none"/><circle cx="112" cy="88" r="3" fill="#111" stroke="none"/><path d="M90 102 Q100 111 110 102" stroke-width="3.5"/>
-        </svg>
-      </div>
+      <div class="title-art" aria-hidden="true"></div>
       <div class="title-inner">
-        <p class="title-kicker">Corporate Edition</p>
+        <p class="title-kicker">Design Team Edition</p>
         <h1 id="title-h"><span class="t48"><mark>48</mark></span><span class="tlaws">Laws of Power</span></h1>
-        <p class="tagline">Every decision creates a rival. Every alliance has a price.</p>
+        <p class="tagline">Join the design team. Every decision makes a rival. Every alliance has a price.</p>
         <div class="title-menu">
-          <button id="btn-continue-reign" class="btn primary" hidden>Resume career</button>
-          <button id="btn-new" class="btn primary">Start new career</button>
-          <button id="btn-daily" class="btn">Play today's office</button>
-          <button id="btn-codex" class="btn">Open playbook</button>
-          <button id="btn-settings" class="btn">Open settings</button>
-          <button id="btn-exit" class="btn">Exit game</button>
+          <button id="btn-continue-reign" class="game-card" data-tag="Your career" data-sub="Pick up where you left off." hidden>Resume career</button>
+          <button id="btn-new" class="game-card" data-tag="New career" data-sub="Start as a junior designer at Lumen.">Join the team</button>
+          <button id="btn-daily" class="game-card" data-tag="Daily" data-sub="Same office for everyone today.">Play today's office</button>
         </div>
+        <nav class="title-nav" aria-label="More">
+          <button id="btn-codex" class="nav-btn"><svg aria-hidden="true"><use href="#i-book"/></svg>Playbook</button>
+          <button id="btn-settings" class="nav-btn"><svg aria-hidden="true"><use href="#i-gear"/></svg>Settings</button>
+          <button id="btn-exit" class="nav-btn"><svg aria-hidden="true"><use href="#i-door"/></svg>Exit</button>
+        </nav>
         <p id="title-stats" class="title-stats"></p>
         <p id="title-notice" class="title-notice" role="status" hidden></p>
       </div>
@@ -72,7 +62,7 @@
     <main id="screen-game" class="screen game" hidden>
       <a class="skip" href="#card">Skip to the card</a>
       <header class="topbar">
-        <div class="brand" aria-label="48: Laws of Power"><span class="brand-48">48</span><span class="brand-sub">Laws of Power</span></div>
+        <div class="brand" aria-label="48: Laws of Power"><span class="brand-48">48</span></div>
         <div class="reign-info" id="reign-info"></div>
         <nav class="top-actions" aria-label="Game panels">
           <button class="icon-btn" id="btn-dossier" aria-label="People at work" title="People"><svg><use href="#i-people"/></svg></button>
@@ -80,6 +70,7 @@
           <button class="icon-btn" id="btn-menu" aria-label="Pause menu" title="Menu"><svg><use href="#i-menu"/></svg></button>
         </nav>
       </header>
+      <div class="weekrow"><div class="weekbar" id="weekbar" role="progressbar" aria-label="Career progress" aria-valuemin="0"><i></i><span class="sr-only" id="week-text"></span></div><button class="debt" id="debt-pill" aria-haspopup="dialog">Design debt <b id="debt-n">0</b></button></div>
       <section class="meters" id="meters" aria-label="Power meters"></section>
       <button class="objective-strip" id="objective-btn" aria-haspopup="dialog"></button>
       <section class="stage" id="stage">
@@ -99,8 +90,8 @@
         <section class="result" id="result" aria-live="polite" hidden></section>
       </section>
       <footer class="actions" id="actions">
-        <button class="choice choice-left" id="btn-left"><span class="arrow" aria-hidden="true">&#8249;</span><span class="choice-label" id="label-left"></span></button>
-        <button class="choice choice-right" id="btn-right"><span class="choice-label" id="label-right"></span><span class="arrow" aria-hidden="true">&#8250;</span></button>
+        <button class="choice choice-left" id="btn-left"><span class="badge" aria-hidden="true">A</span><span class="choice-label" id="label-left"></span></button>
+        <button class="choice choice-right" id="btn-right"><span class="badge" aria-hidden="true">B</span><span class="choice-label" id="label-right"></span></button>
         <button class="btn primary wide" id="btn-next" hidden>Draw the next card</button>
       </footer>
       <p class="hint" id="hint"></p>

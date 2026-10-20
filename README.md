@@ -1,13 +1,14 @@
-# 48: Laws of Power — Corporate Edition
+# 48: Laws of Power — Design Team Edition
 
-> Every decision creates a rival. Every all**Corporate Edition.** The same game, moved from a royal court to a modern company. You start as a new hire and
-try to reach Acting CEO. Meters: Influence, Reputation, Team trust, Budget. The cast (chief of staff, head of sales,
-board investor, internal audit, a silent sponsor on the board) all want something. Every card is a work dilemma with
-two options. The court version lives on the `claude/zen-fermat-sxqa5k` branch and at the site root; this edition is
-published under `/corporate/`.
+> Every decision creates a rival. Every a**Design Team Edition.** The same game, set on a product design team at a company called Lumen. You start as a junior
+designer and try to become Acting Head of Design. Meters: Influence, Reputation, Team trust, Capacity. The cast is a
+design team you may know: a charismatic VP of Design who is about to leave, an ambitious design manager, a loyal
+design systems lead, a brand director everyone loves, a VP of Product who trades favours, a design ops manager who
+knows everything, and a researcher who tells the truth about the data. Each card shows where it arrived (a Figma
+comment, a crit, a Jira ticket, a handoff). It is published under `/design/`; the court and corporate versions live on
+other branches.
 
-who
-were watching.
+
 
 Vanilla HTML/CSS/JS (ES modules). No backend, no framework, no API keys, no build step. All artwork is generated in
 CSS/SVG, so nothing external has to load.

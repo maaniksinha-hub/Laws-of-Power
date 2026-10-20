@@ -1,4 +1,4 @@
-// Where a card "arrives" at work. Shown as a small header on the card (see js/ui.js) so each scene feels like a real moment:
+// Where a card "arrives" on a design team. Shown as a small header on the card (see js/ui.js) so each scene feels like a real moment:
 // a Slack message, an email, a meeting, a one-to-one, a call, an all-hands, a review, a calendar invite, LinkedIn.
 export const CHANNELS = {
   email: { label: 'Email', icon: 'mail' },
@@ -10,6 +10,12 @@ export const CHANNELS = {
   review: { label: 'Review', icon: 'doc' },
   calendar: { label: 'Calendar', icon: 'cal' },
   linkedin: { label: 'LinkedIn', icon: 'chat' },
+  figma: { label: 'Figma comment', icon: 'frame' },
+  crit: { label: 'Design crit', icon: 'frame' },
+  standup: { label: 'Weekly sync', icon: 'meet' },
+  handoff: { label: 'Handoff', icon: 'code' },
+  session: { label: 'User session', icon: 'two' },
+  ticket: { label: 'Jira ticket', icon: 'doc' },
 };
 
 // Older story cards pick a channel here by id; any card can also set `via` itself.

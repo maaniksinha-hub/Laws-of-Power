@@ -7,7 +7,7 @@ import { OBJECTIVES } from '../data/objectives.js';
 import { META_VERSION, createMeta } from './meta.js';
 import { SAVE_VERSION, newCharState } from './state.js';
 
-export const KEYS = { save: 'corp.save', meta: 'corp.meta', settings: 'corp.settings' };
+export const KEYS = { save: 'design.save', meta: 'design.meta', settings: 'design.settings' };
 export const DEFAULT_SETTINGS = { sound: true, motion: 'auto', showValues: false, hints: true, hintDots: true, autoFullscreen: true, keepAwake: true, vibrate: true };
 
 let store = null;
@@ -47,7 +47,7 @@ export function repairState(s, content = { events: EVENTS, endings: ENDINGS, obj
   for (const k of ['flags', 'params', 'played', 'lastTurn', 'choices', 'secrets', 'laws', 'relations', 'styles', 'warned', 'fired']) if (!isObj(s[k])) s[k] = {};
   for (const k of ['history', 'recent', 'queue', 'betrayals', 'log', 'activePressures', 'trace']) if (!Array.isArray(s[k])) s[k] = [];
   if (!isObj(s.stats)) s.stats = {};
-  for (const k of ['betrayals', 'manipulations', 'conspiracies']) s.stats[k] ||= 0;
+  for (const k of ['betrayals', 'manipulations', 'conspiracies', 'debt', 'craft']) s.stats[k] ||= 0;
   s.queue = s.queue.filter(q => q && content.events[q.id] && Number.isFinite(q.due));
   if (s.current && !content.events[s.current.id]) s.current = null;
   if (!Number.isFinite(s.rank)) s.rank = 0;

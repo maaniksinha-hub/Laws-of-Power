@@ -54,7 +54,7 @@ export function createBaseState(seed) {
     v: SAVE_VERSION, reignId: 1, seed, rng: seed >>> 0, turn: 1, rank: 0, background: null,
     meters: Object.fromEntries(METERS.map(m => [m, 50])),
     current: null, pendingResult: null, history: [], recent: [], played: {}, lastTurn: {}, choices: {},
-    queue: [], chars, relations, secrets: {}, laws: {}, flags: {}, params: {}, stats: { betrayals: 0, manipulations: 0, conspiracies: 0 },
+    queue: [], chars, relations, secrets: {}, laws: {}, flags: {}, params: {}, stats: { betrayals: 0, manipulations: 0, conspiracies: 0, debt: 0, craft: 0 },
     styles: {}, trace: [], betrayals: [], activePressures: [], warned: {}, fired: {}, objective: null, forcedEnding: null, ending: null, log: [],
   };
 }

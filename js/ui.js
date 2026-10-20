@@ -23,6 +23,7 @@ const MAGNITUDE = d => (Math.abs(d) >= 10 ? 3 : Math.abs(d) >= 5 ? 2 : 1);
 const VIA_ICON = {
   mail: '<path d="M3 6h18v12H3zM3 7l9 7 9-7"/>', chat: '<path d="M4 5h16v11H9l-5 4z"/>', meet: '<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 19c0-3 2-5 5-5s5 2 5 5M11 19c0-3 2-5 5-5s5 2 5 5"/>',
   two: '<circle cx="9" cy="8" r="3"/><path d="M4 19c0-3 2-5 5-5s5 2 5 5M16 6l3 3-3 3"/>', call: '<path d="M6 4l3 1 1 4-2 1c1 3 3 5 6 6l1-2 4 1 1 3c-1 2-3 3-5 2-6-1-11-7-12-13 0-2 1-4 3-3z"/>',
+  frame: '<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 9h16M9 9v10"/>', code: '<path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/>',
   stage: '<path d="M3 20h18M6 20V9l6-5 6 5v11M10 20v-5h4v5"/>', doc: '<path d="M6 3h9l4 4v14H6zM15 3v4h4M9 12h7M9 16h7"/>', cal: '<path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/>',
 };
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
@@ -32,6 +33,7 @@ function stamp(ev, turn) {
   const hour = 8 + (h % 10), min = (h >>> 4) % 60;
   return `${DAYS[(h >>> 8) % 5]} ${hour}:${String(min).padStart(2, '0')}`;
 }
+const greeting = () => { const h = new Date().getHours(); return h < 12 ? 'Good morning,' : h < 18 ? 'Good afternoon,' : 'Good evening,'; };
 const quarter = turn => Math.min(4, Math.ceil(turn / 13));
 function viaHTML(ev, turn) {
   const v = CHANNELS[ev.via] || CHANNELS.meeting;
@@ -75,7 +77,7 @@ function showTitle(notice = null) {
   const { state, status } = loadReign(app.content);
   app.saved = state;
   $('btn-continue-reign').hidden = !state;
-  if (state) $('btn-continue-reign').textContent = state.ending ? 'View last career' : `Resume career (week ${state.turn})`;
+  if (state) $('btn-continue-reign').textContent = state.ending ? 'View last career' : `Resume your career (week ${state.turn})`;
   const msg = notice || ({ corrupt: 'We could not read your saved career, so we set it aside. Your playbook is safe.', outdated: 'Your saved career is from another version of the game, so it could not open. Your playbook is safe.' })[status];
   $('title-notice').hidden = !msg; $('title-notice').textContent = msg || '';
   const m = app.meta;
@@ -96,6 +98,7 @@ function bindStatic() {
   $('btn-dossier').onclick = () => openPanel('dossier');
   $('btn-chronicle').onclick = () => openPanel('chronicle');
   $('objective-btn').onclick = () => openPanel('objective');
+  $('debt-pill').onclick = () => openPanel('debt');
   $('btn-left').onclick = () => pick('left');
   $('btn-right').onclick = () => pick('right');
   $('btn-next').onclick = next;
@@ -210,7 +213,11 @@ function renderGame() {
 
 function updateHeader() {
   const s = app.state;
-  $('reign-info').innerHTML = `<b>${RANKS[s.rank].title}</b><br>Career ${s.reignId}, Q${quarter(s.turn)}, week ${Math.min(s.turn, MAX_TURN)} of ${MAX_TURN}`;
+  const wk = Math.min(s.turn, MAX_TURN);
+  $('reign-info').innerHTML = `<small>${greeting()}</small><b><mark>${RANKS[s.rank].title}</mark></b>`;
+  const bar = $('weekbar'); bar.setAttribute('aria-valuenow', wk); bar.setAttribute('aria-valuemax', MAX_TURN); bar.setAttribute('aria-valuetext', `Career ${s.reignId}, Q${quarter(s.turn)}, week ${wk} of ${MAX_TURN}`);
+  const debt = Math.max(0, s.stats?.debt || 0); const dp = $('debt-pill'); $('debt-n').textContent = debt; dp.dataset.level = debt >= 6 ? 'high' : debt >= 3 ? 'mid' : 'low'; dp.setAttribute('aria-label', `Design debt ${debt}. Shortcuts you have taken. Tap to read more.`);
+  bar.querySelector('i').style.transform = `scaleX(${wk / MAX_TURN})`; $('week-text').textContent = `Career ${s.reignId}, Q${quarter(s.turn)}, week ${wk} of ${MAX_TURN}`;
   const o = objectiveView(s, app.content.objectives);
   $('objective-btn').innerHTML = o ? `<span class="obj-k">Secret goal</span><span class="obj-t">${esc(o.brief)}</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
   $('objective-btn').setAttribute('aria-label', o ? `Secret goal: ${o.brief}. ${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met.` : 'Objective');
@@ -423,6 +430,7 @@ const PANELS = {
   menu: { title: 'Paused', render: () => menuHTML() },
   dossier: { title: 'People at Work', render: () => (app.state ? dossierHTML(app.state) : '<p>Start a career to meet people.</p>') },
   chronicle: { title: 'Your Choices', render: () => chronicleHTML(app.state) },
+  debt: { title: 'Design Debt', render: () => { const d = Math.max(0, app.state?.stats?.debt || 0), c = Math.max(0, app.state?.stats?.craft || 0); return `<p>Design debt is the pile of shortcuts you take: skipping research, skipping accessibility checks, shipping with "we will fix it in v2". It is invisible until it is not.</p><div class="kv"><div><b>${d}</b><span>Design debt</span></div><div><b>${c}</b><span>Craft points</span></div></div><p>${d >= 6 ? 'The shortcuts are catching up with you. Expect bugs, complaints and a tense review.' : d >= 3 ? 'A few shortcuts are piling up. A bill may arrive soon.' : 'Low for now. Careful work and honest feedback keep it that way.'}</p><p>Craft points come from careful work and honest, useful critique. They help your reputation in the long run.</p>`; } },
   objective: { title: 'Secret Goal', render: () => objectiveHTML(app.state, app.content) },
   codex: { title: 'Playbook', render: () => codexHTML(app.meta, app.codexTab) },
   settings: { title: 'Settings', render: () => settingsHTML(app.settings, !!app.state && !app.state.ending && !$('screen-game').hidden, { canInstall: canInstall(), standalone: isStandalone(), ios: isIOS() }) },

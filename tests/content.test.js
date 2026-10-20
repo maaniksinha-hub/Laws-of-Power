@@ -173,7 +173,7 @@ test('weights are positive and cooldowns are sane', () => {
 
 test('every one of the 48 laws is taught by at least one real-office scene', async () => {
   const { CHANNELS } = await import('../data/channels.js');
-  const covered = new Set(EVENT_LIST.filter(e => e.id.startsWith('w_')).map(e => e.lesson?.law));
-  for (let n = 1; n <= 48; n++) assert.ok(covered.has(n), `law ${n} has no w_ scene`);
+  const covered = new Set(EVENT_LIST.filter(e => e.id.startsWith('d_')).map(e => e.lesson?.law));
+  for (let n = 1; n <= 48; n++) assert.ok(covered.has(n), `law ${n} has no d_ scene`);
   for (const ev of EVENT_LIST) assert.ok(CHANNELS[ev.via], `${ev.id} has an unknown channel ${ev.via}`);
 });

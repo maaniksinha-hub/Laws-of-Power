@@ -199,7 +199,7 @@ await step('settings: toggles persist; exact values option shows numbers', async
   await page.locator('[data-setting=showValues]').check();
   await page.locator('[data-setting=sound]').uncheck();
   await page.selectOption('[data-setting=motion]', 'reduce');
-  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('corp.settings')));
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('design.settings')));
   assert.deepEqual([saved.showValues, saved.sound, saved.motion], [true, false, 'reduce']);
   assert.equal(await page.evaluate(() => document.documentElement.dataset.motion), 'reduce');
   await page.click('#dlg-close');
@@ -210,15 +210,15 @@ await step('erase-all requires explicit confirmation (cancel keeps data, confirm
   await page.click('#btn-menu'); await page.click('[data-panel=settings]');
   await page.click('[data-action=erase-all]'); assert.ok(await visible(page, '#dlg-confirm'));
   await page.click('#confirm-cancel');
-  assert.ok(await page.evaluate(() => !!localStorage.getItem('corp.save')), 'cancel keeps the save');
+  assert.ok(await page.evaluate(() => !!localStorage.getItem('design.save')), 'cancel keeps the save');
   await page.click('[data-action=erase-all]'); await page.click('#confirm-ok');
   await page.waitForSelector('#screen-title:not([hidden])');
-  assert.ok(await page.evaluate(() => !localStorage.getItem('corp.save') && !localStorage.getItem('corp.meta')));
+  assert.ok(await page.evaluate(() => !localStorage.getItem('design.save') && !localStorage.getItem('design.meta')));
   assert.ok(!(await visible(page, '#btn-continue-reign')));
 });
 
 await step('corrupted save is ignored with a notice, and the game still starts', async () => {
-  await page.evaluate(() => localStorage.setItem('corp.save', '{broken'));
+  await page.evaluate(() => localStorage.setItem('design.save', '{broken'));
   await page.reload(); await page.waitForSelector('#screen-title:not([hidden])');
   assert.match(await page.textContent('#title-notice'), /could not read/);
   assert.ok(!(await visible(page, '#btn-continue-reign')));
@@ -267,7 +267,7 @@ await step('complete reigns through the UI reach a summary screen (several seeds
     const text = await page.textContent('#screen-summary');
     for (const need of ['Weeks you lasted', 'Your secret goal', 'Friends and enemies', 'Your style']) assert.ok(text.includes(need) || text.toLowerCase().includes(need.toLowerCase()), `summary mentions ${need}`);
     if (seed === 'ui1') await shot(page, '07-summary');
-    assert.ok(await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('corp.meta')).endings).length >= 1), 'ending recorded in meta');
+    assert.ok(await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('design.meta')).endings).length >= 1), 'ending recorded in meta');
   }
   assert.deepEqual(page.errs.filter(e => !/corrupt|broken/i.test(e)), []);
 });
@@ -354,7 +354,7 @@ await step('PWA: manifest and icons load, service worker installs, the game star
     const cached = (await (await caches.open(keys[0])).keys()).length;
     return { name: man.name, display: man.display, icons, active: !!reg.active, keys, cached, theme: document.querySelector('meta[name=theme-color]').content };
   });
-  assert.equal(m.name, '48: Laws of Power (Corporate)'); assert.equal(m.display, 'fullscreen'); assert.deepEqual(m.icons, [200, 200, 200, 200]);
+  assert.equal(m.name, '48: Laws of Power (Design Team)'); assert.equal(m.display, 'fullscreen'); assert.deepEqual(m.icons, [200, 200, 200, 200]);
   assert.ok(m.active && m.keys.length === 1 && m.cached >= 40, `precached ${m.cached} files`);
   await p.ctx.setOffline(true);
   await p.reload();
@@ -395,7 +395,7 @@ await step('exit: title and pause menu both offer Exit game, progress is saved, 
   await p.click('[data-action=exit-game]');
   await p.waitForSelector('#dlg[open]');
   assert.match(await p.textContent('#dlg-body'), /saved/);
-  assert.ok(await p.evaluate(() => !!localStorage.getItem('corp.save')), 'reign saved on exit');
+  assert.ok(await p.evaluate(() => !!localStorage.getItem('design.save')), 'reign saved on exit');
   await p.click('[data-action=resume-from-exit]');
   assert.ok(!(await visible(p, '#dlg')));
   await p.ctx.close();
@@ -406,7 +406,7 @@ await step('immersive settings exist and are saved (full screen, keep awake, vib
   await p.goto(base); await p.click('#btn-settings');
   for (const k of ['autoFullscreen', 'keepAwake', 'vibrate']) assert.ok(await p.locator(`[data-setting=${k}]`).isChecked(), k);
   await p.locator('[data-setting=keepAwake]').uncheck();
-  assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem('corp.settings')).keepAwake), false);
+  assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem('design.settings')).keepAwake), false);
   await p.ctx.close();
 });
 

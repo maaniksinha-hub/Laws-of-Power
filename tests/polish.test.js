@@ -24,7 +24,7 @@ test('an echo appears only when the earlier decision happened', () => {
   const s = fresh();
   assert.equal(echoText(s, EVENTS.rumour_meeting), '');
   s.choices.varen_guard = 'right';
-  assert.match(echoText(s, EVENTS.rumour_meeting), /Delivery team/);
+  assert.match(echoText(s, EVENTS.rumour_meeting), /Design Systems team/);
   s.choices.varen_guard = 'left';
   assert.equal(echoText(s, EVENTS.rumour_meeting), '');
 });
