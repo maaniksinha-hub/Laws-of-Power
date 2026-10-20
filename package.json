@@ -13,6 +13,8 @@
     "build-icons": "node tools/make-icons.mjs"
   },
   "devDependencies": {
+    "@fontsource/archivo": "^5.3.0",
+    "@fontsource/archivo-black": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "@fontsource/ibm-plex-sans-condensed": "^5.3.0",
     "@fontsource/im-fell-english": "^5.3.0",

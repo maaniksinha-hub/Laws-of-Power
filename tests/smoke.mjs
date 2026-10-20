@@ -72,7 +72,7 @@ await step('title screen loads without console errors or missing assets', async 
 
 await step('title: daily court button and bundled font load', async () => {
   assert.ok(await visible(page, '#btn-daily'));
-  assert.ok(await page.evaluate(async () => { await document.fonts.ready; return document.fonts.check('18px "IBM Plex Sans"'); }), 'IBM Plex Sans loaded from /fonts');
+  assert.ok(await page.evaluate(async () => { await document.fonts.ready; return document.fonts.check('18px "Archivo"'); }), 'Archivo loaded from /fonts');
 });
 
 await step('new reign dialog lists backgrounds; locked ones are disabled', async () => {
@@ -362,7 +362,7 @@ await step('PWA: manifest and icons load, service worker installs, the game star
   await p.click('#btn-new'); await p.click('[data-action=begin-reign]');
   await p.waitForSelector('#card:not([hidden])');
   assert.match(await p.textContent('#card-title'), /FIRST DAY/i);
-  assert.ok(await p.evaluate(() => document.fonts.check('18px "IBM Plex Sans"')), 'bundled font works offline');
+  assert.ok(await p.evaluate(() => document.fonts.check('18px "Archivo"')), 'bundled font works offline');
   await p.click('#btn-left'); await waitResult(p);
   await p.ctx.setOffline(false);
   await p.ctx.close();

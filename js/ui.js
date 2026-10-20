@@ -242,7 +242,7 @@ function renderCard(ev) {
   for (const id of ['btn-left', 'btn-right']) { $(id).hidden = false; $(id).disabled = false; $(id).classList.remove('preview'); }
   $('btn-next').hidden = true;
   const c = $('card'); c.style.transform = ''; c.style.opacity = ''; setTags(0);
-  c.dataset.via = ev.via || 'meeting'; c.classList.toggle('urgent', !!ev.urgent);
+  c.dataset.via = ev.via || 'meeting'; c.classList.toggle('urgent', !!ev.major);
   if (!reduced()) {
     // One calm entrance: the card settles 8px, then its parts fade in a few tens of ms apart (see .card[data-enter] in the CSS).
     c.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: 'cubic-bezier(.16, 1, .3, 1)' });

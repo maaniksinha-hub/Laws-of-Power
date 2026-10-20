@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-  <meta name="theme-color" content="#eef1f5">
+  <meta name="theme-color" content="#f4f1e8">
   <meta name="color-scheme" content="light">
   <meta name="description" content="48: Laws of Power, Corporate Edition. A game about power at the office. Swipe to choose. Every decision creates a rival. Every alliance has a price.">
   <title>48: Laws of Power (Corporate Edition)</title>
@@ -14,7 +14,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="48">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/archivo-black-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -36,7 +36,21 @@
   <div id="app">
     <!-- Title screen -->
     <main id="screen-title" class="screen title" aria-labelledby="title-h">
-      <div class="title-art" aria-hidden="true"><i class="sheet sh1"></i><i class="sheet sh2"></i><i class="sheet sh3"></i></div>
+      <div class="title-art" aria-hidden="true">
+        <i class="art-flag"></i><i class="art-dots dots"></i><i class="art-stripe"></i>
+        <svg class="art-person" viewBox="0 0 200 250" fill="none" stroke="#111" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="6" y="196" width="18" height="18" fill="#111"/><rect x="18" y="208" width="18" height="18" fill="#ffc21a"/>
+          <path d="M34 182 Q18 214 32 238 L58 236 Q54 208 62 178Z" fill="#ffc21a"/>
+          <path d="M30 244 L36 162 Q40 140 72 134 L128 134 Q160 140 164 162 L172 244Z" fill="#ffc21a"/>
+          <path d="M70 134 Q100 164 130 134 Q120 118 100 118 Q80 118 70 134Z" fill="#f0a800"/>
+          <path d="M150 176 Q182 166 176 124 L154 128 Q156 152 142 160Z" fill="#ffc21a"/>
+          <rect x="154" y="62" width="30" height="52" rx="5" fill="#111" transform="rotate(12 169 88)"/><rect x="159" y="70" width="20" height="30" fill="#ff5b1f" stroke="none" transform="rotate(12 169 88)"/>
+          <circle cx="164" cy="122" r="11" fill="#f1c9a5"/>
+          <circle cx="100" cy="84" r="34" fill="#f1c9a5"/>
+          <path d="M66 82 Q62 44 100 44 Q138 44 134 82 Q122 62 100 64 Q80 62 66 82Z" fill="#111"/><path d="M94 48 Q110 26 130 44 Q112 44 108 58Z" fill="#111"/>
+          <circle cx="88" cy="88" r="3" fill="#111" stroke="none"/><circle cx="112" cy="88" r="3" fill="#111" stroke="none"/><path d="M90 102 Q100 111 110 102" stroke-width="3.5"/>
+        </svg>
+      </div>
       <div class="title-inner">
         <p class="title-kicker">Corporate Edition</p>
         <h1 id="title-h"><span class="t48"><mark>48</mark></span><span class="tlaws">Laws of Power</span></h1>
