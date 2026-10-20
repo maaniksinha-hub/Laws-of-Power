@@ -34,6 +34,7 @@ function stamp(ev, turn) {
   return `${DAYS[(h >>> 8) % 5]} ${hour}:${String(min).padStart(2, '0')}`;
 }
 const greeting = () => { const h = new Date().getHours(); return h < 12 ? 'Good morning,' : h < 18 ? 'Good afternoon,' : 'Good evening,'; };
+const DOT_KEY = { auth: 'authority', rep: 'reputation', loy: 'loyalty', res: 'resources' };
 const quarter = turn => Math.min(4, Math.ceil(turn / 13));
 function viaHTML(ev, turn) {
   const v = CHANNELS[ev.via] || CHANNELS.meeting;
@@ -214,14 +215,15 @@ function renderGame() {
 function updateHeader() {
   const s = app.state;
   const wk = Math.min(s.turn, MAX_TURN);
-  $('reign-info').innerHTML = `<small>${greeting()}</small><b><mark>${RANKS[s.rank].title}</mark></b>`;
+  $('reign-info').innerHTML = `<b><mark>${RANKS[s.rank].title}</mark></b>`;
   const bar = $('weekbar'); bar.setAttribute('aria-valuenow', wk); bar.setAttribute('aria-valuemax', MAX_TURN); bar.setAttribute('aria-valuetext', `Career ${s.reignId}, Q${quarter(s.turn)}, week ${wk} of ${MAX_TURN}`);
   const debt = Math.max(0, s.stats?.debt || 0); const dp = $('debt-pill'); $('debt-n').textContent = debt; dp.dataset.level = debt >= 6 ? 'high' : debt >= 3 ? 'mid' : 'low'; dp.setAttribute('aria-label', `Design debt ${debt}. Shortcuts you have taken. Tap to read more.`);
   bar.querySelector('i').style.transform = `scaleX(${wk / MAX_TURN})`; $('week-text').textContent = `Career ${s.reignId}, Q${quarter(s.turn)}, week ${wk} of ${MAX_TURN}`;
   const o = objectiveView(s, app.content.objectives);
-  $('objective-btn').innerHTML = o ? `<span class="obj-k">Secret goal</span><span class="obj-t">${esc(o.brief)}</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
+  $('objective-btn').innerHTML = o ? `<span class="obj-k">Goal</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
   $('objective-btn').setAttribute('aria-label', o ? `Secret goal: ${o.brief}. ${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met.` : 'Objective');
   const touch = globalThis.matchMedia?.('(pointer: coarse)').matches;
+  $('hint').hidden = !app.settings.hints || (s.history?.length || 0) >= 1;
   $('hint').textContent = touch ? 'Swipe the card left or right, or tap a choice' : 'Drag the card, click a choice, or press ← → / A D';
 }
 
@@ -230,8 +232,9 @@ function renderCard(ev) {
   const sp = speaker(s, ev);
   const others = (ev.others || []).filter(id => !CHARACTERS[id].generic);
   const scene = ev.scene || THEME_SCENE[ev.theme];
-  $('card-cover').innerHTML = sceneSVG(scene) + viaHTML(ev, s.turn) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${avatarSVG(CHARACTERS[id].look, { expression: expression(s, id) })}</span>`).join('')}</div>` : '');
+  $('card-cover').innerHTML = sceneSVG(scene) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${avatarSVG(CHARACTERS[id].look, { expression: expression(s, id) })}</span>`).join('')}</div>` : '');
   $('card-avatar').innerHTML = avatarSVG(sp.look, { label: sp.name, expression: expression(s, sp.id) });
+  $('card-via').innerHTML = viaHTML(ev, s.turn);
   const echo = echoText(s, ev);
   $('card-echo').hidden = !echo; $('card-echo').textContent = echo;
   app.dots = { left: Object.keys(ev.left.fx?.m || {}), right: Object.keys(ev.right.fx?.m || {}) };
@@ -241,6 +244,7 @@ function renderCard(ev) {
   $('card-text').textContent = eventText(s, ev);
   const l = choiceLabel(s, ev, 'left'), r = choiceLabel(s, ev, 'right');
   $('label-left').textContent = l; $('label-right').textContent = r;
+  for (const side of ['left', 'right']) $(`fx-${side}`).innerHTML = app.settings.hintDots ? app.dots[side].map(k => meterIcon(DOT_KEY[k] || k)).join('') : '';
   $('tag-left').textContent = l; $('tag-right').textContent = r;
   $('btn-left').setAttribute('aria-label', `Choose left: ${l}`); $('btn-right').setAttribute('aria-label', `Choose right: ${r}`);
   $('sr-live').textContent = `${ev.title}. ${sp.name}, ${sp.role}. ${eventText(s, ev)} Left: ${l}. Right: ${r}.`;
@@ -340,11 +344,12 @@ function showResult(r, { restored = false } = {}) {
     return `<li class="chip ${d > 0 ? 'up' : 'down'}" aria-label="${word}">${meterIcon(m)}<span>${METER_INFO[m].label}</span><span class="amt" aria-hidden="true">${(d > 0 ? '▲' : '▼').repeat(n)}</span></li>`;
   }).join('');
   const KIND = { secret: 'Secret', betrayal: 'Betrayal', status: 'Office', warning: 'Warning', rank: 'Rank', info: 'Note', alliance: 'Plot' };
-  const notes = (r.notes || []).map(n => `<li class="note ${n.kind}">${n.kind === 'secret' ? '<i class="seal" aria-hidden="true"></i>' : ''}<b>${KIND[n.kind] || 'Note'}</b>${esc(n.text)}</li>`).join('');
-  const lesson = r.lesson ? `<details class="lesson" open><summary>Law <span class="num">${r.lesson.n}</span>: ${esc(r.lesson.title)}</summary><div class="lesson-body"><p>${esc(r.lesson.text)}</p><p class="watch"><b>If it were used on you</b>${esc(r.lesson.defense)}</p></div></details>` : '';
+  const rankBanner = (r.notes || []).filter(n => n.kind === 'rank').map(n => `<p class="banner"><b>Promoted</b>${esc(n.text)}</p>`).join('');
+  const notes = (r.notes || []).filter(n => n.kind !== 'rank').map(n => `<li class="note ${n.kind}">${n.kind === 'secret' ? '<i class="seal" aria-hidden="true"></i>' : ''}<b>${KIND[n.kind] || 'Note'}</b>${esc(n.text)}</li>`).join('');
+  const lesson = r.lesson ? `<details class="lesson"><summary>Law <span class="num">${r.lesson.n}</span>: ${esc(r.lesson.title)}</summary><div class="lesson-body"><p>${esc(r.lesson.text)}</p><p class="watch"><b>If it were used on you</b>${esc(r.lesson.defense)}</p></div></details>` : '';
   const end = r.ending ? app.content.endings.find(e => e.id === r.ending) : null;
   $('result').innerHTML = `<p class="result-kicker">${esc(r.title)}</p><p class="result-choice">${esc(r.label)}</p><p class="result-text">${esc(r.text)}</p>
-    ${chips ? `<ul class="chips" aria-label="Changes">${chips}</ul>` : ''}${notes ? `<ul class="notes">${notes}</ul>` : ''}${lesson}
+    ${rankBanner}${chips ? `<ul class="chips" aria-label="Changes">${chips}</ul>` : ''}${notes ? `<ul class="notes">${notes}</ul>` : ''}${lesson}
     ${end ? `<p class="result-kicker">Your career is over</p>` : ''}`;
   $('result').hidden = false; $('result').scrollTop = 0;
   $('btn-next').hidden = false;
