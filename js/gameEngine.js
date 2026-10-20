@@ -97,6 +97,7 @@ export function choose(state, side, content = DEFAULT_CONTENT) {
 
   const tick = tickWorld(state, report);
   state.turn += 1;
+  state.trace.push([turnPlayed, ...METERS.map(m => state.meters[m])]);
   const rankUp = updateRank(state, report);
   updateObjective(state, { objectives: content.objectives });
   trackWarnings(state, report);

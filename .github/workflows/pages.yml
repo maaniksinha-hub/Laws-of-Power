@@ -30,7 +30,7 @@ jobs:
       - name: Assemble the static site (game files only, no references/tests/tools)
         run: |
           mkdir _site
-          cp -r index.html styles js data _site/
+          cp -r index.html styles js data fonts _site/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

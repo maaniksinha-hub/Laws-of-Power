@@ -55,6 +55,6 @@ export function createBaseState(seed) {
     meters: Object.fromEntries(METERS.map(m => [m, 50])),
     current: null, pendingResult: null, history: [], recent: [], played: {}, lastTurn: {}, choices: {},
     queue: [], chars, relations, secrets: {}, laws: {}, flags: {}, params: {}, stats: { betrayals: 0, manipulations: 0, conspiracies: 0 },
-    styles: {}, betrayals: [], activePressures: [], warned: {}, fired: {}, objective: null, forcedEnding: null, ending: null, log: [],
+    styles: {}, trace: [], betrayals: [], activePressures: [], warned: {}, fired: {}, objective: null, forcedEnding: null, ending: null, log: [],
   };
 }

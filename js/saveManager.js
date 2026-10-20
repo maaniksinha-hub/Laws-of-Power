@@ -8,7 +8,7 @@ import { META_VERSION, createMeta } from './meta.js';
 import { SAVE_VERSION, newCharState } from './state.js';
 
 export const KEYS = { save: 'lop.save', meta: 'lop.meta', settings: 'lop.settings' };
-export const DEFAULT_SETTINGS = { sound: true, motion: 'auto', showValues: false, hints: true };
+export const DEFAULT_SETTINGS = { sound: true, motion: 'auto', showValues: false, hints: true, hintDots: true };
 
 let store = null;
 export function setStorage(s) { store = s; } // tests inject a mock
@@ -45,7 +45,7 @@ export function repairState(s, content = { events: EVENTS, endings: ENDINGS, obj
   for (const id of Object.keys(CHARACTERS)) if (!isObj(s.chars?.[id])) (s.chars ||= {})[id] = newCharState(id);
   for (const id of Object.keys(s.chars)) if (!CHARACTERS[id]) delete s.chars[id];
   for (const k of ['flags', 'params', 'played', 'lastTurn', 'choices', 'secrets', 'laws', 'relations', 'styles', 'warned', 'fired']) if (!isObj(s[k])) s[k] = {};
-  for (const k of ['history', 'recent', 'queue', 'betrayals', 'log', 'activePressures']) if (!Array.isArray(s[k])) s[k] = [];
+  for (const k of ['history', 'recent', 'queue', 'betrayals', 'log', 'activePressures', 'trace']) if (!Array.isArray(s[k])) s[k] = [];
   if (!isObj(s.stats)) s.stats = {};
   for (const k of ['betrayals', 'manipulations', 'conspiracies']) s.stats[k] ||= 0;
   s.queue = s.queue.filter(q => q && content.events[q.id] && Number.isFinite(q.due));
@@ -105,7 +105,7 @@ export function loadMeta() {
   const base = createMeta();
   if (!isObj(m) || !(m.v <= META_VERSION)) return base;
   const merged = { ...base, ...m, v: META_VERSION };
-  for (const k of ['endings', 'laws', 'agendas', 'agendaTexts', 'events', 'secrets', 'chars', 'stories', 'objectivesDone', 'achievements', 'flagsEver']) if (!isObj(merged[k])) merged[k] = {};
+  for (const k of ['endings', 'laws', 'agendas', 'agendaTexts', 'events', 'daily', 'secrets', 'chars', 'stories', 'objectivesDone', 'achievements', 'flagsEver']) if (!isObj(merged[k])) merged[k] = {};
   if (!Number.isFinite(merged.reigns)) merged.reigns = 0;
   return merged;
 }

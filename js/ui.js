@@ -1,12 +1,13 @@
 // Rendering and interaction: screens, the swipeable card, result/debrief panel, dialogs, keyboard and touch input.
-import { BACKGROUNDS, MAX_TURN, METERS, METER_INFO, RANKS } from '../data/world.js';
+import { BACKGROUNDS, MAX_TURN, METERS, METER_INFO, RANKS, STYLES } from '../data/world.js';
 import { ENDINGS } from '../data/endings.js';
 import { ACHIEVEMENTS } from '../data/achievements.js';
-import { DEFAULT_CONTENT, advance, choose, continueReign, newReign } from './gameEngine.js';
-import { choiceLabel, eventText, speaker } from './eventEngine.js';
+import { DEFAULT_CONTENT, advance, buildSummary, choose, continueReign, newReign } from './gameEngine.js';
+import { choiceLabel, echoText, eventText, speaker } from './eventEngine.js';
+import { expression } from './characterEngine.js';
 import { finishReign, recordProgress, unlockedBackgrounds } from './meta.js';
 import { objectiveView } from './objectives.js';
-import { portraitSVG } from './portraits.js';
+import { THEME_SCENE, portraitSVG } from './portraits.js';
 import { play, setSoundEnabled } from './audio.js';
 import { CHARACTERS } from '../data/characters.js';
 import { clearAll, clearReign, loadMeta, loadReign, loadSettings, saveMeta, saveReign, saveSettings } from './saveManager.js';
@@ -15,7 +16,6 @@ import { chronicleHTML, codexHTML, dossierHTML, esc, meterIcon, menuHTML, newRei
 
 const $ = id => document.getElementById(id);
 export const app = { meta: null, settings: null, state: null, content: DEFAULT_CONTENT, busy: false, resultAt: 0, bg: null, codexTab: 'laws' };
-const THEMES = { ambition: 'Ambition', reputation: 'Reputation', loyalty: 'Loyalty', secrets: 'Secrets', rivalry: 'Rivalry', negotiation: 'Negotiation', fear: 'Authority & fear', scarcity: 'Scarcity', revenge: 'Retaliation', opportunity: 'Opportunity', timing: 'Timing' };
 const MAGNITUDE = d => (Math.abs(d) >= 10 ? 3 : Math.abs(d) >= 5 ? 2 : 1);
 const reduced = () => document.documentElement.dataset.motion === 'reduce';
 const resultVisible = () => !$('result').hidden;
@@ -57,11 +57,14 @@ function showTitle(notice = null) {
   $('title-notice').hidden = !msg; $('title-notice').textContent = msg || '';
   const m = app.meta;
   $('title-stats').textContent = m.reigns ? `${m.reigns} reign${m.reigns > 1 ? 's' : ''} lived · ${Object.keys(m.endings).length}/${ENDINGS.length} endings · ${Object.keys(m.laws).length}/48 laws discovered` : 'No reign has been written yet.';
+  const d = m.daily?.[todayKey()];
+  $('btn-daily').textContent = d ? "Today's court (played)" : "Today's court";
   $('btn-new').focus({ preventScroll: true });
 }
 
 function bindStatic() {
   $('btn-new').onclick = onNewReign;
+  $('btn-daily').onclick = startDaily;
   $('btn-continue-reign').onclick = resumeSaved;
   $('btn-codex').onclick = () => openPanel('codex');
   $('btn-settings').onclick = () => openPanel('settings');
@@ -97,9 +100,19 @@ function resumeSaved() {
   renderGame();
 }
 
-function startReign(bgId) {
+const todayKey = () => new Date().toISOString().slice(0, 10);
+async function startDaily() {
+  if (app.saved && !app.saved.ending) {
+    const ok = await confirmDialog({ title: "Play today's court?", text: 'Your current reign is still in progress. Starting a new one will end it without an ending.', ok: 'Abandon and play' });
+    if (!ok) return;
+  }
+  startReign('minor_noble', { seed: `daily-${todayKey()}`, daily: todayKey() });
+}
+
+function startReign(bgId, { seed = null, daily = null } = {}) {
   const qs = new URLSearchParams(globalThis.location?.search || '');
-  app.state = newReign(app.meta, { background: bgId, seed: qs.get('seed') ?? null, objective: qs.get('objective') });
+  app.state = newReign(app.meta, { background: bgId, seed: seed ?? qs.get('seed') ?? null, objective: qs.get('objective') });
+  if (daily) app.state.daily = daily;
   app.bg = bgId;
   clearReign();
   advance(app.state, app.content);
@@ -120,12 +133,14 @@ const statusWord = v => (v <= 15 ? 'critically low' : v <= 35 ? 'low' : v >= 85 
 
 function updateMeters(changes = null) {
   const s = app.state;
+  $('vignette').classList.toggle('on', METERS.some(m => s.meters[m] <= 15 || s.meters[m] >= 85));
   for (const m of METERS) {
     const el = $('meters').querySelector(`[data-key="${m}"]`);
     const v = s.meters[m];
     el.querySelector('.meter-fill').style.width = `${v}%`;
     const crit = v <= 15 || v >= 85;
     el.classList.toggle('critical', crit);
+    el.classList.toggle('low', v <= 15); el.classList.toggle('high', v >= 85);
     el.querySelector('.meter-flag').textContent = crit ? (v <= 15 ? '▼ LOW' : '▲ HIGH') : ' ';
     el.querySelector('.meter-val').textContent = v;
     el.setAttribute('aria-valuenow', v);
@@ -166,8 +181,11 @@ function renderCard(ev) {
   const s = app.state;
   const sp = speaker(s, ev);
   const others = (ev.others || []).filter(id => !CHARACTERS[id].generic);
-  $('card-portrait').innerHTML = portraitSVG(sp.look, { label: sp.name }) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${portraitSVG(CHARACTERS[id].look)}</span>`).join('')}</div>` : '');
-  $('card-eyebrow').textContent = THEMES[ev.theme] || '';
+  const scene = ev.scene || THEME_SCENE[ev.theme];
+  $('card-portrait').innerHTML = portraitSVG(sp.look, { label: sp.name, scene, expression: expression(s, sp.id) }) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${portraitSVG(CHARACTERS[id].look, { expression: expression(s, id) })}</span>`).join('')}</div>` : '');
+  const echo = echoText(s, ev);
+  $('card-echo').hidden = !echo; $('card-echo').textContent = echo;
+  app.dots = { left: Object.keys(ev.left.fx?.m || {}), right: Object.keys(ev.right.fx?.m || {}) };
   $('card-title').textContent = ev.title;
   $('card-name').textContent = sp.name;
   $('card-role').textContent = sp.role;
@@ -189,8 +207,15 @@ function renderCard(ev) {
 
 function setTags(dx) {
   const a = Math.min(Math.abs(dx) / 90, 1);
+  showHintDots(Math.abs(dx) > 24 ? (dx < 0 ? 'left' : 'right') : null);
   $('tag-left').style.opacity = dx < 0 ? a : 0; $('tag-right').style.opacity = dx > 0 ? a : 0;
   $('btn-left').classList.toggle('preview', dx < -30); $('btn-right').classList.toggle('preview', dx > 30);
+}
+
+// Which meters a choice touches (not by how much, and not counting later consequences).
+function showHintDots(side) {
+  const keys = side && app.settings.hintDots ? (app.dots?.[side] || []).map(k => ({ auth: 'authority', rep: 'reputation', loy: 'loyalty', res: 'resources' }[k] || k)) : [];
+  document.querySelectorAll('.meter').forEach(el => el.classList.toggle('hinted', keys.includes(el.dataset.key)));
 }
 
 // ---- drag & swipe
@@ -259,7 +284,7 @@ function showResult(r, { restored = false } = {}) {
     return `<li class="chip ${d > 0 ? 'up' : 'down'}" aria-label="${word}">${meterIcon(m)}<span>${METER_INFO[m].label}</span><span class="amt" aria-hidden="true">${(d > 0 ? '▲' : '▼').repeat(n)}</span></li>`;
   }).join('');
   const KIND = { secret: 'Secret', betrayal: 'Betrayal', status: 'Court', warning: 'Warning', rank: 'Rank', info: 'Note', alliance: 'Intrigue' };
-  const notes = (r.notes || []).map(n => `<li class="note ${n.kind}"><b>${KIND[n.kind] || 'Note'}</b>${esc(n.text)}</li>`).join('');
+  const notes = (r.notes || []).map(n => `<li class="note ${n.kind}">${n.kind === 'secret' ? '<i class="seal" aria-hidden="true"></i>' : ''}<b>${KIND[n.kind] || 'Note'}</b>${esc(n.text)}</li>`).join('');
   const lesson = r.lesson ? `<details class="lesson" open><summary>Principle · Law ${r.lesson.n}: ${esc(r.lesson.title)}</summary><div class="lesson-body"><p>${esc(r.lesson.text)}</p><p class="watch"><b>If it were used on you</b>${esc(r.lesson.defense)}</p></div></details>` : '';
   const end = r.ending ? app.content.endings.find(e => e.id === r.ending) : null;
   $('result').innerHTML = `<p class="result-kicker">${esc(r.title)}</p><p class="result-choice">${esc(r.label)}</p><p class="result-text">${esc(r.text)}</p>
@@ -275,6 +300,7 @@ function showResult(r, { restored = false } = {}) {
   $('sr-live').textContent = `${r.text} ${(r.notes || []).map(n => n.text).join(' ')}`;
   if (!restored) {
     const kinds = new Set((r.notes || []).map(n => n.kind));
+    if (kinds.has('betrayal') && !reduced()) { $('stage').classList.remove('shake'); void $('stage').offsetWidth; $('stage').classList.add('shake'); }
     if (r.ending) play('ending');
     else if (kinds.has('betrayal')) play('betrayal');
     else if (kinds.has('secret') || r.secrets?.length) play('secret');
@@ -299,18 +325,31 @@ function showSummary() {
   if (!s.ending.recorded) {
     const fresh = finishReign(app.meta, s, s.ending.id);
     s.ending.recorded = true; s.ending.fresh = fresh.map(a => a.id);
+    if (s.daily) app.meta.daily[s.daily] = s.ending.id;
     saveMeta(app.meta); saveReign(s); firstTime = true;
   }
   const fresh = (s.ending.fresh || []).map(id => ACHIEVEMENTS.find(a => a.id === id)).filter(Boolean);
   showScreen('summary');
   const el = $('screen-summary');
   el.innerHTML = summaryHTML(s, app.content, fresh);
+  el.className = `screen summary kind-${app.content.endings.find(e => e.id === s.ending.id)?.kind || 'neutral'}`;
   el.scrollTop = 0;
   $('btn-sum-new').onclick = () => { clearReign(); app.saved = null; openPanel('newreign'); };
   $('btn-sum-codex').onclick = () => openPanel('codex');
+  $('btn-sum-share').onclick = shareResult;
   $('btn-sum-title').onclick = () => { clearReign(); showTitle(); };
   $('sum-title').focus({ preventScroll: true });
   if (firstTime) play('ending');
+}
+
+async function shareResult() {
+  const s = app.state, sum = buildSummary(s, app.content);
+  const text = `48: Laws of Power. ${sum.ending.title}. ${sum.turns} turns as ${sum.rank}, ${sum.style.top ? STYLES[sum.style.top].label.toLowerCase() : 'unreadable'} style, objective ${sum.objective.status === 'done' ? 'achieved' : 'missed'}.${s.daily ? ` Today's court (${s.daily}).` : ''}`;
+  const btn = $('btn-sum-share');
+  try {
+    if (navigator.share) await navigator.share({ text });
+    else { await navigator.clipboard.writeText(text); btn.textContent = 'Copied to clipboard'; setTimeout(() => { btn.textContent = 'Share this reign'; }, 1800); }
+  } catch { btn.textContent = text; }
 }
 
 // ------------------------------------------------------------------ keyboard

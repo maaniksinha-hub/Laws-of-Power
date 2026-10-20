@@ -133,6 +133,7 @@ export function settingsHTML(settings, hasReign) {
   <label class="field"><span>Motion<small>Auto follows your system's reduced-motion setting.</small></span>
     <select data-setting="motion" aria-label="Motion"><option value="auto" ${settings.motion === 'auto' ? 'selected' : ''}>Auto</option><option value="reduce" ${settings.motion === 'reduce' ? 'selected' : ''}>Reduced</option><option value="full" ${settings.motion === 'full' ? 'selected' : ''}>Full</option></select></label>
   <label class="field"><span>Show exact meter values<small>Off by default so you act on feel, not arithmetic.</small></span><input class="switch" type="checkbox" data-setting="showValues" ${settings.showValues ? 'checked' : ''}></label>
+  <label class="field"><span>Show affected meters while dragging<small>Small dots mark which meters a choice touches, never by how much.</small></span><input class="switch" type="checkbox" data-setting="hintDots" ${settings.hintDots ? 'checked' : ''}></label>
   <label class="field"><span>Control hints<small>Shows swipe and keyboard reminders under the card.</small></span><input class="switch" type="checkbox" data-setting="hints" ${settings.hints ? 'checked' : ''}></label>
   <h3>Reign and progress</h3>
   ${hasReign ? '<button class="btn" data-action="restart-reign">Restart this reign</button>' : ''}
@@ -174,6 +175,7 @@ export function summaryHTML(state, content, fresh = []) {
       <h1 id="sum-title" tabindex="-1">${esc(e.title)}</h1><p class="epitaph">${esc(e.epitaph)}</p><p class="story">${esc(e.text)}</p></header>
     <div class="kv"><div><b>${s.turns}</b><span>Turns survived</span></div><div><b>${esc(s.rank)}</b><span>Highest rank</span></div><div><b>${s.betrayals.length}</b><span>Betrayals</span></div><div><b>${s.secrets.length}</b><span>Secrets found</span></div></div>
     <div class="final-meters">${METERS.map(m => `<div><b>${s.meters[m]}</b>${esc(METER_INFO[m].label)}</div>`).join('')}</div>
+    ${timelineHTML(state)}
     <section class="sum-sec"><h2>Secret objective</h2><p><b>${esc(obj.title)}</b>: ${esc(obj.brief)} ${tag(objStatus, obj.status === 'done' ? 'good' : 'bad')}</p><p class="sub">${how}</p></section>
     ${s.majorDecisions.length ? `<section class="sum-sec"><h2>Decisions that mattered</h2><ul class="plain">${s.majorDecisions.map(h => `<li><b>${esc(h.title)}</b> (turn ${h.turn}): ${esc(h.label)}.</li>`).join('')}</ul></section>` : ''}
     <section class="sum-sec"><h2>Allies and enemies</h2><p>${s.allies.length ? 'Still at your side: ' + s.allies.map(name).join(', ') + '.' : 'Nobody was at your side at the end.'} ${s.enemies.length ? ' Against you: ' + s.enemies.map(name).join(', ') + '.' : ''} ${s.departed.length ? ' Gone from court: ' + s.departed.map(d => `${name(d.id)} (${esc(STATUS_LABEL[d.status].toLowerCase())})`).join(', ') + '.' : ''}</p></section>
@@ -182,7 +184,18 @@ export function summaryHTML(state, content, fresh = []) {
     ${s.laws.length ? `<section class="sum-sec"><h2>Principles you met</h2><p>${s.laws.map(id => esc(LAWS.find(l => l.id === id).title)).join('; ')}.</p><p class="sub">Open the Codex for the full notes.</p></section>` : ''}
     <section class="sum-sec"><h2>Your strategic style</h2><p>${esc(s.style.text)}</p></section>
     ${fresh.length ? `<section class="sum-sec"><h2>Achievements</h2>${fresh.map(a => `<div class="ach"><b>${esc(a.title)}</b>: ${esc(a.desc)}</div>`).join('')}</section>` : ''}
-    <div class="sum-actions"><button class="btn primary" id="btn-sum-new">Begin another reign</button><button class="btn" id="btn-sum-codex">Open the Codex</button><button class="btn wide" id="btn-sum-title" style="grid-column:1/-1">Return to title</button></div>
+    <div class="sum-actions"><button class="btn primary" id="btn-sum-new">Begin another reign</button><button class="btn" id="btn-sum-codex">Open the Codex</button><button class="btn" id="btn-sum-share">Share this reign</button><button class="btn" id="btn-sum-title">Return to title</button></div>
   </div>`;
+}
+
+// Meter history across the reign. Line style (not only colour) distinguishes the four meters.
+function timelineHTML(state) {
+  const t = state.trace;
+  if (!t || t.length < 2) return '';
+  const W = 320, H = 110, x = i => 8 + (i * (W - 16)) / (t.length - 1), y = v => H - 8 - (v * (H - 16)) / 100;
+  const styles = [['#d9b970', ''], ['#7aa1bd', '6 3'], ['#78a886', '2 3'], ['#c0564c', '10 3 2 3']];
+  const lines = METERS.map((m, k) => `<polyline fill="none" stroke="${styles[k][0]}" stroke-width="2" stroke-dasharray="${styles[k][1]}" stroke-linejoin="round" points="${t.map((r, i) => `${x(i).toFixed(1)},${y(r[k + 1]).toFixed(1)}`).join(' ')}"/>`).join('');
+  const legend = METERS.map((m, k) => `<span><svg width="26" height="8" aria-hidden="true"><line x1="0" y1="4" x2="26" y2="4" stroke="${styles[k][0]}" stroke-width="2" stroke-dasharray="${styles[k][1]}"/></svg>${esc(METER_INFO[m].label)}</span>`).join('');
+  return `<section class="sum-sec"><h2>Your reign in four lines</h2><svg class="timeline" viewBox="0 0 ${W} ${H}" role="img" aria-label="Line chart of your four meters over ${t.length} turns"><rect x="8" y="${y(85)}" width="${W - 16}" height="${y(15) - y(85)}" fill="none" stroke="rgba(239,230,210,.14)" stroke-dasharray="2 4"/>${lines}</svg><div class="legend">${legend}</div></section>`;
 }
 export { RANKS };

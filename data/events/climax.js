@@ -23,6 +23,7 @@ export default [
     right: {
       label: 'Back the heir and guide him', style: 'restraint', memo: 'You backed the young heir.', fx: { chars: { aldric: { status: 'dead' } }, m: { auth: 5, loy: 5, rep: 3 }, flags: ['heir_guardian'] },
       branches: [
+        { when: { flags: ['tutor_heir'] }, fx: { m: { loy: 6, rep: 4 } }, result: 'The boy is crowned. He looks for you in the crowd first, and finds you, and takes a very deep breath.' },
         { when: { flags: ['heir_promised'] }, fx: { chars: { isaura: { trust: 20 } }, m: { auth: 4 } }, result: 'The boy is crowned. In the gallery, a veiled figure is seen to nod, once.' },
         { when: { flags: ['isaura_hostile'] }, fx: { chars: { isaura: { resent: 20 } }, m: { auth: -4 } }, result: 'The boy is crowned. In the gallery, a veiled figure does not clap.' },
       ],

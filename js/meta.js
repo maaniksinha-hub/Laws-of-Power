@@ -5,7 +5,7 @@ import { BACKGROUNDS } from '../data/world.js';
 export const META_VERSION = 1;
 
 export function createMeta() {
-  return { v: META_VERSION, reigns: 0, endings: {}, laws: {}, agendas: {}, agendaTexts: {}, events: {}, secrets: {}, chars: {}, stories: {}, objectivesDone: {}, achievements: {}, flagsEver: {}, bestTurns: 0, seenTutorial: false };
+  return { v: META_VERSION, reigns: 0, endings: {}, laws: {}, agendas: {}, agendaTexts: {}, events: {}, daily: {}, secrets: {}, chars: {}, stories: {}, objectivesDone: {}, achievements: {}, flagsEver: {}, bestTurns: 0, seenTutorial: false };
 }
 
 // Incrementally copy discoveries from the active reign. Cheap enough to run after every decision.

@@ -138,3 +138,18 @@ export function attitude(state, id) {
   if (score >= -10) return { label: 'Cold', tone: 'bad' };
   return { label: 'Hostile', tone: 'bad' };
 }
+
+// Facial expression for a portrait: reads the same hidden state as `attitude`, but a mask slips visibly before it breaks.
+export function expression(state, id) {
+  const c = state.chars[id], def = CHARACTERS[id];
+  if (!c || c.status !== 'court') return 'neutral';
+  const masked = def.mask && !c.agendaKnown;
+  if (masked && (c.resent >= 30 || c.suspicion >= 30) && c.resent < 70) return 'slip';
+  if (masked && c.resent < 70) return ['Devoted', 'Warm', 'Generous', 'Charming', 'Loyal'].includes(def.mask) ? 'warm' : 'neutral';
+  const a = attitude(state, id);
+  if (c.fear >= 60 && a.tone !== 'good') return 'afraid';
+  if (a.label === 'Hostile' || a.label === 'Turned against you') return 'hostile';
+  if (a.tone === 'bad' || a.label === 'Wary') return 'wary';
+  if (a.tone === 'good') return 'warm';
+  return 'neutral';
+}

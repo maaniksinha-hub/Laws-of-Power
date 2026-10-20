@@ -70,6 +70,11 @@ await step('title screen loads without console errors or missing assets', async 
   assert.deepEqual(page.errs, []);
 });
 
+await step('title: daily court button and bundled font load', async () => {
+  assert.ok(await visible(page, '#btn-daily'));
+  assert.ok(await page.evaluate(async () => { await document.fonts.ready; return document.fonts.check('18px "IM Fell English"'); }), 'IM Fell English loaded from /fonts');
+});
+
 await step('new reign dialog lists backgrounds; locked ones are disabled', async () => {
   await page.click('#btn-new');
   assert.ok(await visible(page, '#dlg'));
@@ -116,6 +121,18 @@ await step('keyboard: any arrow/A/D continues from result, then A and D choose',
   await page.keyboard.press('d'); await waitResult(page); await page.waitForTimeout(300); await page.keyboard.press('Enter');
   await page.waitForSelector('#card:not([hidden])');
   assert.equal(await turn(page), 4);
+});
+
+await step('polish: scene portraits, hint dots while dragging, echo line, vignette on crisis', async () => {
+  assert.ok(await page.locator('#card-portrait svg expr-warm, #card-portrait svg[class*=expr-]').count() >= 1, 'expressive portrait');
+  const box = await page.locator('#card').boundingBox();
+  await page.mouse.move(box.x + box.width / 2, box.y + 120); await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 + 70, box.y + 120, { steps: 4 });
+  const hinted = await page.locator('.meter.hinted').count();
+  await page.waitForTimeout(450); await page.mouse.up(); await page.waitForTimeout(300);
+  assert.ok(hinted >= 1, 'a hint dot marks an affected meter while dragging right');
+  await page.evaluate(() => { __lop.state.meters.loyalty = 8; document.querySelector('[data-key=loyalty]').classList.add('critical'); document.getElementById('vignette').classList.add('on'); });
+  assert.equal(await page.locator('#vignette.on').count(), 1);
+  await page.evaluate(() => { __lop.state.meters.loyalty = 40; document.getElementById('vignette').classList.remove('on'); });
 });
 
 await step('touch swipe left/right chooses; short swipe snaps back', async () => {
@@ -250,6 +267,19 @@ await step('complete reigns through the UI reach a summary screen (several seeds
     assert.ok(await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('lop.meta')).endings).length >= 1), 'ending recorded in meta');
   }
   assert.deepEqual(page.errs.filter(e => !/corrupt|broken/i.test(e)), []);
+});
+
+await step('summary shows the meter timeline and a share button', async () => {
+  await page.evaluate(() => localStorage.clear());
+  await startReign(page, '?seed=ui9'); await reduceMotion(page);
+  await page.evaluate(() => { const s = __lop.state; s.forcedEnding = 'negotiated_exit'; });
+  await page.click('#btn-left'); await waitResult(page); await page.waitForTimeout(280); await page.click('#btn-next');
+  await page.waitForSelector('#screen-summary:not([hidden])');
+  assert.ok(await visible(page, '#btn-sum-share'));
+  await page.evaluate(() => { navigator.clipboard.writeText = async t => { window.__copied = t; }; Object.defineProperty(navigator, 'share', { value: undefined, configurable: true }); });
+  await page.click('#btn-sum-share');
+  assert.match(await page.evaluate(() => window.__copied || ''), /48: Laws of Power/);
+  assert.equal(await page.evaluate(() => /kind-/.test(document.getElementById('screen-summary').className)), true);
 });
 
 await step('after a reign: codex has discoveries, a new reign can begin, progress persists', async () => {

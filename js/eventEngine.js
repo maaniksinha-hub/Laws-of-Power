@@ -81,3 +81,9 @@ export function speaker(state, ev) {
 
 export const eventText = (state, ev) => fillTokens(pickText(ev.text, state), state, addressFor(state));
 export const choiceLabel = (state, ev, side) => fillTokens(pickText(ev[side].label, state), state, addressFor(state));
+
+// A one-line callback to an earlier decision, if one is still shaping this scene.
+export function echoText(state, ev) {
+  for (const e of ev.echo || []) if (check(e.when, state)) return fillTokens(e.text, state, addressFor(state));
+  return '';
+}

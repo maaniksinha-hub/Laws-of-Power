@@ -40,6 +40,21 @@ values are hidden by default.
 The Codex records the laws, characters, stories and endings you have discovered, and persists between reigns.
 Laws are revealed only **after** a decision that demonstrates them.
 
+## Look and feel
+
+* **Type:** IM Fell English, a historic printing face (SIL OFL, bundled in `fonts/`), for titles, buttons and labels; a plain
+  sans for reading text. Numbers use a plain serif because the Fell old-style figures are hard to read when small.
+* **The card is the one bold element.** Each card sits in a scene (throne room, chapel, market, counting-house, night
+  rooftops...) chosen by theme. Portraits have distinct face shapes and expressions driven by hidden state: a courtier
+  hiding something looks friendly, then his brow starts to twitch before the mask breaks.
+* **Feedback that answers your actions:** while dragging, small dots mark which meters a choice touches (never by how
+  much; toggle in Settings). Critical meters pulse and the edges of the screen darken. Betrayals shake the stage once,
+  secrets arrive under a wax seal that cracks, and endings arrive slowly with different light for a downfall and a triumph.
+* **The court remembers:** an italic echo line on a card points back to the earlier decision that is shaping the scene.
+* **Replay hooks:** a daily court (same hidden agendas for everyone on a date), a share line for finished reigns, and a
+  four-line meter timeline in the summary.
+* Reduced motion switches off every animation above.
+
 ## Project layout
 
 ```
@@ -49,7 +64,7 @@ js/
   main.js                entry point
   ui.js                  rendering, card drag/swipe, keyboard, panels
   views.js               HTML builders: dossier, codex, settings, summary
-  portraits.js           generated SVG portraits (no image files)
+  portraits.js           generated SVG portraits: face shapes, expressions, scene backdrops (no image files)
   audio.js               generated WebAudio effects (muteable, no autoplay)
   gameEngine.js          rules: new reign, choose(), world tick, ending resolution, summary
   eventEngine.js         eligibility, weighted selection, queue, fallbacks
@@ -61,11 +76,13 @@ js/
   saveManager.js         versioned localStorage saves, validation, repair, migration
   state.js, rng.js       state shape/helpers and the seeded PRNG
 data/
-  events.js + events/*   the 58 event cards (court, rivals, shadows, people, climax)
+  events.js + events/*   the 70 event cards (court, rivals, shadows, people, more, climax)
   characters.js          cast, relationships, secrets, dossier clues
   laws.js                48 laws (GENERATED, see below)
   objectives.js          secret objectives     endings.js   endings
+  echoes.js              one-line callbacks to earlier decisions
   achievements.js        achievements          world.js     meters, ranks, backgrounds, pressures
+fonts/                   IM Fell English (OFL), bundled locally
 references/              companion PDF, notes (see references/README.md)
 tools/                   build-laws.mjs, verify-laws.mjs, sim.mjs
 tests/                   node:test suites + browser smoke test
@@ -77,9 +94,9 @@ Content is data; the engine contains no scenario-specific logic. Rendering never
 ## Tests
 
 ```bash
-npm test             # 115 logic tests (node:test): meters, crises, eligibility, flags, repetition, relationships,
+npm test             # 124 logic tests (node:test): meters, crises, eligibility, flags, repetition, relationships,
                      #   secrets, objectives, endings, save/load/corruption, content integrity, scripted + 200 random reigns
-npm run test:smoke   # browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
+npm run test:smoke   # 26-step browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
                      #   panels, every card × both choices, full reigns to the summary, 5 viewports, accessibility basics
 node tools/sim.mjs 400 random   # balance report: endings, objective rates, events never seen
 ```

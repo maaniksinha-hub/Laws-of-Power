@@ -7,6 +7,7 @@
   <meta name="description" content="48: Laws of Power. A swipe-based political thriller. Every decision creates a rival. Every alliance has a price.">
   <title>48: Laws of Power</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e0d0c'/%3E%3Cpath d='M6 22 L8 11 L13 17 L16 8 L19 17 L24 11 L26 22 Z' fill='%23b8964e'/%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/im-fell-english-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -25,7 +26,7 @@
   <div id="app">
     <!-- Title screen -->
     <main id="screen-title" class="screen title" aria-labelledby="title-h">
-      <div class="title-art" aria-hidden="true"><i class="pillar p1"></i><i class="pillar p2"></i><i class="pillar p3"></i><i class="pillar p4"></i><i class="glow"></i></div>
+      <div class="title-art" aria-hidden="true"><i class="pillar p1"></i><i class="pillar p2"></i><i class="pillar p3"></i><i class="pillar p4"></i><i class="glow"></i><i class="mote m1"></i><i class="mote m2"></i><i class="mote m3"></i><i class="mote m4"></i><i class="mote m5"></i><i class="mote m6"></i><i class="mote m7"></i><i class="mote m8"></i><i class="mote m9"></i><i class="mote m10"></i><i class="mote m11"></i><i class="mote m12"></i></div>
       <div class="title-inner">
         <p class="title-kicker">A game of influence</p>
         <h1 id="title-h"><span class="t48">48</span><span class="tlaws">Laws of Power</span></h1>
@@ -33,6 +34,7 @@
         <div class="title-menu">
           <button id="btn-continue-reign" class="btn primary" hidden>Continue Reign</button>
           <button id="btn-new" class="btn primary">Start New Reign</button>
+          <button id="btn-daily" class="btn">Today's court</button>
           <button id="btn-codex" class="btn">Codex</button>
           <button id="btn-settings" class="btn">Settings</button>
         </div>
@@ -60,9 +62,9 @@
           <div class="card-tag tag-right" id="tag-right" aria-hidden="true"></div>
           <div class="portrait" id="card-portrait"></div>
           <div class="card-body">
-            <p class="eyebrow" id="card-eyebrow"></p>
             <h2 class="card-title" id="card-title"></h2>
             <p class="card-who"><strong id="card-name"></strong><span id="card-role"></span></p>
+            <p class="card-echo" id="card-echo" hidden></p>
             <p class="card-text" id="card-text"></p>
           </div>
         </article>
@@ -74,6 +76,7 @@
         <button class="btn primary wide" id="btn-next" hidden>Continue</button>
       </footer>
       <p class="hint" id="hint"></p>
+      <div class="vignette" id="vignette" aria-hidden="true"></div>
       <div class="sr-only" id="sr-live" aria-live="polite" aria-atomic="true"></div>
     </main>
 
