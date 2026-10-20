@@ -19,8 +19,11 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm test
+  # The github-pages environment only accepts deployments from the court branch. That run publishes BOTH editions,
+  # so after pushing corporate-edition, start this workflow on the court branch (Actions > Run workflow).
   deploy:
     needs: test
+    if: github.ref_name != 'corporate-edition'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
