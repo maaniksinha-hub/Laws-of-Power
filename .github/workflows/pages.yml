@@ -2,7 +2,7 @@
 name: Deploy to GitHub Pages
 on:
   push:
-    branches: [main, claude/zen-fermat-sxqa5k, corporate-edition]
+    branches: [main, claude/zen-fermat-sxqa5k, corporate-edition, design-edition]
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,25 +20,28 @@ jobs:
         with: { node-version: 22 }
       - run: npm test
   # The github-pages environment only accepts deployments from the court branch. That run publishes BOTH editions,
-  # so after pushing corporate-edition, start this workflow on the court branch (Actions > Run workflow).
+  # so after pushing corporate-edition or design-edition, start this workflow on the court branch (Actions > Run workflow).
   deploy:
     needs: test
-    if: github.ref_name != 'corporate-edition'
+    if: github.ref_name != 'corporate-edition' && github.ref_name != 'design-edition'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # The court edition lives at the site root, the corporate edition at /corporate/.
+      # The court edition lives at the site root, the corporate edition at /corporate/, the design team edition at /design/.
       - uses: actions/checkout@v4
         with: { ref: claude/zen-fermat-sxqa5k, path: court }
       - uses: actions/checkout@v4
         with: { ref: corporate-edition, path: corp }
+      - uses: actions/checkout@v4
+        with: { ref: design-edition, path: design }
       - name: Assemble the static site (game files only, no references/tests/tools)
         run: |
-          mkdir -p _site/corporate
+          mkdir -p _site/corporate _site/design
           (cd court && cp -r index.html manifest.webmanifest sw.js styles js data fonts icons ../_site/)
           (cd corp && cp -r index.html manifest.webmanifest sw.js styles js data fonts icons ../_site/corporate/)
+          (cd design && cp -r index.html manifest.webmanifest sw.js styles js data fonts icons ../_site/design/)
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
