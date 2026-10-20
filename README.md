@@ -37,7 +37,7 @@ envy. A reign lasts up to 40 turns (5–15 minutes). Each reign has a **secret o
 same courtier can be a schemer in one reign and an honest man in the next), and a starting background. Exact meter
 values are hidden by default.
 
-The Codex records the laws, characters, stories and endings you have discovered, and persists between reigns.
+The notebook (called the Codex in the code) records the laws, people, stories and endings you have found, and it is kept between reigns.
 Laws are revealed only **after** a decision that demonstrates them.
 
 ## Look and feel
@@ -95,9 +95,9 @@ Content is data; the engine contains no scenario-specific logic. Rendering never
 ## Tests
 
 ```bash
-npm test             # 129 logic tests (node:test): meters, crises, eligibility, flags, repetition, relationships,
+npm test             # 134 logic tests (node:test): meters, crises, eligibility, flags, repetition, relationships,
                      #   secrets, objectives, endings, save/load/corruption, content integrity, scripted + 200 random reigns
-npm run test:smoke   # 29-step browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
+npm run test:smoke   # 32-step browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
                      #   panels, every card × both choices, full reigns to the summary, 5 viewports, accessibility basics
 node tools/sim.mjs 400 random   # balance report: endings, objective rates, events never seen
 ```
@@ -188,14 +188,26 @@ Saves are versioned (`SAVE_VERSION` in `js/state.js`). When you change the state
 `MIGRATIONS` in `js/saveManager.js`; saves that cannot be migrated or fail validation are set aside with a notice and the
 Codex is kept.
 
+## Plain English
+
+Everything the player reads is written in simple English: short sentences and everyday words. A test
+(`tests/plain-english.test.js`) enforces it: no word over 13 letters, no fancy words, no sentence over 22 words, and a reading-level
+limit, for the story, the lessons, the 48 laws and the button text. Law names have a plain name next to the book title.
+The plain text lives in `tools/simple/*.json`; `node tools/apply-strings.mjs <area> <file>` writes it into the data files and
+`node tools/build-laws.mjs` rebuilds the laws.
+
 ## Install it (PWA)
 
-The game is an installable, offline-capable web app with a gilt "48" icon.
+The game is an installable, offline-capable web app with a gilt "48" icon. It opens full screen like a real app.
 
 * **Install:** open the site in Chrome, Edge or Android and use **Settings, Install app** (or the browser's install
   button); on iPhone use Share, then Add to Home Screen. It launches full screen with no browser chrome.
 * **Offline:** a service worker (`sw.js`) precaches all 42 game files, then serves from cache and refreshes in the
   background, so a new deploy arrives on the next launch. Saves already live in localStorage, so reigns survive offline.
+* **Immersive play:** the app asks for full screen (a Settings switch), keeps the screen awake while you play, locks to
+  portrait when it can, and buzzes on choices and big moments. All of it is optional and fails quietly on devices that
+  do not support it. **Exit game** is on the title screen and the pause menu: it saves, leaves full screen, tries to close
+  the app, and then shows a goodbye screen if the browser will not let a page close itself.
 * **Development:** on `localhost` the service worker is off so edits show immediately; add `?sw=1` to test it.
 * **Maintenance:** after adding or removing game files run `npm run build-sw` (a test fails if the list is stale).
   Regenerate the icons with `npm run build-icons` (Chromium render using Playfair Display, a dev-only font).

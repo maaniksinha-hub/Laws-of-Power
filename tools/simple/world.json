@@ -1,0 +1,34 @@
+{
+ "backgrounds": {
+  "minor_noble": { "name": "Child of a Small Noble House", "desc": "A name that opens doors, but not very wide." },
+  "merchant_ward": { "name": "Raised by a Merchant Family", "desc": "Money you did not earn and manners you had to learn." },
+  "veteran_officer": { "name": "Disgraced Officer", "desc": "The soldiers remember you. The court would rather forget you." },
+  "archivist": { "name": "Record Keeper's Helper", "desc": "You have read what others only whisper. You already know one secret goal.", "unlock": "Finish one reign." },
+  "returned_exile": { "name": "Exile Who Came Back", "desc": "You know how courts fall. You have nobody to lean on. You already know one secret goal.", "unlock": "Reach three different endings." },
+  "grey_pawn": { "name": "The Patron's Pawn", "desc": "Someone arranged your arrival, and she expects you to pay her back.", "unlock": "Find the Veiled Patron in any reign." }
+ },
+ "pressures": {
+  "tyranny": "You hold on so tight that the court has started to flinch.",
+  "envy_fame": "Everyone is talking about you, and not all of it is kind.",
+  "entitlement": "Your followers now expect more than you can give.",
+  "envy_wealth": "Your money gets more attention than your advice.",
+  "weakness": "People answer your orders with polite delay.",
+  "disrepute": "Talk stops when you walk into a room.",
+  "desertion": "There are empty chairs where your friends used to sit.",
+  "penury": "People you owe have started to smile at you."
+ },
+ "styles": {
+  "guile": { "label": "Trickery", "blurb": "You like to mislead, use pressure and let other people do your work." },
+  "force": { "label": "Force", "blurb": "You settle things by making it costly to oppose you." },
+  "charm": { "label": "Charm", "blurb": "You win rooms with gifts, shows and careful handling of praise." },
+  "restraint": { "label": "Patience", "blurb": "You wait, hold back and let others go too far before you move." },
+  "candour": { "label": "Honesty", "blurb": "You tell people where they stand and accept what follows." },
+  "pragmatism": { "label": "Deal-making", "blurb": "To you every friendship is a ledger, and you read it well." }
+ },
+ "meters": {
+  "authority": "How much people obey your orders.",
+  "reputation": "How the court and the people see you.",
+  "loyalty": "Who will stand with you when it counts.",
+  "resources": "Money, favours and the means to get things done."
+ }
+}

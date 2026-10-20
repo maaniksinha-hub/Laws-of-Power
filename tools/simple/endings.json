@@ -1,0 +1,36 @@
+{
+ "supreme": { "title": "You Rule the Kingdom", "epitaph": "The kingdom answers to you.", "text": "The old king is buried. The young king is a boy. The royal seal is on your desk. Your rivals bow, or they are somewhere else. The power is yours now. So is every plot that will be made to take it from you." },
+ "shadow_regent": { "title": "The Power Behind the Throne", "epitaph": "Nobody remembers who decided.", "text": "The boy king smiles for the crowds and reads the speeches you wrote. No statue will carry your name, but no law will pass without it. It is the safest kind of power: the kind nobody sees." },
+ "overthrown": {
+  "title": "Thrown Down by Your Enemies",
+  "epitaph": "Every enemy you made came to the same room.",
+  "text": [
+   "They did not need a battle. The enemies you made, one insult at a time, finally compared notes. By midnight the guard had changed sides. By morning your seat had a new owner.",
+   "Your orders went unanswered and your doors stayed shut. The guard looked at its boots. Your power drained away until a polite request could remove you. Nobody even had to be your enemy."
+  ]
+ },
+ "abandoned": { "title": "Left Alone by Your Friends", "epitaph": "The room emptied slowly, then all at once.", "text": "Nobody drew a sword. They just stopped coming. The messengers, the favours, the dinner invitations all faded. One by one, your people found better places to be. The court did not turn on you. It simply forgot you." },
+ "bankrupt": {
+  "title": "Broke and Forgotten",
+  "epitaph": "Power runs on grain, pay and favours.",
+  "text": [
+   "Master Vask's clerks arrived with a cart and a very polite smile. Your debts were the only thing you owned. The court was kind enough to call it a retirement.",
+   "Without money, orders stopped working and favours stopped coming back. Within a season, nobody remembered if you had ever been dangerous. You were just poor."
+  ]
+ },
+ "exposed_manipulator": { "title": "Caught as a Schemer", "epitaph": "Every thread led back to your hand.", "text": "Someone finally laid all the pieces side by side. The whispers, the lucky accidents, the friends who were so useful. A court forgives cruelty more easily than cleverness. They sent you away in a closed carriage." },
+ "disgraced": { "title": "Shamed and Forgotten", "epitaph": "Talk stopped when you came in. Then you stopped coming in.", "text": "Nobody could say exactly what you had done. In the end it did not matter. A name that nobody says out loud is a closed door, and the court is made of doors." },
+ "feared_isolated": { "title": "Feared and Alone", "epitaph": "Everyone obeyed. No one stayed.", "text": "Your word is law, and nobody argues, even when you are wrong. The court bows so low that you cannot see their faces. Somewhere in the halls, a few of them have started to whisper." },
+ "eclipsed": { "title": "Pushed Aside by the King", "epitaph": "A servant who is bigger than his master does not last long.", "text": "Your grip on the kingdom grew until the king could feel it on his own neck. The order, when it came, was polite. A new post in a far province, and a proper escort to make sure you got there." },
+ "gilded_cage": { "title": "The Golden Cage", "epitaph": "Loved by all, and kept safe from view.", "text": "Everyone loves you. They write songs about you. The council finds you so loved that every move you make is a danger to someone. So they give you a grand house, a pension and a very long stay in your own good name." },
+ "puppet": { "title": "Smothered by Love", "epitaph": "They loved you into silence.", "text": "Your followers guess your every wish. They solve problems before you hear of them and shield you from anyone who disagrees. Somewhere in all this comfort, you stopped deciding. A ruler whose people love him too much to say no is only a figure on a throne." },
+ "plundered": { "title": "Too Rich to Be Safe", "epitaph": "A full treasury invites thieves.", "text": "Your wealth became all anyone talked about. New taxes were found that no one had mentioned. Old debts came back. A very legal order to take your money arrived with all the right seals, and it took everything." },
+ "negotiated_exit": { "title": "You Leave on Your Own Terms", "epitaph": "You left while they still said please.", "text": "A barony in the north, a pension and a warm goodbye. You leave with your name safe and a long list of people who wish you had stayed. A longer list is relieved that you did not. Few people rise so high and choose when to step down." },
+ "exiled_alive": { "title": "Sent Away, But Alive", "epitaph": "Being alive is a kind of win.", "text": "You bargained for your life on the palace steps and won it. A ship, a purse and a promise never to return. It is not what you came for. But it is more than most who lose to a group of enemies ever keep." },
+ "poisoned": { "title": "The Cup You Did Not Question", "epitaph": "Someone was always going to try.", "text": "The wine was the best in the cellar. You were not the first to be offered it, and you did not look closely at who offered it. The doctor reached you too late. The court mourned with great speed." },
+ "legacy_architect": { "title": "Your Legacy: The Quiet Builder", "epitaph": "You built what outlasts you.", "text": "You leave full grain stores, honest books and a name that opens doors when you are not in the room. History will give you a small note. That is just how the best builders like it." },
+ "legacy_beloved": { "title": "Your Legacy: The Loved Helper", "epitaph": "They would have followed you anywhere.", "text": "People remember how it felt to be your friend. Those you lifted up kept your name alive. Those you spared made sure the stories got kinder each time they were told. Not every reign needs a conquest." },
+ "legacy_iron": { "title": "Your Legacy: The Iron Hand", "epitaph": "Orders were obeyed. Not everyone has forgiven them.", "text": "You ran the kingdom like a clock you were afraid to stop. It worked. Roads were built and rebels were beaten. The court still lowers its voice when your name is said. History calls it order. Your enemies call it a long winter." },
+ "legacy_quiet": { "title": "Your Legacy: The Quiet Winner", "epitaph": "You wanted one thing and you got it.", "text": "You did not rule the court. You wanted one thing, in silence, and now you have it. The people who could have stopped you did not notice until it was done." },
+ "legacy_survivor": { "title": "Your Legacy: The Survivor", "epitaph": "You are still here. That counts.", "text": "You outlasted the king's moods, the council's knives and your own mistakes. Few can say the same. You are not loved or hated. At court, that is the closest thing to safety." }
+}

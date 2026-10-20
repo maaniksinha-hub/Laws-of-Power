@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" content="#0e0d0c">
-  <meta name="description" content="48: Laws of Power. A swipe-based political thriller. Every decision creates a rival. Every alliance has a price.">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="48: Laws of Power. A game about power at court. Swipe to choose. Every decision creates a rival. Every alliance has a price.">
   <title>48: Laws of Power</title>
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -34,15 +35,16 @@
     <main id="screen-title" class="screen title" aria-labelledby="title-h">
       <div class="title-art" aria-hidden="true"><i class="pillar p1"></i><i class="pillar p2"></i><i class="pillar p3"></i><i class="pillar p4"></i><i class="glow"></i><i class="mote m1"></i><i class="mote m2"></i><i class="mote m3"></i><i class="mote m4"></i><i class="mote m5"></i><i class="mote m6"></i><i class="mote m7"></i><i class="mote m8"></i><i class="mote m9"></i><i class="mote m10"></i><i class="mote m11"></i><i class="mote m12"></i></div>
       <div class="title-inner">
-        <p class="title-kicker">A game of influence</p>
+        <p class="title-kicker">A game of power</p>
         <h1 id="title-h"><span class="t48">48</span><span class="tlaws">Laws of Power</span></h1>
         <p class="tagline">Every decision creates a rival. Every alliance has a price.</p>
         <div class="title-menu">
           <button id="btn-continue-reign" class="btn primary" hidden>Resume reign</button>
           <button id="btn-new" class="btn primary">Start new reign</button>
           <button id="btn-daily" class="btn">Play today's court</button>
-          <button id="btn-codex" class="btn">Open Codex</button>
+          <button id="btn-codex" class="btn">Open notebook</button>
           <button id="btn-settings" class="btn">Open settings</button>
+          <button id="btn-exit" class="btn">Exit game</button>
         </div>
         <p id="title-stats" class="title-stats"></p>
         <p id="title-notice" class="title-notice" role="status" hidden></p>
@@ -56,8 +58,8 @@
         <div class="brand" aria-label="48: Laws of Power"><span class="brand-48">48</span><span class="brand-sub">Laws of Power</span></div>
         <div class="reign-info" id="reign-info"></div>
         <nav class="top-actions" aria-label="Game panels">
-          <button class="icon-btn" id="btn-dossier" aria-label="Character dossier" title="Dossier"><svg><use href="#i-people"/></svg></button>
-          <button class="icon-btn" id="btn-chronicle" aria-label="Reign chronicle" title="Chronicle"><svg><use href="#i-scroll"/></svg></button>
+          <button class="icon-btn" id="btn-dossier" aria-label="People at court" title="People"><svg><use href="#i-people"/></svg></button>
+          <button class="icon-btn" id="btn-chronicle" aria-label="Your choices" title="Your choices"><svg><use href="#i-scroll"/></svg></button>
           <button class="icon-btn" id="btn-menu" aria-label="Pause menu" title="Menu"><svg><use href="#i-menu"/></svg></button>
         </nav>
       </header>
@@ -99,6 +101,7 @@
         <button class="icon-btn" id="dlg-close" aria-label="Close">&#10005;</button>
       </header>
       <div class="dlg-body" id="dlg-body"></div>
+      <footer class="dlg-foot" id="dlg-foot" hidden></footer>
     </div>
   </dialog>
 

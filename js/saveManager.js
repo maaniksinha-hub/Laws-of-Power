@@ -8,7 +8,7 @@ import { META_VERSION, createMeta } from './meta.js';
 import { SAVE_VERSION, newCharState } from './state.js';
 
 export const KEYS = { save: 'lop.save', meta: 'lop.meta', settings: 'lop.settings' };
-export const DEFAULT_SETTINGS = { sound: true, motion: 'auto', showValues: false, hints: true, hintDots: true };
+export const DEFAULT_SETTINGS = { sound: true, motion: 'auto', showValues: false, hints: true, hintDots: true, autoFullscreen: true, keepAwake: true, vibrate: true };
 
 let store = null;
 export function setStorage(s) { store = s; } // tests inject a mock

@@ -182,11 +182,11 @@ export function endingView(state, content = DEFAULT_CONTENT) {
 
 export function strategicStyle(state) {
   const entries = Object.entries(state.styles).sort((a, b) => b[1] - a[1]);
-  if (!entries.length) return { top: null, text: 'Too few decisions to read a pattern.' };
+  if (!entries.length) return { top: null, text: 'You made too few choices to show a pattern.' };
   const [top, second] = entries;
   const pct = Math.round((top[1] / entries.reduce((s, e) => s + e[1], 0)) * 100);
   let text = `${STYLES[top[0]].label} (${pct}% of your moves). ${STYLES[top[0]].blurb}`;
-  if (second && second[1] >= top[1] * 0.6) text += ` Often paired with ${STYLES[second[0]].label.toLowerCase()}.`;
+  if (second && second[1] >= top[1] * 0.6) text += ` Often mixed with ${STYLES[second[0]].label.toLowerCase()}.`;
   return { top: top[0], second: second?.[0] ?? null, text };
 }
 

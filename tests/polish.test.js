@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { ECHOES } from '../data/echoes.js';
 import { EVENTS } from '../data/events.js';
 import { check } from '../js/conditions.js';
-import { echoText } from '../js/eventEngine.js';
+import { echoText, eventText } from '../js/eventEngine.js';
 import { expression } from '../js/characterEngine.js';
 import { portraitSVG, THEME_SCENE } from '../js/portraits.js';
 import { advance, choose, continueReign, newReign } from '../js/gameEngine.js';
@@ -79,4 +79,9 @@ test('hint dots default on, and new content is reachable by the weighted deck', 
 test('tutoring the heir changes how the succession plays out', () => {
   const mk = tutor => { const s = fresh('succ'); s.turn = 31; if (tutor) s.flags.tutor_heir = true; s.current = { id: 'king_death' }; const before = s.meters.loyalty; choose(s, 'right'); return s.meters.loyalty - before; };
   assert.ok(mk(true) > mk(false));
+});
+
+test('card text starts with a capital letter even when it opens with the address word', () => {
+  const s = fresh(); // rank 0 address is "newcomer"
+  for (const ev of Object.values(EVENTS)) { const t = eventText(s, ev); assert.match(t, /^[A-Z'"]/, `${ev.id}: ${t.slice(0, 30)}`); }
 });

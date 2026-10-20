@@ -88,7 +88,7 @@ await step('begin a reign: card, four meters, two choices, objective strip', asy
   await page.click('[data-action=begin-reign]');
   await page.waitForSelector('#card:not([hidden])');
   assert.equal(await page.locator('.meter').count(), 4);
-  assert.match(await page.textContent('#card-title'), /CHAMBERLAIN/i);
+  assert.match(await page.textContent('#card-title'), /STEWARD/i);
   assert.ok((await page.textContent('#label-left')).length > 3); assert.ok((await page.textContent('#label-right')).length > 3);
   assert.ok(await visible(page, '#objective-btn'));
   for (const n of ['Authority', 'Reputation', 'Loyalty', 'Resources']) assert.ok(await page.locator(`.meter[aria-label="${n}"]`).count());
@@ -174,15 +174,15 @@ await step('progress survives a refresh (Continue restores turn, meters and pend
 
 await step('panels: dossier, chronicle, objective, menu, codex, settings open and close', async () => {
   await page.click('#btn-dossier'); assert.ok((await page.textContent('#dlg-body')).includes('Piers Quill'));
-  assert.ok(!(await page.textContent('#dlg-body')).includes('Hidden aim:</b> Quill'), 'hidden agenda stays hidden');
-  assert.match(await page.textContent('#dlg-body'), /Hidden aim:\s*Unknown/);
+  assert.ok(!(await page.textContent('#dlg-body')).includes('Secret goal:</b> Quill'), 'hidden agenda stays hidden');
+  assert.match(await page.textContent('#dlg-body'), /Secret goal:\s*Unknown/);
   await shot(page, '05-dossier');
   await page.keyboard.press('Escape'); assert.ok(!(await visible(page, '#dlg')));
   await page.click('#btn-chronicle'); assert.match(await page.textContent('#dlg-body'), /Turn 1/); await page.click('#dlg-close');
   await page.click('#objective-btn'); assert.match(await page.textContent('#dlg-body'), /Only you know this/); await page.click('#dlg-close');
   await page.click('#btn-menu'); await page.click('[data-action=open-panel][data-panel=codex]');
   assert.ok(await visible(page, '#dlg-back'));
-  assert.match(await page.textContent('#dlg-body'), /laws discovered/);
+  assert.match(await page.textContent('#dlg-body'), /laws found/);
   await page.click('[data-tab=characters]'); assert.match(await page.textContent('#dlg-body'), /Piers Quill/);
   await page.click('[data-tab=endings]'); await page.click('[data-tab=achievements]'); await page.click('[data-tab=unlocks]');
   await shot(page, '06-codex');
@@ -217,7 +217,7 @@ await step('erase-all requires explicit confirmation (cancel keeps data, confirm
 await step('corrupted save is ignored with a notice, and the game still starts', async () => {
   await page.evaluate(() => localStorage.setItem('lop.save', '{broken'));
   await page.reload(); await page.waitForSelector('#screen-title:not([hidden])');
-  assert.match(await page.textContent('#title-notice'), /could not be read/);
+  assert.match(await page.textContent('#title-notice'), /could not read/);
   assert.ok(!(await visible(page, '#btn-continue-reign')));
   await startReign(page);
   assert.ok(await visible(page, '#card'));
@@ -262,7 +262,7 @@ await step('complete reigns through the UI reach a summary screen (several seeds
     }
     await page.waitForSelector('#screen-summary:not([hidden])', { timeout: 4000 });
     const text = await page.textContent('#screen-summary');
-    for (const need of ['Turns survived', 'Secret objective', 'Allies and enemies', 'strategic style']) assert.ok(text.includes(need) || text.toLowerCase().includes(need.toLowerCase()), `summary mentions ${need}`);
+    for (const need of ['Turns you lasted', 'Your secret goal', 'Friends and enemies', 'Your style']) assert.ok(text.includes(need) || text.toLowerCase().includes(need.toLowerCase()), `summary mentions ${need}`);
     if (seed === 'ui1') await shot(page, '07-summary');
     assert.ok(await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('lop.meta')).endings).length >= 1), 'ending recorded in meta');
   }
@@ -284,7 +284,7 @@ await step('summary shows the meter timeline and a share button', async () => {
 
 await step('after a reign: codex has discoveries, a new reign can begin, progress persists', async () => {
   await page.click('#btn-sum-codex');
-  assert.match(await page.textContent('#dlg-body'), /laws discovered/);
+  assert.match(await page.textContent('#dlg-body'), /laws found/);
   await page.click('[data-tab=endings]');
   assert.ok(await page.locator('#dlg-body .item:not(.locked)').count() >= 1);
   await page.click('#dlg-close');
@@ -351,17 +351,59 @@ await step('PWA: manifest and icons load, service worker installs, the game star
     const cached = (await (await caches.open(keys[0])).keys()).length;
     return { name: man.name, display: man.display, icons, active: !!reg.active, keys, cached, theme: document.querySelector('meta[name=theme-color]').content };
   });
-  assert.equal(m.name, '48: Laws of Power'); assert.equal(m.display, 'standalone'); assert.deepEqual(m.icons, [200, 200, 200, 200]);
+  assert.equal(m.name, '48: Laws of Power'); assert.equal(m.display, 'fullscreen'); assert.deepEqual(m.icons, [200, 200, 200, 200]);
   assert.ok(m.active && m.keys.length === 1 && m.cached >= 40, `precached ${m.cached} files`);
   await p.ctx.setOffline(true);
   await p.reload();
   await p.waitForSelector('#btn-new');
   await p.click('#btn-new'); await p.click('[data-action=begin-reign]');
   await p.waitForSelector('#card:not([hidden])');
-  assert.match(await p.textContent('#card-title'), /CHAMBERLAIN/i);
+  assert.match(await p.textContent('#card-title'), /STEWARD/i);
   assert.ok(await p.evaluate(() => document.fonts.check('18px "IM Fell English"')), 'bundled font works offline');
   await p.click('#btn-left'); await waitResult(p);
   await p.ctx.setOffline(false);
+  await p.ctx.close();
+});
+
+await step('new reign: the Begin button is always visible, even on a small phone with the list scrolled', async () => {
+  for (const [w, h] of [[360, 640], [390, 844], [1280, 800], [844, 390]]) {
+    const p = await newPage({ viewport: { width: w, height: h } });
+    await p.goto(base); await p.click('#btn-new');
+    const vis = async () => p.evaluate(() => { const b = document.querySelector('#dlg-foot [data-action=begin-reign]'); const r = b.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, ih: innerHeight, shown: !document.getElementById('dlg-foot').hidden }; });
+    let v = await vis();
+    assert.ok(v.shown && v.top >= 0 && v.bottom <= v.ih, `${w}x${h} begin button on screen before scroll`);
+    await p.evaluate(() => { const b = document.getElementById('dlg-body'); b.scrollTop = b.scrollHeight; });
+    v = await vis();
+    assert.ok(v.top >= 0 && v.bottom <= v.ih, `${w}x${h} begin button on screen after scroll`);
+    await p.click('#dlg-foot [data-action=begin-reign]');
+    await p.waitForSelector('#card:not([hidden])');
+    await p.ctx.close();
+  }
+});
+
+await step('exit: title and pause menu both offer Exit game, progress is saved, a goodbye screen appears', async () => {
+  const p = await newPage();
+  await p.goto(base);
+  assert.ok(await visible(p, '#btn-exit'));
+  await p.click('#btn-new'); await p.click('[data-action=begin-reign]'); await p.waitForSelector('#card:not([hidden])');
+  await p.click('#btn-left'); await waitResult(p);
+  await p.click('#btn-menu');
+  assert.ok(await p.locator('[data-action=exit-game]').isVisible());
+  await p.click('[data-action=exit-game]');
+  await p.waitForSelector('#dlg[open]');
+  assert.match(await p.textContent('#dlg-body'), /saved/);
+  assert.ok(await p.evaluate(() => !!localStorage.getItem('lop.save')), 'reign saved on exit');
+  await p.click('[data-action=resume-from-exit]');
+  assert.ok(!(await visible(p, '#dlg')));
+  await p.ctx.close();
+});
+
+await step('immersive settings exist and are saved (full screen, keep awake, vibration)', async () => {
+  const p = await newPage();
+  await p.goto(base); await p.click('#btn-settings');
+  for (const k of ['autoFullscreen', 'keepAwake', 'vibrate']) assert.ok(await p.locator(`[data-setting=${k}]`).isChecked(), k);
+  await p.locator('[data-setting=keepAwake]').uncheck();
+  assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem('lop.settings')).keepAwake), false);
   await p.ctx.close();
 });
 

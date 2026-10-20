@@ -10,7 +10,7 @@ const pngSize = f => { const b = readFileSync(f); return [b.readUInt32BE(16), b.
 
 test('manifest meets installability requirements', () => {
   for (const k of ['name', 'short_name', 'start_url', 'scope', 'display', 'background_color', 'theme_color']) assert.ok(manifest[k], k);
-  assert.equal(manifest.display, 'standalone'); assert.equal(manifest.short_name, '48');
+  assert.equal(manifest.display, 'fullscreen'); assert.deepEqual(manifest.display_override, ['fullscreen', 'standalone']); assert.equal(manifest.short_name, '48');
   assert.ok(manifest.start_url.startsWith('.'), 'relative start_url so it works under a GitHub Pages sub-path');
   const purposes = manifest.icons.map(i => i.purpose);
   assert.ok(purposes.includes('any') && purposes.includes('maskable'));

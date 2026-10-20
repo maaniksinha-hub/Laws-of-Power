@@ -1,0 +1,141 @@
+{
+ "grain_shortage": {
+  "title": "THE GRAIN STORES ARE ONE THIRD FULL",
+  "who": { "name": "The Grain Keepers", "role": "Group of Workers" },
+  "text": "The winter grain stores are only one third full. The keepers ask for an order. Feed the city first, or sell what is left abroad, where grain sells for three times the price. 'The merchants are already counting,' one mutters.",
+  "left": { "label": "Feed the city first", "result": "Bread lines form. Nobody starves, and everybody notices who decided." },
+  "right": { "label": "Sell abroad at triple the price", "result": "The treasury grows fat. The poorer parts of the city remember it for years." }
+ },
+ "tax_revolt": {
+  "title": "THE HILL VILLAGE",
+  "text": "A hill village will not pay the harvest tax and has chased off the tax man. Kovane offers to \"teach them a lesson\", one hand on his sword. In your other hand is the village elder's letter. It is very polite.",
+  "left": { "label": "Send soldiers", "result": "The village is quiet by the weekend. So are the next three villages down the road." },
+  "right": { "label": "Send a pardon and a smiling tax man", "result": "The tax arrives late, but in full. The elder sends you a cheese." },
+  "lesson": {
+   "left": "Making an example ends one revolt and spreads fear across the land. Fear is not the same as loyalty.",
+   "right": "A kind step can look weak or wise. It works when the villagers see it as a deal they were free to refuse."
+  }
+ },
+ "widow_petition": {
+  "title": "A BAKER'S WIDOW",
+  "who": { "name": "Marta Voss", "role": "Baker's Widow" },
+  "text": "A baker's widow with a loud market voice asks for her husband's army pension. The papers say no. A crowd watches to see if the new face at court has a heart or a rulebook.",
+  "left": { "label": "Pay it from your own purse", "result": "Marta tells the whole market. By evening it is a legend, and the legend is a bit better than you." },
+  "right": { "label": "Follow the rule", "result": "The papers are correct. The crowd wanders off, not convinced." }
+ },
+ "duel_challenge": {
+  "title": "A FIGHT AT DAWN",
+  "who": { "name": "Lord Edmar Thessaly", "role": "Young Noble, Very Drunk" },
+  "text": "Lord Thessaly is flushed with wine and cousin to three barons. He says you stole his seat and his pride, and he wants a fight. Behind you, Kovane whispers that you are actually quite good with a sword.",
+  "left": {
+   "label": "Accept the fight",
+   "result": "Thessaly is better than he looked, and his cousins are smiling. You limp home.",
+   "branches": ["Steel flashes, once. Thessaly is bleeding, disarmed and very sober. The court talks about nothing else."]
+  },
+  "right": { "label": "Laugh and buy him a drink", "result": "The hall laughs with you. By morning Thessaly cannot remember why he was angry." },
+  "lesson": {
+   "left": "Accepting a challenge puts your standing on a coin toss. People admire fighters, but a loss is remembered longer than a win.",
+   "right": "Refusing to be baited denies a rival the attention he wanted. It costs some pride and no blood."
+  }
+ },
+ "feast_spectacle": {
+  "title": "MIDSUMMER",
+  "text": "Midsummer is near. 'A great feast, {t},' says Quill, 'would be remembered all through a hard winter. A quiet fast would be remembered mostly by the priests.'",
+  "left": { "label": "A grand festival", "result": "Fireworks, roast ox, six thousand cups. For one night the whole city adores you." },
+  "right": { "label": "A quiet fast with prayers", "result": "The city fasts and grumbles. The treasury is grateful. Nobody else is." },
+  "lesson": {
+   "left": "A show is a loan against your good name. It is costly and quick, and you repay it with goodwill that you must earn again.",
+   "right": "Going without saves money and shows discipline. The people who are not impressed may be the ones you needed."
+  }
+ },
+ "credit_idea": {
+  "title": "WHOSE IDEA WAS IT",
+  "text": "A young clerk, Tamsin Ode, made the harvest plan that saved three provinces. Lord Varen leans close. 'It would be neater, {t}, if the council heard it as yours. Clerks have no use for credit.'",
+  "left": { "label": "Thank the clerk in public", "result": "Tamsin goes pale, then pink. By evening you have the most loyal clerk in the kingdom." },
+  "right": { "label": "Say it was your own idea", "result": "The council applauds you. Tamsin applauds too, but only with her hands." },
+  "lesson": {
+   "left": "Thanking a helper costs you a slice of glory. It makes the whole team want to help you next time.",
+   "right": "Taking credit builds a story faster than doing the work. The person who did it will one day tell a different story."
+  }
+ },
+ "friend_asks": {
+  "title": "AN OLD FRIEND",
+  "who": { "name": "Edric Hale", "role": "Your Childhood Friend" },
+  "text": "Edric Hale travelled nine days to see you, in a coat as borrowed as yours once was. He wants a job. Any job. 'We always said we would look after each other,' he says. He is right. He is also not qualified.",
+  "left": { "label": "Give him a job", "result": "Edric nearly cries. At court, one person still thinks you are who you used to be." },
+  "right": { "label": "Give him money and a kind no", "result": "Edric takes the purse with great dignity and does not look back." },
+  "lesson": {
+   "left": "A friend in a job too big for him feels the gap as an insult. Liking someone is not the same as trusting their skill.",
+   "right": "A kind no protects the friendship from the job. It costs some warmth now and some doubt from people who are watching."
+  }
+ },
+ "friend_betrays": {
+  "title": "THE LETTER IN HIS HANDWRITING",
+  "who": { "name": "Edric Hale", "role": "Your Old Friend, Once" },
+  "text": "Edric sold a letter to a rival's secretary. It holds your private opinion of the council, in your own writing. He waits in your study with his hat in his hands. 'I was owed more,' he says, simply.",
+  "left": { "label": "Forgive him", "note": "Edric sold your private letter.", "result": "He leaves in tears, which is somehow worse than if he had left angry." },
+  "right": { "label": "Send him away", "note": "Edric sold your private letter.", "result": "The guards walk Edric to the gate. He looks smaller with every step." },
+  "lesson": {
+   "left": "Forgiving shows a big heart. It also teaches nobody anything, except that betrayal is survivable.",
+   "right": "Punishing him in public warns others. It also ends the last trace of the friendship you were trying to protect."
+  }
+ },
+ "silence_council": {
+  "title": "EVERYONE LOOKS AT YOU",
+  "text": "The council argues about the border. Dorne wants peace talks. Kovane wants more soldiers. Varen wants a group to study both. Everyone turns to you. Each of them has already decided what they hope to hear.",
+  "left": { "label": "Say what you really think", "result": "They listen. Then each of them quietly changes their plans to fit yours." },
+  "right": {
+   "label": "Say little and let them argue",
+   "result": "They argue for an hour. At the end they ask you to decide, which is not the same as asking you to explain.",
+   "branches": ["Silence from someone with a weak name looks like having nothing to say."]
+  },
+  "lesson": {
+   "left": "Saying everything shows confidence and hands rivals a map. It works best when you can afford to be predictable.",
+   "right": "Saying little lets others show their hands. It looks strong only if the room already takes you seriously."
+  }
+ },
+ "rumour_about_you": {
+  "title": "A RUMOUR GOES ROUND",
+  "text": "'There is a rumour, {t},' says Ysolde, 'that you bought your seat on the council. I only tell you because I did not start it, and because it spreads faster than my own stories.'",
+  "left": {
+   "label": "Deny it in public",
+   "result": "You say it plainly, with some heat. The rumour fades by supper.",
+   "branches": ["Someone shows a receipt. A denial is only as good as the record behind it."]
+  },
+  "right": { "label": "Let it spread and use it", "result": "A name for taking bribes has one big plus. Suddenly, people offer." },
+  "lesson": {
+   "left": "A denial only works if your record backs it up. If it does not, the denial becomes the story.",
+   "right": "Letting a harmful rumour run can look confident. It also shows the court what you are willing to seem."
+  }
+ },
+ "rask_oath": {
+  "title": "THE BARON'S PROMISE",
+  "text": "Baron Rask grips your hand in both of his. 'I am yours, {t}, in all things,' he says. 'Of course, a man like me is wasted without some small post. For now.'",
+  "left": { "label": "Give him a small post", "result": "Rask becomes Keeper of the Western Keys. He takes the title very seriously and the keys not at all." },
+  "right": { "label": "Keep him at a distance", "result": "Rask laughs it off. In his mind, you go in the file marked Not Yet." },
+  "lesson": {
+   "left": "A post buys a loyal face for as long as you are the most useful thing for him to be loyal to.",
+   "right": "Leaving a man who follows power without a reward keeps him free, and open to your enemies."
+  }
+ },
+ "rask_wavers": {
+  "title": "WHERE THE TABLE IS FULL",
+  "text": "Baron Rask has been seen eating with your enemies. 'I eat where the table is full,' he says, not embarrassed at all. 'It would be a pity if yours were emptier than theirs.'",
+  "left": { "label": "Match their offer", "memo": "You paid more than Rask's other dinner friends.", "result": "Rask finds that your table was always his favourite." },
+  "right": { "label": "Let him go", "memo": "You let Rask walk away.", "note": "Baron Rask has gone over to your rivals.", "result": "Rask shrugs, bows beautifully and takes his seat at the other table." },
+  "lesson": {
+   "left": "Buying the loyalty of a man who follows power only rents it, for as long as you pay more than the next offer.",
+   "right": "Letting a fair-weather friend go shows self-respect. It also gives your enemies a new face."
+  }
+ },
+ "rask_returns": {
+  "title": "THE WEATHERVANE TURNS",
+  "text": "Rask stands at your door, hat in hand, with a list of everything your enemies planned at that table. 'I have always admired you,' he says, 'whenever it was handy.'",
+  "left": { "label": "Take him back, for a price", "result": "Rask returns with his list and a new humility. It will last until the next change in the wind." },
+  "right": { "label": "Shut the door", "result": "Rask nods, puts on his hat and walks into the street, already writing a new speech." },
+  "lesson": {
+   "left": "A man who is sorry and follows power is useful but never fully safe. Taking him back works if you remember what he is.",
+   "right": "Shutting the door on a returning weathervane shows that loyalty counts. It also wastes a source of news."
+  }
+ }
+}

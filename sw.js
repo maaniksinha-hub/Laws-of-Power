@@ -1,7 +1,7 @@
 // Service worker: the whole game is static, so it is cached on install and works offline.
 // Strategy: cache-first for the app shell (fast, offline), refreshed in the background (stale-while-revalidate),
 // so a new deploy is picked up on the next launch. Bump CACHE_VERSION to drop old caches immediately.
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE = `lop-${CACHE_VERSION}`;
 const ASSETS = [
   "./",
@@ -14,6 +14,7 @@ const ASSETS = [
   "js/effects.js",
   "js/eventEngine.js",
   "js/gameEngine.js",
+  "js/immersive.js",
   "js/main.js",
   "js/meta.js",
   "js/objectives.js",

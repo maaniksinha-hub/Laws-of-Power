@@ -1,0 +1,134 @@
+{
+ "dorne_toast": {
+  "title": "A TOAST AT THE FEAST",
+  "text": [
+   "At the feast, Lady Dorne stands and lifts her glass. 'To our newest guest, so quiet we almost forgot to be afraid!' People laugh. The king is watching. So is everyone who is not laughing. All eyes turn to you.",
+   "At the feast, Lady Dorne stands and lifts her glass. 'To our newest guest, brave enough to sit beside the throne!' People laugh. The king is watching. So is everyone who is not laughing. All eyes turn to you."
+  ],
+  "left": { "label": "Answer with a toast to the king", "result": "The king raises his cup a little. Dorne tilts her head, as if reading you." },
+  "right": { "label": "Beat her with a sharper joke", "result": "The hall roars. Dorne laughs too, and remembers it." },
+  "lesson": {
+   "left": "Turning the praise to the king looks loyal. But it leaves a charming rival unchallenged.",
+   "right": "Beating a popular rival at her own game wins the room tonight. Tomorrow she will watch you. And the king will remember who outshone him."
+  }
+ },
+ "dorne_alliance": {
+  "title": "THE LADY'S PLAN",
+  "text": "'The council is rotten,' Dorne says behind her fan. 'Back my plan to cut the advisors' pay. Then I will back whatever you ask next. Lord Varen will hate us both. Is that not lovely?'",
+  "left": { "label": "Say no politely", "memo": "You said no to Dorne's plan.", "result": "Dorne smiles the way you smile at a shut shop." },
+  "right": { "label": "Back her plan", "memo": "You backed Dorne's plan against the advisors.", "result": "The plan passes. Varen is polite about it, which is the scariest thing he could be." },
+  "lesson": {
+   "left": "Staying free keeps your choices open, and nobody feels they are owed. But you stay outside the group that decides things.",
+   "right": "A deal of convenience is a loan. The favour you took is already growing, in a coin you do not control."
+  }
+ },
+ "dorne_price": {
+  "title": "THE LADY COLLECTS",
+  "text": "Dorne comes to collect. 'My cousin Baldric would make a fine keeper of the money,' she says, as if she mentioned the weather. 'You said you would give me what I needed. I wrote it down.'",
+  "left": { "label": "Refuse the job for her cousin", "memo": "You refused to repay Dorne's favour.", "result": "Dorne's smile does not move at all. 'Of course,' she says. 'Honest people are so rare.'" },
+  "right": { "label": "Give her cousin the job", "memo": "You gave Dorne's cousin the treasury.", "result": "Baldric is delighted, and good at the job. Now Dorne has a hand in the money box." },
+  "lesson": {
+   "left": "Refusing a favour you already took costs you the person. It also costs most of the credit for the first deal.",
+   "right": "A favour that comes cheap gets a price later, when it suits her. Paying keeps the peace. It also makes your creditor bigger."
+  }
+ },
+ "dorne_scandal": {
+  "title": "THE LADY'S BANKER",
+  "text": "A messenger from a certain tea house leaves a letter with Master Vask's seal. It lists payments for Lady Dorne's free bread, banners and singers. Her popular fame was paid for by a banker.",
+  "left": { "label": "Say nothing and keep it for later", "memo": "You kept Dorne's secret to use later.", "result": "You fold the letter into your sleeve. Power you do not use is power you can still spend." },
+  "right": { "label": "Read it out to the council", "memo": "You read out who paid for Dorne's fame.", "result": "There is silence, then uproar. The crowd learns who has been buying their love." },
+  "lesson": {
+   "left": "Knowing what someone depends on gives you power. Using it spends it. Keeping it makes them look for the leak.",
+   "right": "Telling everyone ends a rival cleanly if your proof is strong. It also makes an enemy of anyone else named."
+  }
+ },
+ "leverage_use": {
+  "title": "A LOCK BEING TRIED",
+  "text": "Dorne now glances at you across the hall the way you check a lock. She thinks someone knows something. Everyone wants a hostage. You would rather have a friend.",
+  "left": { "label": "Let her know that you know", "memo": "You let Dorne know about her banker.", "result": "Dorne goes pale, then charming. She will vote with you. She will also remember." },
+  "right": {
+   "label": "Keep waiting",
+   "result": "Nothing happens. That is the point.",
+   "branches": ["Ysolde sold your silence to Dorne. Now she smiles at you in a very different way."]
+  },
+  "lesson": {
+   "left": "Showing what you know early buys obedience now. But your captive becomes an open enemy with a long memory.",
+   "right": "Waiting makes a secret worth more. But someone else may sell it first."
+  }
+ },
+ "anselm_charter": {
+  "title": "THE PLAN FOR CHANGE",
+  "text": "Brother Anselm puts a plan on your desk. Lower the church taxes. Open the grain stores in winter. End the special treatment for nobles. 'Do it tomorrow, {t}, or the poor will do it for us.' His hands are stained with ink but steady.",
+  "left": { "label": "Try it in one province first", "memo": "You tried Anselm's changes in one province first.", "result": "One province gets the new rules. Everyone else gets a good view." },
+  "right": { "label": "Back the whole plan", "memo": "You backed all of Anselm's plan.", "result": "The poor weep with joy. The nobles take notes. Both are getting ready." },
+  "lesson": {
+   "left": "A small test lets people get used to change before it scares them. It also keeps the reformer on your side while you wait.",
+   "right": "A huge change wins love and makes powerful enemies at once. People accept change more easily when it feels like the old ways."
+  }
+ },
+ "pamphlet_storm": {
+  "title": "LEAFLETS IN THE SQUARES",
+  "text": "Overnight, leaflets appear in every square. They call the nobles greedy parasites, in rhyme. They are beautifully printed. Brother Anselm owns one small press. There are twenty thousand copies.",
+  "left": { "label": "Ban the leaflets", "memo": "You banned the leaflets.", "result": "Soldiers tear them down. By the next day, handwritten copies appear, which is worse." },
+  "right": { "label": "Find out who printed them", "memo": "You tracked down the printer of the leaflets.", "result": "The trail of receipts ends at a warehouse owned by a firm owned by Master Vask." },
+  "lesson": {
+   "left": "Banning a message spreads it, and gives the reformer a martyr's story.",
+   "right": "Following the money shows who gains from the trouble. The loudest voice is not always the one paying."
+  }
+ },
+ "anselm_arrest": {
+  "title": "A WARRANT FOR THE PRIEST",
+  "text": "The nobles want Anselm locked up for plotting against the king. Varen wrote the order before you asked. 'It is only a form,' he says. Outside, a crowd gathers with candles.",
+  "left": { "label": "Protect Anselm", "memo": "You protected Anselm from the nobles.", "result": "You tear the order in two, in front of Varen. Cheers rise from the candlelit crowd outside." },
+  "right": { "label": "Sign the order", "memo": "You signed the order against Anselm.", "result": "Anselm is led out calmly. The candles go out one by one." },
+  "lesson": {
+   "left": "Standing by the leader keeps his followers loyal. It also makes you the next target of the people he scares.",
+   "right": "Taking away a movement's leader can break it or fire it up. It depends on who really holds the crowd together."
+  }
+ },
+ "vask_loan": {
+  "title": "A SMALL LOAN",
+  "text": "The treasury is low, and Master Vask has come to visit. 'A small loan, {t}, and all I want is your good name. I would hate to see the soldiers go unpaid.' He smiles like a man who has already counted the money.",
+  "left": { "label": "Say no", "result": "Vask bows. Doors that were open to you are now only unlocked." },
+  "right": { "label": "Take the loan", "memo": "You borrowed money from Vask.", "result": "The soldiers are paid and the grain stores are full. The ledger has a new, polite line." },
+  "lesson": {
+   "left": "Saying no keeps you free of the lender. But you face every shortage he warned about.",
+   "right": "A lender is a patient hunter. Free money has a cost that comes later, in another form."
+  }
+ },
+ "vask_collect": {
+  "title": "THE GREEN BOOK",
+  "text": "Vask's clerks arrive with a book bound in green. 'I do not need the money today,' he says. 'I would just like to be the only one who sells salt, as a favour. Or the whole sum, if you prefer to be sentimental.'",
+  "left": { "label": "Give him the salt trade", "memo": "You gave Vask the salt trade.", "result": "The debt is gone, the deal is signed, and the price of salt creeps up." },
+  "right": {
+   "label": "Pay it all back",
+   "memo": "You paid Vask back in full.",
+   "result": "The strongroom empties. Vask accepts with the smile of a man who just lost a customer.",
+   "branches": ["You empty the strongroom and still fall short. You cover the rest with promises. Vask writes them down."]
+  },
+  "lesson": {
+   "left": "A sole right to sell pays your debt with other people's money. It keeps Vask in your debt too. It also makes you his partner in public.",
+   "right": "Paying in full frees you from the lender. It leaves you with an empty treasury and a creditor with nothing to lose."
+  }
+ },
+ "vask_confrontation": {
+  "title": "THE PRINTER'S RECEIPT",
+  "text": "You put the printer's receipt on Vask's table. He reads it slowly, smiles and pours you wine. 'Nobles are bad at paying their debts,' he says. 'Did you come to thank me, or to shout?'",
+  "left": { "label": "Name him as the one behind the leaflets", "memo": "You named Vask as the man behind the leaflets.", "result": "The guild hall goes quiet as the receipt is read aloud. Vask is led out, still smiling." },
+  "right": { "label": "Use it to make a deal", "memo": "You made a deal with Vask over the receipt.", "result": "Vask agrees to every term. He is a patient man. You just showed him what to wait for." },
+  "lesson": {
+   "left": "Naming a money man in public ends his power. The markets panic with him.",
+   "right": "A secret turns an enemy into a debtor. A debtor who knows you hold his ruin remembers it every time you deal."
+  }
+ },
+ "guild_strike": {
+  "title": "THE SHUTTERS COME DOWN",
+  "text": "Every guild shop in the city closes at noon. Vask's workers stand on the palace steps and politely ask who will pay the soldiers now. He is not in the crowd. He never is.",
+  "left": { "label": "End the strike with the guard", "result": "The shutters go up at spear point. The markets open, and nobody buys anything." },
+  "right": { "label": "Talk about pay and taxes", "result": "A fair deal is signed by lunch. Vask takes a bow he does not mean." },
+  "lesson": {
+   "left": "Force reopens the shops. It also teaches the guilds what you do when they ask a question.",
+   "right": "Showing a deal that works ends the standoff and nobody loses face. It is slow, and it lasts."
+  }
+ }
+}

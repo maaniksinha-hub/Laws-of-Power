@@ -10,10 +10,11 @@ import { objectiveView } from './objectives.js';
 import { THEME_SCENE, portraitSVG } from './portraits.js';
 import { play, setSoundEnabled } from './audio.js';
 import { CHARACTERS } from '../data/characters.js';
+import { buzz, canFullscreen, enterFullscreen, isFullscreen, keepAwake, leaveFullscreen, setVibration } from './immersive.js';
 import { canInstall, isIOS, isStandalone, onInstallChange, promptInstall } from './pwa.js';
 import { clearAll, clearReign, loadMeta, loadReign, loadSettings, saveMeta, saveReign, saveSettings } from './saveManager.js';
 import { LAWS } from '../data/laws.js';
-import { chronicleHTML, codexHTML, dossierHTML, esc, meterIcon, menuHTML, newReignHTML, objectiveHTML, settingsHTML, summaryHTML } from './views.js';
+import { chronicleHTML, codexHTML, dossierHTML, esc, exitFoot, exitHTML, meterIcon, menuHTML, newReignFoot, newReignHTML, objectiveHTML, settingsHTML, summaryHTML } from './views.js';
 
 const $ = id => document.getElementById(id);
 export const app = { meta: null, settings: null, state: null, content: DEFAULT_CONTENT, busy: false, resultAt: 0, bg: null, codexTab: 'laws' };
@@ -38,6 +39,8 @@ function applySettings() {
   const prefers = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.dataset.motion = s.motion === 'auto' ? (prefers ? 'reduce' : 'full') : s.motion;
   setSoundEnabled(s.sound);
+  setVibration(s.vibrate);
+  keepAwake(s.keepAwake && !$('screen-game').hidden);
   $('hint').hidden = !s.hints;
   document.querySelectorAll('.meter-val').forEach(el => { el.hidden = !s.showValues; });
 }
@@ -45,6 +48,7 @@ const setSetting = (k, v) => { app.settings[k] = v; saveSettings(app.settings); 
 
 function showScreen(name) {
   for (const id of ['title', 'game', 'summary']) $(`screen-${id}`).hidden = id !== name;
+  keepAwake(name === 'game' && app.settings.keepAwake);
 }
 
 // ------------------------------------------------------------------ title
@@ -54,10 +58,10 @@ function showTitle(notice = null) {
   app.saved = state;
   $('btn-continue-reign').hidden = !state;
   if (state) $('btn-continue-reign').textContent = state.ending ? 'View last reign' : `Resume reign (turn ${state.turn})`;
-  const msg = notice || ({ corrupt: 'Your saved reign could not be read, so it was set aside. Your codex is safe.', outdated: 'Your saved reign came from a different version of the game and could not be loaded. Your codex is safe.' })[status];
+  const msg = notice || ({ corrupt: 'We could not read your saved reign, so we set it aside. Your notebook is safe.', outdated: 'Your saved reign is from another version of the game, so it could not open. Your notebook is safe.' })[status];
   $('title-notice').hidden = !msg; $('title-notice').textContent = msg || '';
   const m = app.meta;
-  $('title-stats').textContent = m.reigns ? `${m.reigns} reign${m.reigns > 1 ? 's' : ''} lived. ${Object.keys(m.endings).length} of ${ENDINGS.length} endings found, ${Object.keys(m.laws).length} of 48 laws discovered.` : 'No reign has been written yet.';
+  $('title-stats').textContent = m.reigns ? `${m.reigns} reign${m.reigns > 1 ? 's' : ''} lived. ${Object.keys(m.endings).length} of ${ENDINGS.length} endings found, ${Object.keys(m.laws).length} of 48 laws discovered.` : 'You have not played yet.';
   const d = m.daily?.[todayKey()];
   $('btn-daily').textContent = d ? "Replay today's court" : "Play today's court";
   $('btn-new').focus({ preventScroll: true });
@@ -66,6 +70,7 @@ function showTitle(notice = null) {
 function bindStatic() {
   $('btn-new').onclick = onNewReign;
   $('btn-daily').onclick = startDaily;
+  $('btn-exit').onclick = exitGame;
   $('btn-continue-reign').onclick = resumeSaved;
   $('btn-codex').onclick = () => openPanel('codex');
   $('btn-settings').onclick = () => openPanel('settings');
@@ -81,6 +86,7 @@ function bindStatic() {
   $('dlg').addEventListener('close', () => { panelStack = []; });
   $('dlg').addEventListener('click', e => { if (e.target === $('dlg')) closePanel(); });
   $('dlg-body').addEventListener('click', onPanelClick);
+  $('dlg-foot').addEventListener('click', onPanelClick);
   $('dlg-body').addEventListener('change', onPanelChange);
   $('dlg-body').addEventListener('keydown', onPanelKey);
   document.addEventListener('keydown', onKey);
@@ -88,15 +94,28 @@ function bindStatic() {
   bindCardDrag();
 }
 
+// Web apps cannot always close themselves. Save, leave full screen, try to close, then show a clear goodbye.
+async function exitGame() {
+  if (app.state) saveReign(app.state);
+  saveMeta(app.meta);
+  keepAwake(false);
+  await leaveFullscreen();
+  try { globalThis.close(); } catch { /* not allowed in a normal tab */ }
+  setTimeout(() => { if (!$('dlg').open) openPanel('exit', { push: false }); }, 250);
+}
+
 async function onNewReign() {
   if (app.saved && !app.saved.ending) {
-    const ok = await confirmDialog({ title: 'Start a new reign?', text: 'Your current reign is still in progress. Starting a new one will end it without an ending. Your codex and achievements are kept.', ok: 'Abandon and start anew' });
+    const ok = await confirmDialog({ title: 'Start a new reign?', text: 'Your reign is not finished. If you start a new one, this one ends with no ending. Your notebook and awards stay.', ok: 'Give up and start new' });
     if (!ok) return;
   }
   openPanel('newreign');
 }
 
+function goImmersive() { if (app.settings.autoFullscreen && !isStandalone()) enterFullscreen(); }
+
 function resumeSaved() {
+  goImmersive();
   app.state = app.saved;
   showScreen('game');
   if (app.state.ending && !app.state.pendingResult) return showSummary();
@@ -106,13 +125,14 @@ function resumeSaved() {
 const todayKey = () => new Date().toISOString().slice(0, 10);
 async function startDaily() {
   if (app.saved && !app.saved.ending) {
-    const ok = await confirmDialog({ title: "Play today's court?", text: 'Your current reign is still in progress. Starting a new one will end it without an ending.', ok: 'Abandon and play' });
+    const ok = await confirmDialog({ title: "Play today's court?", text: 'Your reign is not finished. If you start a new one, this one ends with no ending.', ok: 'Give up and play' });
     if (!ok) return;
   }
   startReign('minor_noble', { seed: `daily-${todayKey()}`, daily: todayKey() });
 }
 
 function startReign(bgId, { seed = null, daily = null } = {}) {
+  goImmersive();
   const qs = new URLSearchParams(globalThis.location?.search || '');
   app.state = newReign(app.meta, { background: bgId, seed: seed ?? qs.get('seed') ?? null, objective: qs.get('objective') });
   if (daily) app.state.daily = daily;
@@ -174,8 +194,8 @@ function updateHeader() {
   const s = app.state;
   $('reign-info').innerHTML = `<b>${RANKS[s.rank].title}</b><br>Reign ${s.reignId}, turn ${Math.min(s.turn, MAX_TURN)} of ${MAX_TURN}`;
   const o = objectiveView(s, app.content.objectives);
-  $('objective-btn').innerHTML = o ? `<span class="obj-k">Secret objective</span><span class="obj-t">${esc(o.brief)}</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
-  $('objective-btn').setAttribute('aria-label', o ? `Secret objective: ${o.brief}. ${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met.` : 'Objective');
+  $('objective-btn').innerHTML = o ? `<span class="obj-k">Secret goal</span><span class="obj-t">${esc(o.brief)}</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
+  $('objective-btn').setAttribute('aria-label', o ? `Secret goal: ${o.brief}. ${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met.` : 'Objective');
   const touch = globalThis.matchMedia?.('(pointer: coarse)').matches;
   $('hint').textContent = touch ? 'Swipe the card left or right, or tap a choice' : 'Drag the card, click a choice, or press ← → / A D';
 }
@@ -259,7 +279,7 @@ async function pick(side, fromDx = 0) {
   if (app.busy || !s?.current || s.pendingResult || resultVisible()) return;
   app.busy = true;
   $('btn-left').disabled = $('btn-right').disabled = true;
-  play('choose');
+  play('choose'); buzz(10);
   const result = choose(s, side, app.content);
   if (!result) { app.busy = false; return; }
   saveReign(s);
@@ -287,7 +307,7 @@ function showResult(r, { restored = false } = {}) {
     const word = `${METER_INFO[m].label} ${d > 0 ? 'rose' : 'fell'}${n === 1 ? ' slightly' : n === 3 ? ' sharply' : ''}`;
     return `<li class="chip ${d > 0 ? 'up' : 'down'}" aria-label="${word}">${meterIcon(m)}<span>${METER_INFO[m].label}</span><span class="amt" aria-hidden="true">${(d > 0 ? '▲' : '▼').repeat(n)}</span></li>`;
   }).join('');
-  const KIND = { secret: 'Secret', betrayal: 'Betrayal', status: 'Court', warning: 'Warning', rank: 'Rank', info: 'Note', alliance: 'Intrigue' };
+  const KIND = { secret: 'Secret', betrayal: 'Betrayal', status: 'Court', warning: 'Warning', rank: 'Rank', info: 'Note', alliance: 'Plot' };
   const notes = (r.notes || []).map(n => `<li class="note ${n.kind}">${n.kind === 'secret' ? '<i class="seal" aria-hidden="true"></i>' : ''}<b>${KIND[n.kind] || 'Note'}</b>${esc(n.text)}</li>`).join('');
   const lesson = r.lesson ? `<details class="lesson" open><summary>Law <span class="num">${r.lesson.n}</span>: ${esc(r.lesson.title)}</summary><div class="lesson-body"><p>${esc(r.lesson.text)}</p><p class="watch"><b>If it were used on you</b>${esc(r.lesson.defense)}</p></div></details>` : '';
   const end = r.ending ? app.content.endings.find(e => e.id === r.ending) : null;
@@ -305,6 +325,7 @@ function showResult(r, { restored = false } = {}) {
   if (!restored) {
     const kinds = new Set((r.notes || []).map(n => n.kind));
     if (kinds.has('betrayal') && !reduced()) { $('stage').classList.remove('shake'); void $('stage').offsetWidth; $('stage').classList.add('shake'); }
+    if (r.ending) buzz([40, 60, 40, 60]); else if (kinds.has('betrayal')) buzz([30, 40, 30]); else if (kinds.has('secret')) buzz(20);
     if (r.ending) play('ending');
     else if (kinds.has('betrayal')) play('betrayal');
     else if (kinds.has('secret') || r.secrets?.length) play('secret');
@@ -348,7 +369,7 @@ function showSummary() {
 
 async function shareResult() {
   const s = app.state, sum = buildSummary(s, app.content);
-  const text = `48: Laws of Power. ${sum.ending.title}. ${sum.turns} turns as ${sum.rank}, ${sum.style.top ? STYLES[sum.style.top].label.toLowerCase() : 'unreadable'} style, objective ${sum.objective.status === 'done' ? 'achieved' : 'missed'}.${s.daily ? ` Today's court (${s.daily}).` : ''}`;
+  const text = `48: Laws of Power. ${sum.ending.title}. ${sum.turns} turns as ${sum.rank}, ${sum.style.top ? STYLES[sum.style.top].label.toLowerCase() : 'unreadable'} style, secret goal ${sum.objective.status === 'done' ? 'done' : 'missed'}.${s.daily ? ` Today's court (${s.daily}).` : ''}`;
   const btn = $('btn-sum-share');
   try {
     if (navigator.share) await navigator.share({ text });
@@ -375,12 +396,13 @@ function onKey(e) {
 let panelStack = [];
 const PANELS = {
   menu: { title: 'Paused', render: () => menuHTML() },
-  dossier: { title: 'Character Dossier', render: () => (app.state ? dossierHTML(app.state) : '<p>Start a reign to build a dossier.</p>') },
-  chronicle: { title: 'Reign Chronicle', render: () => chronicleHTML(app.state) },
-  objective: { title: 'Secret Objective', render: () => objectiveHTML(app.state, app.content) },
-  codex: { title: 'Codex', render: () => codexHTML(app.meta, app.codexTab) },
+  dossier: { title: 'People at Court', render: () => (app.state ? dossierHTML(app.state) : '<p>Start a reign to meet people.</p>') },
+  chronicle: { title: 'Your Choices', render: () => chronicleHTML(app.state) },
+  objective: { title: 'Secret Goal', render: () => objectiveHTML(app.state, app.content) },
+  codex: { title: 'Notebook', render: () => codexHTML(app.meta, app.codexTab) },
   settings: { title: 'Settings', render: () => settingsHTML(app.settings, !!app.state && !app.state.ending && !$('screen-game').hidden, { canInstall: canInstall(), standalone: isStandalone(), ios: isIOS() }) },
-  newreign: { title: 'A New Reign', render: () => newReignHTML(app.meta, app.bg && unlockedBackgrounds(app.meta).some(b => b.id === app.bg) ? app.bg : BACKGROUNDS[0].id) },
+  newreign: { title: 'A New Reign', render: () => newReignHTML(app.meta, app.bg && unlockedBackgrounds(app.meta).some(b => b.id === app.bg) ? app.bg : BACKGROUNDS[0].id), foot: newReignFoot },
+  exit: { title: 'See you soon', render: exitHTML, foot: exitFoot },
 };
 
 function openPanel(name, { push = true } = {}) {
@@ -389,6 +411,8 @@ function openPanel(name, { push = true } = {}) {
   if (push) panelStack.push(name); 
   $('dlg-title').textContent = p.title;
   $('dlg-body').innerHTML = p.render();
+  $('dlg-foot').hidden = !p.foot; $('dlg-foot').innerHTML = p.foot ? p.foot() : '';
+  const fs = $('dlg-body').querySelector('#fs-toggle'); if (fs) { fs.hidden = !canFullscreen(); fs.textContent = isFullscreen() ? 'Leave full screen' : 'Go full screen'; }
   $('dlg-back').hidden = panelStack.length < 2;
   if (!$('dlg').open) $('dlg').showModal();
   $('dlg-body').scrollTop = 0;
@@ -404,13 +428,16 @@ async function onPanelClick(e) {
   else if (a === 'open-panel') openPanel(t.dataset.panel);
   else if (a === 'codex-tab') { app.codexTab = t.dataset.tab; openPanel('codex', { push: false }); $('dlg-body').querySelector('[aria-selected="true"]')?.focus(); }
   else if (a === 'install-app') { await promptInstall(); if ($('dlg').open && panelStack[panelStack.length - 1] === 'settings') openPanel('settings', { push: false }); }
+  else if (a === 'toggle-fullscreen') { if (isFullscreen()) await leaveFullscreen(); else await enterFullscreen(); openPanel('menu', { push: false }); }
+  else if (a === 'exit-game') { closePanel(); exitGame(); }
+  else if (a === 'resume-from-exit') closePanel();
   else if (a === 'to-title') { closePanel(); showTitle(); }
   else if (a === 'begin-reign') { const sel = $('dlg-body').querySelector('input[name="bg"]:checked'); closePanel(); startReign(sel ? sel.value : BACKGROUNDS[0].id); }
   else if (a === 'restart-reign') {
-    if (await confirmDialog({ title: 'Restart this reign?', text: 'The current reign will end without an ending and a new one will begin with the same background.', ok: 'Restart reign' })) { closePanel(); startReign(app.state.background); }
+    if (await confirmDialog({ title: 'Restart this reign?', text: 'This reign will end with no ending. A new one will start with the same background.', ok: 'Restart reign' })) { closePanel(); startReign(app.state.background); }
   } else if (a === 'erase-all') {
-    if (await confirmDialog({ title: 'Erase everything?', text: 'This permanently deletes your current reign, Codex discoveries, achievements and unlocks from this browser. This cannot be undone.', ok: 'Erase all progress' })) {
-      clearAll(); app.meta = loadMeta(); app.settings = loadSettings(); app.state = null; applySettings(); closePanel(); showTitle('All saved progress has been erased.');
+    if (await confirmDialog({ title: 'Erase everything?', text: 'This deletes your reign, notebook, awards and new starts from this device for good. You cannot undo it.', ok: 'Erase all progress' })) {
+      clearAll(); app.meta = loadMeta(); app.settings = loadSettings(); app.state = null; applySettings(); closePanel(); showTitle('Everything you saved was erased.');
     }
   }
 }

@@ -1,0 +1,231 @@
+{
+ "council_seat": {
+  "title": "THE EMPTY CHAIR",
+  "text": "A seat on the council is empty. Dorne wants a popular merchant's widow. Varen wants his nephew, who is very polite and has never had an opinion. The vote will be close, and your vote decides it.",
+  "left": { "label": "Back Dorne's widow", "result": "The widow takes the chair and promptly votes against everyone, which the public enjoys." },
+  "right": { "label": "Back Varen's nephew", "result": "The nephew takes the chair and many notes. Varen is happy with both." },
+  "lesson": {
+   "left": "Choosing between two people that others picked is never a free choice. Whoever made the short list already shaped the result.",
+   "right": "Backing the safe name buys a quiet friend and a louder enemy. The seat you fill also fills a rival's book of favours."
+  }
+ },
+ "spy_in_house": {
+  "title": "A LISTENING SERVANT",
+  "text": "'Your second footman reports to someone,' says Ysolde, not unkindly. 'Not to me. I have standards.' He has served you well for a year, and he repeats every word you say at supper. Someone badly wants those words.",
+  "left": { "label": "Feed him false news", "result": "For two weeks your rivals chase a plot that does not exist. The footman gets a raise, which pleases him." },
+  "right": { "label": "Send him away quietly", "result": "He leaves with a good letter and a worried look. Whoever hired him must now find someone new." },
+  "lesson": {
+   "left": "A spy you know about is a tool. The danger is that your rivals may notice the odd coincidences.",
+   "right": "Removing the spy is safe. It also tells everyone who was listening that you noticed."
+  }
+ },
+ "bridge_toll": {
+  "title": "THE BRIDGE TOLL",
+  "who": { "name": "The Bridge Keepers", "role": "Group of Workers" },
+  "text": "The river bridge is falling apart. The keepers offer two ways to pay for repairs. A toll that will anger every cart driver in the city. Or a tax on the guilds, which will anger the guilds. Pick whose anger to spend.",
+  "left": { "label": "Charge a toll", "result": "The bridge is fixed. Cart drivers write songs about the toll, none of them kind." },
+  "right": { "label": "Tax the guilds", "result": "The guilds pay, and they remember. The bridge is fixed, and it feels very much like their bridge now." }
+ },
+ "hunger_march": {
+  "title": "THE MARCH OF THE HUNGRY",
+  "text": "Ten thousand people are walking to the palace with bread sacks and Anselm's plan for change. Kovane wants the gates shut and the archers ready. Anselm walks at the front, with no weapon, and asks you to meet them on the steps.",
+  "left": { "label": "Meet them on the steps", "memo": "You went out to meet the march.", "result": "You speak for ten minutes and listen for an hour. They go home. Kovane does not forgive the risk." },
+  "right": { "label": "Shut the gates", "memo": "You shut the gates on the march.", "result": "The gates hold. The crowd stays outside all night, singing softly." },
+  "lesson": {
+   "left": "Walking out to meet the crowd shows nerve and gives up the safety of distance. It works when you can keep your word.",
+   "right": "Shut gates keep control tonight. They also show a hungry crowd exactly what the palace thinks of them."
+  }
+ },
+ "heir_tutor": {
+  "title": "THE KING ASKS A FAVOUR",
+  "text": "The old king asks if you will spend one evening a week with his grandson. The boy is ten and has outlasted four tutors. 'He will be king before he is ready,' says Aldric. 'I want him to learn to read a room.'",
+  "left": { "label": "Accept the lessons", "memo": "You agreed to teach the young heir.", "result": "The boy asks good questions, and a few you will remember for a long time." },
+  "right": { "label": "Say no, you are too busy", "result": "The king nods. Better and worse people have refused him. He looks thoughtfully out of the window." },
+  "lesson": {
+   "left": "Teaching a future king shapes who follows the old one. It also makes you the nearest person to blame if he disappoints.",
+   "right": "Saying no keeps your time free. It leaves the next king to learn from someone else."
+  }
+ },
+ "tavern_song": {
+  "title": "A SONG IN EVERY TAVERN",
+  "who": { "name": "A Travelling Singer", "role": "Maker of Songs" },
+  "text": "A song about you is sung in every tavern in the city. It is catchy. It gets many facts wrong, all in ways that make you look silly. The singer who wrote it will perform in the square tonight.",
+  "left": { "label": "Pay for a better song", "result": "Your song is better. People sing both. Your enemies sing the first one." },
+  "right": { "label": "Laugh and learn the chorus", "result": "You join in at the third verse. The tavern goes quiet, then roars. The song loses its sting." },
+  "lesson": {
+   "left": "Answering mockery with a better story spends money to win an argument you could have ignored.",
+   "right": "Joining the joke takes away its target. It works best when the joke is not true."
+  }
+ },
+ "rival_wedding": {
+  "title": "AN INVITATION IN GOLD",
+  "text": "Dorne's cousin is getting married, and the whole court will be there. So will the people who would like to see you with fewer friends. An invitation arrives in gold leaf. Saying no would be noticed. Going would be noticed more.",
+  "left": { "label": "Go, with a generous gift", "result": "You dance, you listen and you say very little. By midnight you know who owes whom." },
+  "right": { "label": "Send regrets and a small gift", "result": "Your empty seat is noticed, politely, by everyone. Dorne sends back a dry thank you." },
+  "lesson": {
+   "left": "Going to the right event costs money and buys news that nobody will sell you.",
+   "right": "Staying away avoids owing anyone. It also leaves the room to the people who are there."
+  }
+ },
+ "border_deserters": {
+  "title": "THREE RUNAWAYS",
+  "text": "Three soldiers walked off the northern wall in the night. They were caught on the road home. They say their pay has been late for six months. Kovane stands stiff. 'The law is clear, {t},' he says. 'I will do what you decide.'",
+  "left": { "label": "Follow the law", "result": "The sentence is carried out at dawn. The wall is fully guarded by evening, and very quiet." },
+  "right": { "label": "Forgive them and pay what is owed", "result": "The soldiers kneel. Kovane notices that his men now have a second person to thank." },
+  "lesson": {
+   "left": "Strict law keeps order and shows who decides. It does nothing about why they ran.",
+   "right": "Mercy and back pay deal with the cause. They also take some of the General's power with them."
+  }
+ },
+ "aubry_hospital": {
+  "title": "A ROOM FULL OF BEDS",
+  "text": "Dr. Aubry shows you a long room of empty beds, in a part of the city where fever is expected by autumn. 'A hospital costs money, and when it works you see nothing,' he says. 'I think that is why nobody builds them.'",
+  "left": { "label": "Pay for the hospital", "result": "The first winter is mild. Nobody thanks you, which is exactly how it works." },
+  "right": { "label": "Wait for the fever to prove the need", "result": "The fever comes in October. So do the funds, and so does Aubry's disappointment." },
+  "lesson": {
+   "left": "Spending on a problem that has not happened yet looks wasteful, until the day it saves you. It is a slow way to buy loyalty.",
+   "right": "Waiting for proof saves money and invites the very thing you wanted to avoid. It also costs you the trust of the one who warned you."
+  }
+ },
+ "isaura_tea": {
+  "title": "TEA WITH THE DOWAGER",
+  "text": "An invitation comes, in the same handwriting as the grey notes. Dowager Duchess Isaura meets you in a room full of clocks. 'You followed my carriage,' she says. 'I was rather pleased. Let us stop pretending and trade.'",
+  "left": { "label": "Trade secrets with her", "memo": "You traded secrets with the Dowager.", "result": "She tells you what Varen wants. You tell her something about yourself. Each of you thinks you got the better deal." },
+  "right": { "label": "Thank her and leave", "result": "Her smile does not change. For a moment, all the clocks agree on the time." },
+  "lesson": {
+   "left": "Trading secrets with a master of secrets is fair only if you can tell what she gave and what she kept.",
+   "right": "Leaving politely keeps you free. It tells her you cannot be bought with kind words. She will test that again."
+  }
+ },
+ "treasury_audit": {
+  "title": "BALDRIC'S SUMS",
+  "text": "Vask has found problems in the keeper of the money's accounts. Not theft, quite. Payments that happen to end up in Dorne's pockets by way of three charities. 'I only mention it,' says Vask, 'because a ruler would want to know before an enemy does.'",
+  "left": { "label": "Check the books quietly and say nothing", "result": "The charities become very careful. Dorne cannot tell whether she was noticed." },
+  "right": { "label": "Send Baldric away in public", "result": "The council applauds. Dorne does not. She looks at Vask, who is looking at his shoes." },
+  "lesson": {
+   "left": "A quiet hold works while nobody knows you have it. Once it is known, it becomes a threat.",
+   "right": "Punishing in public stops the wrong. It also gives a rival a complaint with a public face."
+  }
+ },
+ "quill_protocol": {
+  "title": "A QUESTION OF SEATS",
+  "text": "Quill is in despair. A visiting duke must be seated, and every seat insults someone. 'Lord Varen insists he sits first,' he whispers. 'The Duke insists on the window. Both are right. Neither knows the other is right.'",
+  "left": { "label": "Seat the Duke at the window", "result": "The Duke is charmed. Varen is seated exactly where the draught blows." },
+  "right": { "label": "Seat Varen at the head", "result": "Varen presides, beaming. The Duke eats his soup in the cold and is in a very good mood about it." }
+ },
+ "retire_offer": {
+  "title": "LEAVE WHILE THEY SAY PLEASE",
+  "text": "The king sees you alone. 'A barony in the north, a pension and my thanks, {t},' he says. 'Leave while they still say please. In my experience that season is very short.'",
+  "left": { "label": "Accept the retirement", "memo": "You accepted the king's offer to retire.", "result": "You kneel, you thank him, and you mean about half of it." },
+  "right": { "label": "Say no, with thanks", "result": "The king's smile is a very old one. 'Of course,' he says. 'Ambition is a kind of loyalty, I suppose.'" },
+  "lesson": {
+   "left": "Stepping away at the top turns a life of work into a good ending. Few who rise this high choose it.",
+   "right": "Staying means the next test is harder. And the one who offered you a way out has noted your answer."
+  }
+ },
+ "king_death": {
+  "title": "THE BELLS WILL NOT STOP",
+  "text": "The king is dead. The bells have not stopped. The heir is eleven and scared. The council is hungry. Every eye is on you as the steward asks who will rule the kingdom for the boy.",
+  "left": {
+   "label": "Take charge of the kingdom",
+   "memo": "You took charge of the kingdom.",
+   "branches": [
+    "Nobody moves to stop you. By dusk, the royal seal is on your desk.",
+    "The council says no, politely. A ship is arranged for you, and a pension, also politely.",
+    "You reach for the crown and find a dozen hands already on it."
+   ]
+  },
+  "right": {
+   "label": "Back the boy and guide him",
+   "memo": "You backed the young heir.",
+   "result": "The boy is crowned, and he holds your hand through the whole ceremony.",
+   "branches": [
+    "The boy is crowned. He looks for you in the crowd first, finds you, and takes a very deep breath.",
+    "The boy is crowned. In the gallery, a veiled figure is seen to nod once.",
+    "The boy is crowned. In the gallery, a veiled figure does not clap."
+   ]
+  },
+  "lesson": {
+   "left": "Taking the dead king's chair means being compared to him for the rest of your life, by everyone who loved or feared him.",
+   "right": "Ruling through the heir gives you power without the comparison. It also ties your fate to a child and to those who raise him."
+  }
+ },
+ "coalition_moves": {
+  "title": "FOUR CHAIRS, ONE DINNER",
+  "who": { "name": "A Scared Page", "role": "Messenger" },
+  "text": "A page slips you a folded note with no name. 'Four chairs, four grudges, one dinner. They meet tonight to split up your jobs.' Your enemies have stopped fighting each other. That is the most dangerous thing they could do.",
+  "left": {
+   "label": "Break the group: pay off its weakest link",
+   "memo": "You bought off one of the group against you.",
+   "branches": [
+    "You buy the angriest of them a lot of promises. The dinner is much quieter than planned.",
+    "You cannot afford them. They sense it, and the dinner becomes a vote."
+   ]
+  },
+  "right": {
+   "label": "Strike first at the loudest one",
+   "memo": "You struck first at the group against you.",
+   "branches": [
+    "Before dessert, their host is arrested. The others suddenly remember other plans.",
+    "Your guard is half a step slow. The group takes it as an invitation."
+   ]
+  },
+  "lesson": {
+   "left": "Pulling off the weakest link breaks a group cheaply, if you can pay. It fails when you are the one short of coin.",
+   "right": "Striking the loudest voice works only if your power survives being seen. A blow without strength makes the group stronger."
+  }
+ },
+ "coalition_strikes": {
+  "title": "THE EAST GATE",
+  "who": { "name": "The Captain of the Guard", "role": "Your Last Loyal Officer" },
+  "text": "The captain bursts in, out of breath. 'They have the east gate, {t}. Four noble houses, two hundred men. They want you gone by dawn, and alive if you are sensible.'",
+  "left": {
+   "label": "Stand and fight",
+   "branches": [
+    "More people stay loyal than the captain feared. By dawn, the gate is yours again.",
+    "The captain falls on the stairs. The rest of the guard remembers it has families."
+   ]
+  },
+  "right": { "label": "Ask for terms to give up", "result": "You leave by the harbour gate with a purse, a promise and your head." },
+  "lesson": {
+   "left": "A last stand works only if the friends and power were in place before the doors broke.",
+   "right": "Giving up on your own terms saves your life and loses everything else. It is the last move in a game you were already losing."
+  }
+ },
+ "final_session": {
+  "title": "THE COUNCIL HEARS YOUR STORY",
+  "who": { "name": "The Council Clerk", "role": "Keeper of the Record" },
+  "text": "The council meets to hear the story of your time at court. The clerk puts down the record book, and the room goes quiet in the way that means everyone has prepared something.",
+  "left": {
+   "label": "Tell your own story",
+   "result": "You speak well, and mostly truthfully. The room does the rest.",
+   "branches": ["Someone interrupts with receipts. Your record has more small notes than you remembered."]
+  },
+  "right": { "label": "Let the facts speak", "result": "You say little. The record says a great deal, and mostly good." },
+  "lesson": {
+   "left": "Telling your own story shapes how it is heard. A record with loose ends will be pulled apart.",
+   "right": "Letting results speak shows calm. It relies on others to read them fairly. A strong record needs fewer words."
+  }
+ },
+ "routine_petitions": {
+  "title": "THE MORNING AUDIENCE",
+  "who": { "name": "A Line of Petitioners", "role": "People of the Kingdom" },
+  "text": "The morning audience is long and dull. A fight over a fence. A lost pig. A request to rename a bridge. Each person leaves sure that you listened to them alone.",
+  "left": { "label": "Hear every case in full", "result": "Hours later, the bridge is called Merrow Bridge, and Merrow is very pleased." },
+  "right": { "label": "Let the clerks handle it", "result": "The clerks are quick. The petitioners are less impressed." }
+ },
+ "routine_envoy": {
+  "title": "THE DAY'S LETTERS",
+  "who": { "name": "A Visiting Priest", "role": "Bringer of Requests" },
+  "text": "A priest brings the day's letters with a face like a closed door. A bishop wants a window fixed. A duke wants an honour. A minor lord wants to be seen being forgiven for something.",
+  "left": { "label": "Give favours freely", "result": "A dozen small debts are made. You will not know which ones matter for months." },
+  "right": { "label": "Answer nobody until they ask twice", "result": "Half the letters are never asked about again. The other half are asked about very politely." }
+ },
+ "routine_gossip": {
+  "title": "IDLE TALK",
+  "who": { "name": "A Cheerful Lady-in-Waiting", "role": "Court Gossip" },
+  "text": "She pours tea and says nothing important for twenty minutes, which is exactly how you learn things. By the end you know who has argued, who is ill, and who is spending too much.",
+  "left": { "label": "Listen and learn", "result": "You use none of it. From now on you just notice who looks at whom." },
+  "right": { "label": "Change the subject", "result": "She laughs, delighted, and tells a different story instead." }
+ }
+}

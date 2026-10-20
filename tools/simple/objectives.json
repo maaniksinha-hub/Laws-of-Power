@@ -1,0 +1,24 @@
+{
+ "influence": { "title": "The Power in the Room", "brief": "Become the most powerful person at court.", "steps": ["Reach Chancellor or higher", "Keep your authority above 65", "Keep at least two real friends"] },
+ "conspiracy": { "title": "Light in the Dark", "brief": "Uncover a secret plot.", "steps": ["Uncover a plot"] },
+ "remove": { "title": "An Empty Chair", "brief": "Get {target} out of power.", "steps": ["{target} leaves court"] },
+ "alliances": { "title": "Friends Worth Having", "brief": "Win three true friends.", "steps": ["Three trusted friends at court"] },
+ "rich_trusted": { "title": "Gold Without Envy", "brief": "Get rich without being distrusted.", "steps": ["Resources above 70", "Loyalty at least 45", "Reputation at least 45"] },
+ "clean": { "title": "Clean Hands", "brief": "Last 25 turns without being betrayed.", "steps": ["Reach turn 26", "Not be betrayed"] },
+ "summit": { "title": "The Honest Summit", "brief": "Reach the highest office and keep a good name.", "steps": ["Become Regent", "Reputation at least 55"] },
+ "agendas": { "title": "Faces Behind Faces", "brief": "Learn what three people at court really want.", "steps": ["Learn three secret goals"] },
+ "unmask": { "title": "Who Pulls the Strings", "brief": "Find out who works in secret behind the throne.", "steps": ["Find the Veiled Patron"] },
+ "_achievements": {
+  "first_reign": { "title": "A Seat at the Table", "desc": "Finish your first reign." },
+  "survive25": { "title": "Long Enough to Matter", "desc": "Last 25 turns." },
+  "five_agendas": { "title": "Faces Behind Faces", "desc": "Learn five secret goals." },
+  "clean_reign": { "title": "Clean Hands", "desc": "Finish a full reign without being betrayed." },
+  "expose": { "title": "Daylight", "desc": "Uncover a secret plot." },
+  "lowauth": { "title": "Strength Without a Crown", "desc": "Win a showdown while your authority is low." },
+  "three_objectives": { "title": "A Patient Hand", "desc": "Finish three different secret goals." },
+  "endings3": { "title": "Many Roads", "desc": "Reach three different endings." },
+  "supreme": { "title": "The Royal Seal", "desc": "Rule the kingdom." },
+  "peaceful": { "title": "Leave While They Say Please", "desc": "Step down on your own terms." },
+  "unmasked": { "title": "Behind the Veil", "desc": "Find out who the Veiled Patron is." }
+ }
+}

@@ -141,7 +141,7 @@ test('refusing Varen is remembered and blocks the guard chain', () => {
   s.turn = 6; s.rank = 1; play(s, 'varen_guard', 'left');
   assert.ok(s.flags.varen_denied && !s.flags.varen_guard);
   assert.ok(!isEligible(s, EVENTS.rumour_meeting));
-  assert.ok(s.chars.varen.memory.some(m => /refused/i.test(m.text)));
+  assert.ok(s.chars.varen.memory.some(m => /said no/i.test(m.text)));
 });
 
 test('Chain: taking the loan makes Vask collect; paying with an empty treasury hurts further', () => {

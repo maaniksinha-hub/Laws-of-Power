@@ -79,8 +79,9 @@ export function speaker(state, ev) {
   return { id: ev.char, name, role, look: ev.who?.look ? { ...def.look, ...ev.who.look } : def?.look };
 }
 
-export const eventText = (state, ev) => fillTokens(pickText(ev.text, state), state, addressFor(state));
-export const choiceLabel = (state, ev, side) => fillTokens(pickText(ev[side].label, state), state, addressFor(state));
+const cap = t => t.replace(/^[a-z]/, c => c.toUpperCase());
+export const eventText = (state, ev) => cap(fillTokens(pickText(ev.text, state), state, addressFor(state)));
+export const choiceLabel = (state, ev, side) => cap(fillTokens(pickText(ev[side].label, state), state, addressFor(state)));
 
 // A one-line callback to an earlier decision, if one is still shaping this scene.
 export function echoText(state, ev) {

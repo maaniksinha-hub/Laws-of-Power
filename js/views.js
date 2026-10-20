@@ -23,8 +23,8 @@ export function meterIcon(key) { return `<svg aria-hidden="true"><use href="#i-$
 // ---------- dossier ----------
 export function dossierHTML(state) {
   const met = Object.keys(CHARACTERS).filter(id => !CHARACTERS[id].generic && state.chars[id].met);
-  if (!met.length) return '<p>You have not met anyone worth recording yet.</p>';
-  return `<p>What you know, and what you only think you know. Their private motives stay hidden until you uncover them.</p><div class="list">${met.map(id => dossierItem(state, id, met)).join('')}</div>`;
+  if (!met.length) return '<p>You have not met anyone yet.</p>';
+  return `<p>This is what you know about each person. Their secret goals stay hidden until you find them out.</p><div class="list">${met.map(id => dossierItem(state, id, met)).join('')}</div>`;
 }
 
 function dossierItem(state, id, met) {
@@ -41,12 +41,12 @@ function dossierItem(state, id, met) {
     <div>
       <h4>${esc(nameOf(state, id))}</h4>
       <div class="sub">${esc(id === 'isaura' && state.secrets.veiled_hand_identity ? def.realRole : c.role)}<br>${esc(def.archetype)}</div>
-      <p>${tag(STATUS_LABEL[c.status], c.status === 'court' ? '' : 'bad')}${c.status === 'court' ? tag(att.label + (att.masked ? '' : ''), att.tone === 'good' ? 'good' : att.tone === 'bad' ? 'bad' : '') : ''}${c.agendaKnown ? tag('Agenda known', 'gold') : ''}</p>
-      <p><b>Stated aim:</b> ${esc(def.publicGoal)}</p>
-      ${agenda ? `<p><b>Hidden aim:</b> ${esc(agenda)}</p>` : '<p><b>Hidden aim:</b> Unknown.</p>'}
+      <p>${tag(STATUS_LABEL[c.status], c.status === 'court' ? '' : 'bad')}${c.status === 'court' ? tag(att.label + (att.masked ? '' : ''), att.tone === 'good' ? 'good' : att.tone === 'bad' ? 'bad' : '') : ''}${c.agendaKnown ? tag('Secret goal known', 'gold') : ''}</p>
+      <p><b>Says they want:</b> ${esc(def.publicGoal)}</p>
+      ${agenda ? `<p><b>Secret goal:</b> ${esc(agenda)}</p>` : '<p><b>Secret goal:</b> Unknown.</p>'}
       ${clues.length ? `<h3>Clues</h3><ul class="plain">${clues.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
       ${secretLines.length ? `<h3>Known facts</h3><ul class="plain">${secretLines.join('')}</ul>` : ''}
-      ${rels.length ? `<h3>Ties</h3><ul class="plain">${rels.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}
+      ${rels.length ? `<h3>Links</h3><ul class="plain">${rels.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}
       ${mem.length ? `<h3>Remembers</h3><ul class="plain">${mem.join('')}</ul>` : ''}
     </div></article>`;
 }
@@ -55,9 +55,9 @@ function relLine(state, a, b) {
   const r = state.relations[relKey(a, b)];
   if (!r || !(r.public || r.allianceKnown)) return null;
   const n = CHARACTERS[b].short;
-  if (r.alliance && r.allianceKnown) return `Secretly allied with ${n}.`;
+  if (r.alliance && r.allianceKnown) return `Secretly works with ${n}.`;
   if (r.rivalry >= 40) return `Rivals with ${n}.`;
-  if (r.benefit >= 40 || r.obligation >= 40) return `Bound to ${n} by mutual interest.`;
+  if (r.benefit >= 40 || r.obligation >= 40) return `Helps ${n} and gets help in return.`;
   if (r.trust >= 35) return `On good terms with ${n}.`;
   return null;
 }
@@ -70,28 +70,28 @@ export function chronicleHTML(state) {
 
 export function objectiveHTML(state, content) {
   const v = objectiveView(state, content.objectives);
-  if (!v) return '<p>No objective.</p>';
-  const status = { active: 'In progress', done: 'Achieved', failed: 'Failed' }[v.status];
-  return `<p>Only you know this. Nobody at court has been told, and nobody should guess.</p><article class="item"><h4>${esc(v.title)}</h4><p>${esc(v.brief)}</p>${tag(status, v.status === 'done' ? 'good' : v.status === 'failed' ? 'bad' : 'gold')}${v.final ? tag('Judged at the end of the reign') : ''}<ul class="plain">${v.steps.map(s => `<li>${s.done ? '&#10003; ' : '&#9675; '}${esc(s.label)}${s.done ? ' <span class="sub">(done now)</span>' : ''}</li>`).join('')}</ul></article>`;
+  if (!v) return '<p>No secret goal.</p>';
+  const status = { active: 'In progress', done: 'Done', failed: 'Failed' }[v.status];
+  return `<p>Only you know this. Nobody at court knows your goal.</p><article class="item"><h4>${esc(v.title)}</h4><p>${esc(v.brief)}</p>${tag(status, v.status === 'done' ? 'good' : v.status === 'failed' ? 'bad' : 'gold')}${v.final ? tag('Checked at the end of the reign') : ''}<ul class="plain">${v.steps.map(s => `<li>${s.done ? '&#10003; ' : '&#9675; '}${esc(s.label)}${s.done ? ' <span class="sub">(done now)</span>' : ''}</li>`).join('')}</ul></article>`;
 }
 
 // ---------- codex ----------
-export const CODEX_TABS = [['laws', 'Laws'], ['characters', 'Characters'], ['stories', 'Stories'], ['endings', 'Endings'], ['achievements', 'Achievements'], ['unlocks', 'Unlocks']];
+export const CODEX_TABS = [['laws', 'Laws'], ['characters', 'People'], ['stories', 'Stories'], ['endings', 'Endings'], ['achievements', 'Awards'], ['unlocks', 'New starts']];
 
 export function codexHTML(meta, tab) {
-  const tabs = `<div class="tabs" role="tablist" aria-label="Codex sections">${CODEX_TABS.map(([k, l]) => `<button class="tab" role="tab" data-action="codex-tab" data-tab="${k}" aria-selected="${k === tab}" tabindex="${k === tab ? 0 : -1}">${l}</button>`).join('')}</div>`;
+  const tabs = `<div class="tabs" role="tablist" aria-label="Notebook sections">${CODEX_TABS.map(([k, l]) => `<button class="tab" role="tab" data-action="codex-tab" data-tab="${k}" aria-selected="${k === tab}" tabindex="${k === tab ? 0 : -1}">${l}</button>`).join('')}</div>`;
   return tabs + `<div role="tabpanel" class="list">${codexTab(meta, tab)}</div>`;
 }
 
 function codexTab(meta, tab) {
   if (tab === 'laws') {
     const found = LAWS.filter(l => meta.laws[l.id]).length;
-    const head = `<p>${found} of 48 laws discovered. Each is revealed by living through a situation that shows it, never before.</p>`;
+    const head = `<p>${found} of 48 laws found. You learn each one only after a moment in the game shows it.</p>`;
     const cards = LAWS.map(l => {
-      if (!meta.laws[l.id]) return `<article class="item locked"><h4>Law <span class="num">${l.n}</span></h4><p class="sub">Not yet discovered.</p></article>`;
+      if (!meta.laws[l.id]) return `<article class="item locked"><h4>Law <span class="num">${l.n}</span></h4><p class="sub">Not found yet.</p></article>`;
       const seen = EVENT_LIST.filter(e => e.lesson?.law === l.n && meta.events[e.id]).map(e => e.title);
-      return `<article class="item"><div class="sub">Law <span class="num">${l.n}</span>, met ${meta.laws[l.id].count} time${meta.laws[l.id].count > 1 ? "s" : ""}</div><h4>${esc(l.title)}</h4>
-        <p><b>Principle.</b> ${esc(l.principle)}</p><p><b>Useful when / failure mode.</b> ${esc(l.risk)}</p><p><b>In practice.</b> ${esc(l.application)}</p><p><b>Spotting it used on you.</b> ${esc(l.defense)}</p>
+      return `<article class="item"><div class="sub">Law <span class="num">${l.n}</span>. Seen ${meta.laws[l.id].count} time${meta.laws[l.id].count > 1 ? "s" : ""}</div><h4>${esc(l.plain)}</h4>
+        <p><b>The idea.</b> ${esc(l.principle)}</p><p><b>When it helps and when it hurts.</b> ${esc(l.risk)}</p><p><b>How to use it.</b> ${esc(l.application)}</p><p><b>If someone uses it on you.</b> ${esc(l.defense)}</p><p class="sub">Book title: ${esc(l.title)}</p>
         <div>${l.clusters.map(c => tag(c)).join('')}</div>${seen.length ? `<p class="sub">Seen in: ${esc(seen.join(', '))}</p>` : ''}</article>`;
     }).join('');
     const foot = `<p class="sub">${esc(LAWS_SOURCE.note)}</p>`;
@@ -101,21 +101,21 @@ function codexTab(meta, tab) {
     const ids = Object.keys(CHARACTERS).filter(id => !CHARACTERS[id].generic);
     return ids.map(id => {
       const d = CHARACTERS[id];
-      if (!meta.chars[id]) return `<article class="item locked"><h4>Unknown figure</h4><p class="sub">Not yet met.</p></article>`;
+      if (!meta.chars[id]) return `<article class="item locked"><h4>Unknown person</h4><p class="sub">Not yet met.</p></article>`;
       const texts = Object.keys(meta.agendaTexts[id] || {}).map(v => d.variants.find(x => x.id === v)?.hidden).filter(Boolean);
-      return `<article class="item char-row"><div class="pt">${portraitSVG(d.look, { label: d.name })}</div><div><h4>${esc(meta.secrets.veiled_hand_identity && d.realName ? d.realName : d.name)}</h4><div class="sub">${esc(d.archetype)}</div><p>${esc(d.bio)}</p>${texts.length ? `<h3>Agendas uncovered</h3><ul class="plain">${texts.map(t => `<li>${esc(t)}</li>`).join('')}</ul><p class="sub">Agendas differ between reigns. The same face is not always the same person.</p>` : '<p class="sub">No agenda uncovered yet.</p>'}</div></article>`;
+      return `<article class="item char-row"><div class="pt">${portraitSVG(d.look, { label: d.name })}</div><div><h4>${esc(meta.secrets.veiled_hand_identity && d.realName ? d.realName : d.name)}</h4><div class="sub">${esc(d.archetype)}</div><p>${esc(d.bio)}</p>${texts.length ? `<h3>Secret goals you found</h3><ul class="plain">${texts.map(t => `<li>${esc(t)}</li>`).join('')}</ul><p class="sub">Secret goals change from reign to reign. The same face is not always the same person.</p>` : '<p class="sub">No secret goal found yet.</p>'}</div></article>`;
     }).join('');
   }
   if (tab === 'stories') {
     const list = Object.entries(meta.stories);
-    if (!list.length) return '<p>The major turning points of your reigns will be recorded here.</p>';
+    if (!list.length) return '<p>The big turning points of your reigns will show here.</p>';
     return list.map(([id, s]) => `<article class="item"><div class="sub">Reign ${s.reign}</div><h4>${esc(s.title)}</h4></article>`).join('');
   }
   if (tab === 'endings') {
     const found = ENDINGS.filter(e => meta.endings[e.id]).length;
     return `<p>${found} of ${ENDINGS.length} endings found.</p>` + ENDINGS.map(e => meta.endings[e.id]
-      ? `<article class="item"><div class="sub">${esc(e.kind)} reached ${meta.endings[e.id]} time${meta.endings[e.id] > 1 ? 's' : ''}</div><h4>${esc(e.title)}</h4><p><em>${esc(e.epitaph)}</em></p></article>`
-      : `<article class="item locked"><h4>? ? ?</h4><p class="sub">An ending you have not yet reached.</p></article>`).join('');
+      ? `<article class="item"><div class="sub">${esc({ triumph: 'Good ending', fall: 'Bad ending', neutral: 'Mixed ending' }[e.kind])}, reached ${meta.endings[e.id]} time${meta.endings[e.id] > 1 ? 's' : ''}</div><h4>${esc(e.title)}</h4><p><em>${esc(e.epitaph)}</em></p></article>`
+      : `<article class="item locked"><h4>? ? ?</h4><p class="sub">An ending you have not reached yet.</p></article>`).join('');
   }
   if (tab === 'achievements') {
     return ACHIEVEMENTS.map(a => `<article class="item ${meta.achievements[a.id] ? '' : 'locked'}"><h4>${esc(a.title)} ${meta.achievements[a.id] ? tag('Earned', 'good') : ''}</h4><p>${esc(a.desc)}</p></article>`).join('');
@@ -129,40 +129,50 @@ function codexTab(meta, tab) {
 // ---------- settings / menu / new reign ----------
 export function settingsHTML(settings, hasReign, pwa = {}) {
   return `
-  <label class="field"><span>Sound effects<small>Small generated tones. Nothing plays until you act.</small></span><input class="switch" type="checkbox" data-setting="sound" ${settings.sound ? 'checked' : ''}></label>
-  <label class="field"><span>Motion<small>Auto follows your system's reduced-motion setting.</small></span>
-    <select data-setting="motion" aria-label="Motion"><option value="auto" ${settings.motion === 'auto' ? 'selected' : ''}>Auto</option><option value="reduce" ${settings.motion === 'reduce' ? 'selected' : ''}>Reduced</option><option value="full" ${settings.motion === 'full' ? 'selected' : ''}>Full</option></select></label>
-  <label class="field"><span>Show exact meter values<small>Off by default so you act on feel, not arithmetic.</small></span><input class="switch" type="checkbox" data-setting="showValues" ${settings.showValues ? 'checked' : ''}></label>
-  <label class="field"><span>Show affected meters while dragging<small>Small dots mark which meters a choice touches, never by how much.</small></span><input class="switch" type="checkbox" data-setting="hintDots" ${settings.hintDots ? 'checked' : ''}></label>
-  <label class="field"><span>Control hints<small>Shows swipe and keyboard reminders under the card.</small></span><input class="switch" type="checkbox" data-setting="hints" ${settings.hints ? 'checked' : ''}></label>
+  <label class="field"><span>Sound effects<small>Small tones made by the game. Nothing plays until you act.</small></span><input class="switch" type="checkbox" data-setting="sound" ${settings.sound ? 'checked' : ''}></label>
+  <label class="field"><span>Motion<small>Auto follows your phone's setting for less motion.</small></span>
+    <select data-setting="motion" aria-label="Motion"><option value="auto" ${settings.motion === 'auto' ? 'selected' : ''}>Auto</option><option value="reduce" ${settings.motion === 'reduce' ? 'selected' : ''}>Less</option><option value="full" ${settings.motion === 'full' ? 'selected' : ''}>Full</option></select></label>
+  <label class="field"><span>Show exact meter values<small>Off by default, so you go by feel and not by numbers.</small></span><input class="switch" type="checkbox" data-setting="showValues" ${settings.showValues ? 'checked' : ''}></label>
+  <label class="field"><span>Show affected meters while dragging<small>Small dots show which meters a choice changes, but not by how much.</small></span><input class="switch" type="checkbox" data-setting="hintDots" ${settings.hintDots ? 'checked' : ''}></label>
+  <label class="field"><span>Go full screen when a reign starts<small>Hides the browser bars so only the game shows.</small></span><input class="switch" type="checkbox" data-setting="autoFullscreen" ${settings.autoFullscreen ? 'checked' : ''}></label>
+  <label class="field"><span>Keep the screen on<small>Stops your phone from going to sleep while you play.</small></span><input class="switch" type="checkbox" data-setting="keepAwake" ${settings.keepAwake ? 'checked' : ''}></label>
+  <label class="field"><span>Vibration<small>A small buzz when you choose, and a bigger one for big moments.</small></span><input class="switch" type="checkbox" data-setting="vibrate" ${settings.vibrate ? 'checked' : ''}></label>
+  <label class="field"><span>Control hints<small>Shows swipe and key reminders under the card.</small></span><input class="switch" type="checkbox" data-setting="hints" ${settings.hints ? 'checked' : ''}></label>
   <h3>Install</h3>
-  ${pwa.standalone ? '<p class="sub">You are playing the installed app.</p>' : pwa.canInstall ? '<button class="btn" data-action="install-app">Install app</button><p class="sub">Adds 48 to your home screen and works offline.</p>' : pwa.ios ? '<p class="sub">To install: tap Share, then Add to Home Screen.</p>' : '<p class="sub">Use your browser menu (Install app or Add to Home Screen) to install. The game already works offline once loaded.</p>'}
-  <h3>Reign and progress</h3>
+  ${pwa.standalone ? '<p class="sub">You are playing the installed app.</p>' : pwa.canInstall ? '<button class="btn" data-action="install-app">Install app</button><p class="sub">Adds 48 to your home screen and works offline.</p>' : pwa.ios ? '<p class="sub">To install: tap Share, then Add to Home Screen.</p>' : '<p class="sub">To install, use your browser menu and choose Install app or Add to Home Screen. Once the game has loaded, it works without internet.</p>'}
+  <h3>Your game</h3>
   ${hasReign ? '<button class="btn" data-action="restart-reign">Restart this reign</button>' : ''}
   <button class="btn danger" data-action="erase-all">Erase all saved progress</button>
-  <p class="sub">Your reign, codex discoveries, unlocks and achievements are stored only in this browser.</p>`;
+  <p class="sub">Your reign, notebook, new starts and awards are saved only on this device.</p>`;
 }
 
 export function menuHTML() {
   return `<div class="menu-list">
     <button class="btn primary" data-action="resume">Resume reign</button>
-    <button class="btn" data-action="open-panel" data-panel="objective">View secret objective</button>
-    <button class="btn" data-action="open-panel" data-panel="dossier">View dossier</button>
-    <button class="btn" data-action="open-panel" data-panel="chronicle">View chronicle</button>
-    <button class="btn" data-action="open-panel" data-panel="codex">Open Codex</button>
+    <button class="btn" data-action="open-panel" data-panel="objective">View secret goal</button>
+    <button class="btn" data-action="open-panel" data-panel="dossier">View people</button>
+    <button class="btn" data-action="open-panel" data-panel="chronicle">View your choices</button>
+    <button class="btn" data-action="open-panel" data-panel="codex">Open notebook</button>
     <button class="btn" data-action="open-panel" data-panel="settings">Open settings</button>
-    <button class="btn" data-action="to-title">Save and return to title</button>
+    <button class="btn" data-action="to-title">Save and go to the title</button>
+    <button class="btn" data-action="toggle-fullscreen" id="fs-toggle">Go full screen</button>
+    <button class="btn danger" data-action="exit-game">Exit game</button>
   </div>`;
 }
 
 export function newReignHTML(meta, selected) {
-  return `<p>Choose how you arrive at court. Your secret objective is assigned by fate, and the court's hidden motives are rolled fresh every reign.</p>
-  <div class="list" role="radiogroup" aria-label="Starting background">${BACKGROUNDS.map(b => {
+  return `<p>Choose how you arrive at court. Your secret goal is picked for you. Each reign, people at court get new secret goals too.</p>
+  <div class="list" role="radiogroup" aria-label="Where you start">${BACKGROUNDS.map(b => {
     const ok = isBackgroundUnlocked(meta, b);
     return `<label class="bg-opt ${ok ? '' : 'locked'}"><input type="radio" name="bg" value="${b.id}" ${ok ? '' : 'disabled'} ${b.id === selected ? 'checked' : ''}><span><b>${esc(b.name)}</b> ${ok ? '' : tag('Locked', 'bad')}<p>${esc(b.desc)}</p>${ok ? '' : `<p class="sub">${esc(b.unlock.text)}</p>`}</span></label>`;
-  }).join('')}</div>
-  <button class="btn primary wide" data-action="begin-reign">Begin the reign</button>`;
+  }).join('')}</div>`;
 }
+export const newReignFoot = () => '<button class="btn primary wide" data-action="begin-reign">Begin the reign</button>';
+
+export function exitHTML() {
+  return '<p>Your game is saved. You can close the app now.</p><p class="sub">If the app does not close, use your phone\'s home button or back gesture.</p>';
+}
+export const exitFoot = () => '<button class="btn wide" data-action="resume-from-exit">Go back to the game</button>';
 
 // ---------- reign summary ----------
 export function summaryHTML(state, content, fresh = []) {
@@ -170,23 +180,23 @@ export function summaryHTML(state, content, fresh = []) {
   const e = s.ending;
   const name = id => esc(nameOf(state, id));
   const obj = s.objective;
-  const objStatus = obj.status === 'done' ? 'Achieved' : 'Not achieved';
+  const objStatus = obj.status === 'done' ? 'Done' : 'Not done';
   const how = obj.steps.map(st => `${st.done ? '&#10003;' : '&#10007;'} ${esc(st.label)}`).join(' &nbsp; ');
   return `<div class="sum-inner">
-    <header class="sum-hero"><div class="kind ${e.kind === 'fall' ? 'fall' : ''}" id="sum-kind">${esc({ triumph: 'Triumph', fall: 'Downfall', neutral: 'An ending' }[e.kind])}</div>
+    <header class="sum-hero"><div class="kind ${e.kind === 'fall' ? 'fall' : ''}" id="sum-kind">${esc({ triumph: 'A big win', fall: 'A fall', neutral: 'The end' }[e.kind])}</div>
       <h1 id="sum-title" tabindex="-1">${esc(e.title)}</h1><p class="epitaph">${esc(e.epitaph)}</p><p class="story">${esc(e.text)}</p></header>
-    <div class="kv"><div><b>${s.turns}</b><span>Turns survived</span></div><div><b>${esc(s.rank)}</b><span>Highest rank</span></div><div><b>${s.betrayals.length}</b><span>Betrayals</span></div><div><b>${s.secrets.length}</b><span>Secrets found</span></div></div>
+    <div class="kv"><div><b>${s.turns}</b><span>Turns you lasted</span></div><div><b>${esc(s.rank)}</b><span>Highest rank</span></div><div><b>${s.betrayals.length}</b><span>Betrayals</span></div><div><b>${s.secrets.length}</b><span>Secrets found</span></div></div>
     <div class="final-meters">${METERS.map(m => `<div><b>${s.meters[m]}</b>${esc(METER_INFO[m].label)}</div>`).join('')}</div>
     ${timelineHTML(state)}
-    <section class="sum-sec"><h2>Secret objective</h2><p><b>${esc(obj.title)}</b>: ${esc(obj.brief)} ${tag(objStatus, obj.status === 'done' ? 'good' : 'bad')}</p><p class="sub">${how}</p></section>
-    ${s.majorDecisions.length ? `<section class="sum-sec"><h2>Decisions that mattered</h2><ul class="plain">${s.majorDecisions.map(h => `<li><b>${esc(h.title)}</b> (turn ${h.turn}): ${esc(h.label)}.</li>`).join('')}</ul></section>` : ''}
-    <section class="sum-sec"><h2>Allies and enemies</h2><p>${s.allies.length ? 'Still at your side: ' + s.allies.map(name).join(', ') + '.' : 'Nobody was at your side at the end.'} ${s.enemies.length ? ' Against you: ' + s.enemies.map(name).join(', ') + '.' : ''} ${s.departed.length ? ' Gone from court: ' + s.departed.map(d => `${name(d.id)} (${esc(STATUS_LABEL[d.status].toLowerCase())})`).join(', ') + '.' : ''}</p></section>
+    <section class="sum-sec"><h2>Your secret goal</h2><p><b>${esc(obj.title)}</b>: ${esc(obj.brief)} ${tag(objStatus, obj.status === 'done' ? 'good' : 'bad')}</p><p class="sub">${how}</p></section>
+    ${s.majorDecisions.length ? `<section class="sum-sec"><h2>Choices that mattered</h2><ul class="plain">${s.majorDecisions.map(h => `<li><b>${esc(h.title)}</b> (turn ${h.turn}): ${esc(h.label)}.</li>`).join('')}</ul></section>` : ''}
+    <section class="sum-sec"><h2>Friends and enemies</h2><p>${s.allies.length ? 'Still at your side: ' + s.allies.map(name).join(', ') + '.' : 'Nobody was at your side at the end.'} ${s.enemies.length ? ' Against you: ' + s.enemies.map(name).join(', ') + '.' : ''} ${s.departed.length ? ' Gone from court: ' + s.departed.map(d => `${name(d.id)} (${esc(STATUS_LABEL[d.status].toLowerCase())})`).join(', ') + '.' : ''}</p></section>
     ${s.betrayals.length ? `<section class="sum-sec"><h2>Betrayals</h2><ul class="plain">${s.betrayals.map(b => `<li>Turn ${b.turn}: ${esc(b.text)}</li>`).join('')}</ul></section>` : ''}
-    ${s.secrets.length ? `<section class="sum-sec"><h2>Secrets discovered</h2><ul class="plain">${s.secrets.map(id => `<li>${esc(getSecret(id).title)}</li>`).join('')}</ul></section>` : ''}
-    ${s.laws.length ? `<section class="sum-sec"><h2>Principles you met</h2><p>${s.laws.map(id => esc(LAWS.find(l => l.id === id).title)).join('; ')}.</p><p class="sub">Open the Codex for the full notes.</p></section>` : ''}
-    <section class="sum-sec"><h2>Your strategic style</h2><p>${esc(s.style.text)}</p></section>
-    ${fresh.length ? `<section class="sum-sec"><h2>Achievements</h2>${fresh.map(a => `<div class="ach"><b>${esc(a.title)}</b>: ${esc(a.desc)}</div>`).join('')}</section>` : ''}
-    <div class="sum-actions"><button class="btn primary" id="btn-sum-new">Begin another reign</button><button class="btn" id="btn-sum-codex">Open the Codex</button><button class="btn" id="btn-sum-share">Share this reign</button><button class="btn" id="btn-sum-title">Return to title</button></div>
+    ${s.secrets.length ? `<section class="sum-sec"><h2>Secrets you found</h2><ul class="plain">${s.secrets.map(id => `<li>${esc(getSecret(id).title)}</li>`).join('')}</ul></section>` : ''}
+    ${s.laws.length ? `<section class="sum-sec"><h2>Laws you met</h2><p>${s.laws.map(id => esc(LAWS.find(l => l.id === id).plain)).join('; ')}.</p><p class="sub">Open the notebook to read more.</p></section>` : ''}
+    <section class="sum-sec"><h2>Your style</h2><p>${esc(s.style.text)}</p></section>
+    ${fresh.length ? `<section class="sum-sec"><h2>New awards</h2>${fresh.map(a => `<div class="ach"><b>${esc(a.title)}</b>: ${esc(a.desc)}</div>`).join('')}</section>` : ''}
+    <div class="sum-actions"><button class="btn primary" id="btn-sum-new">Begin another reign</button><button class="btn" id="btn-sum-codex">Open the notebook</button><button class="btn" id="btn-sum-share">Share this reign</button><button class="btn" id="btn-sum-title">Go to the title</button></div>
   </div>`;
 }
 
