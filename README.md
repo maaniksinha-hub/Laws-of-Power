@@ -83,6 +83,7 @@ data/
   echoes.js              one-line callbacks to earlier decisions
   achievements.js        achievements          world.js     meters, ranks, backgrounds, pressures
 fonts/                   IM Fell English (OFL), bundled locally
+icons/                   app icons (192/512, maskable, Apple touch, favicon); manifest.webmanifest, sw.js at the root
 references/              companion PDF, notes (see references/README.md)
 tools/                   build-laws.mjs, verify-laws.mjs, sim.mjs
 tests/                   node:test suites + browser smoke test
@@ -94,9 +95,9 @@ Content is data; the engine contains no scenario-specific logic. Rendering never
 ## Tests
 
 ```bash
-npm test             # 124 logic tests (node:test): meters, crises, eligibility, flags, repetition, relationships,
+npm test             # 129 logic tests (node:test): meters, crises, eligibility, flags, repetition, relationships,
                      #   secrets, objectives, endings, save/load/corruption, content integrity, scripted + 200 random reigns
-npm run test:smoke   # 27-step browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
+npm run test:smoke   # 29-step browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
                      #   panels, every card × both choices, full reigns to the summary, 5 viewports, accessibility basics
 node tools/sim.mjs 400 random   # balance report: endings, objective rates, events never seen
 ```
@@ -186,6 +187,19 @@ variant list). Higher priority is checked first. `forced` endings are reached vi
 Saves are versioned (`SAVE_VERSION` in `js/state.js`). When you change the state shape, bump it and add a migration to
 `MIGRATIONS` in `js/saveManager.js`; saves that cannot be migrated or fail validation are set aside with a notice and the
 Codex is kept.
+
+## Install it (PWA)
+
+The game is an installable, offline-capable web app with a gilt "48" icon.
+
+* **Install:** open the site in Chrome, Edge or Android and use **Settings, Install app** (or the browser's install
+  button); on iPhone use Share, then Add to Home Screen. It launches full screen with no browser chrome.
+* **Offline:** a service worker (`sw.js`) precaches all 42 game files, then serves from cache and refreshes in the
+  background, so a new deploy arrives on the next launch. Saves already live in localStorage, so reigns survive offline.
+* **Development:** on `localhost` the service worker is off so edits show immediately; add `?sw=1` to test it.
+* **Maintenance:** after adding or removing game files run `npm run build-sw` (a test fails if the list is stale).
+  Regenerate the icons with `npm run build-icons` (Chromium render using Playfair Display, a dev-only font).
+* Everything uses relative paths, so it works from a GitHub Pages sub-path.
 
 ## Known limitations
 

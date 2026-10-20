@@ -338,6 +338,40 @@ await step('taste: 12px type floor, 44px targets, no clipped card text, no layou
   }
 });
 
+await step('PWA: manifest and icons load, service worker installs, the game starts offline', async () => {
+  const p = await newPage();
+  await p.goto(base + '?sw=1');
+  const m = await p.evaluate(async () => {
+    const link = document.querySelector('link[rel=manifest]');
+    const man = await (await fetch(link.href)).json();
+    const icons = await Promise.all(man.icons.map(async i => (await fetch(new URL(i.src, link.href))).status));
+    const reg = await navigator.serviceWorker.ready;
+    await new Promise(r => { if (navigator.serviceWorker.controller) r(); else navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }); });
+    const keys = await caches.keys();
+    const cached = (await (await caches.open(keys[0])).keys()).length;
+    return { name: man.name, display: man.display, icons, active: !!reg.active, keys, cached, theme: document.querySelector('meta[name=theme-color]').content };
+  });
+  assert.equal(m.name, '48: Laws of Power'); assert.equal(m.display, 'standalone'); assert.deepEqual(m.icons, [200, 200, 200, 200]);
+  assert.ok(m.active && m.keys.length === 1 && m.cached >= 40, `precached ${m.cached} files`);
+  await p.ctx.setOffline(true);
+  await p.reload();
+  await p.waitForSelector('#btn-new');
+  await p.click('#btn-new'); await p.click('[data-action=begin-reign]');
+  await p.waitForSelector('#card:not([hidden])');
+  assert.match(await p.textContent('#card-title'), /CHAMBERLAIN/i);
+  assert.ok(await p.evaluate(() => document.fonts.check('18px "IM Fell English"')), 'bundled font works offline');
+  await p.click('#btn-left'); await waitResult(p);
+  await p.ctx.setOffline(false);
+  await p.ctx.close();
+});
+
+await step('settings shows an install section', async () => {
+  const p = await newPage();
+  await p.goto(base); await p.click('#btn-settings');
+  assert.match(await p.textContent('#dlg-body'), /Install/);
+  await p.ctx.close();
+});
+
 await step('reduced-motion preference is honoured automatically', async () => {
   const p = await newPage({ reducedMotion: 'reduce' });
   await p.goto(base); assert.equal(await p.evaluate(() => document.documentElement.dataset.motion), 'reduce');

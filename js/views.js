@@ -127,7 +127,7 @@ function codexTab(meta, tab) {
 }
 
 // ---------- settings / menu / new reign ----------
-export function settingsHTML(settings, hasReign) {
+export function settingsHTML(settings, hasReign, pwa = {}) {
   return `
   <label class="field"><span>Sound effects<small>Small generated tones. Nothing plays until you act.</small></span><input class="switch" type="checkbox" data-setting="sound" ${settings.sound ? 'checked' : ''}></label>
   <label class="field"><span>Motion<small>Auto follows your system's reduced-motion setting.</small></span>
@@ -135,6 +135,8 @@ export function settingsHTML(settings, hasReign) {
   <label class="field"><span>Show exact meter values<small>Off by default so you act on feel, not arithmetic.</small></span><input class="switch" type="checkbox" data-setting="showValues" ${settings.showValues ? 'checked' : ''}></label>
   <label class="field"><span>Show affected meters while dragging<small>Small dots mark which meters a choice touches, never by how much.</small></span><input class="switch" type="checkbox" data-setting="hintDots" ${settings.hintDots ? 'checked' : ''}></label>
   <label class="field"><span>Control hints<small>Shows swipe and keyboard reminders under the card.</small></span><input class="switch" type="checkbox" data-setting="hints" ${settings.hints ? 'checked' : ''}></label>
+  <h3>Install</h3>
+  ${pwa.standalone ? '<p class="sub">You are playing the installed app.</p>' : pwa.canInstall ? '<button class="btn" data-action="install-app">Install app</button><p class="sub">Adds 48 to your home screen and works offline.</p>' : pwa.ios ? '<p class="sub">To install: tap Share, then Add to Home Screen.</p>' : '<p class="sub">Use your browser menu (Install app or Add to Home Screen) to install. The game already works offline once loaded.</p>'}
   <h3>Reign and progress</h3>
   ${hasReign ? '<button class="btn" data-action="restart-reign">Restart this reign</button>' : ''}
   <button class="btn danger" data-action="erase-all">Erase all saved progress</button>

@@ -10,6 +10,7 @@ import { objectiveView } from './objectives.js';
 import { THEME_SCENE, portraitSVG } from './portraits.js';
 import { play, setSoundEnabled } from './audio.js';
 import { CHARACTERS } from '../data/characters.js';
+import { canInstall, isIOS, isStandalone, onInstallChange, promptInstall } from './pwa.js';
 import { clearAll, clearReign, loadMeta, loadReign, loadSettings, saveMeta, saveReign, saveSettings } from './saveManager.js';
 import { LAWS } from '../data/laws.js';
 import { chronicleHTML, codexHTML, dossierHTML, esc, meterIcon, menuHTML, newReignHTML, objectiveHTML, settingsHTML, summaryHTML } from './views.js';
@@ -83,6 +84,7 @@ function bindStatic() {
   $('dlg-body').addEventListener('change', onPanelChange);
   $('dlg-body').addEventListener('keydown', onPanelKey);
   document.addEventListener('keydown', onKey);
+  onInstallChange(() => { if ($('dlg').open && panelStack[panelStack.length - 1] === 'settings') openPanel('settings', { push: false }); });
   bindCardDrag();
 }
 
@@ -377,7 +379,7 @@ const PANELS = {
   chronicle: { title: 'Reign Chronicle', render: () => chronicleHTML(app.state) },
   objective: { title: 'Secret Objective', render: () => objectiveHTML(app.state, app.content) },
   codex: { title: 'Codex', render: () => codexHTML(app.meta, app.codexTab) },
-  settings: { title: 'Settings', render: () => settingsHTML(app.settings, !!app.state && !app.state.ending && !$('screen-game').hidden) },
+  settings: { title: 'Settings', render: () => settingsHTML(app.settings, !!app.state && !app.state.ending && !$('screen-game').hidden, { canInstall: canInstall(), standalone: isStandalone(), ios: isIOS() }) },
   newreign: { title: 'A New Reign', render: () => newReignHTML(app.meta, app.bg && unlockedBackgrounds(app.meta).some(b => b.id === app.bg) ? app.bg : BACKGROUNDS[0].id) },
 };
 
@@ -401,6 +403,7 @@ async function onPanelClick(e) {
   if (a === 'resume') closePanel();
   else if (a === 'open-panel') openPanel(t.dataset.panel);
   else if (a === 'codex-tab') { app.codexTab = t.dataset.tab; openPanel('codex', { push: false }); $('dlg-body').querySelector('[aria-selected="true"]')?.focus(); }
+  else if (a === 'install-app') { await promptInstall(); if ($('dlg').open && panelStack[panelStack.length - 1] === 'settings') openPanel('settings', { push: false }); }
   else if (a === 'to-title') { closePanel(); showTitle(); }
   else if (a === 'begin-reign') { const sel = $('dlg-body').querySelector('input[name="bg"]:checked'); closePanel(); startReign(sel ? sel.value : BACKGROUNDS[0].id); }
   else if (a === 'restart-reign') {
