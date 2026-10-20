@@ -19,14 +19,15 @@
   --ease-out: cubic-bezier(.16, 1, .3, 1); --ease-in: cubic-bezier(.7, 0, .84, 0);
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-text-size-adjust: 100%; overscroll-behavior: none; -webkit-touch-callout: none; touch-action: manipulation; }
-body { overflow: hidden; background-image: radial-gradient(circle at 10% 6%, rgba(255, 228, 94, .38), transparent 36%), radial-gradient(circle at 96% 34%, rgba(251, 217, 221, .75), transparent 40%), radial-gradient(circle at 40% 104%, rgba(61, 168, 156, .22), transparent 46%); background-attachment: fixed; }
+html { background-color: var(--bg); background-image: radial-gradient(circle at 10% 6%, rgba(255, 228, 94, .38), transparent 36%), radial-gradient(circle at 96% 34%, rgba(251, 217, 221, .75), transparent 40%), radial-gradient(circle at 40% 104%, rgba(61, 168, 156, .22), transparent 46%); background-attachment: fixed; }
+html, body { margin: 0; height: 100%; min-height: 100dvh; color: var(--ink); font-family: var(--sans); -webkit-text-size-adjust: 100%; overscroll-behavior: none; -webkit-touch-callout: none; touch-action: manipulation; }
+body { overflow: hidden; background: transparent; }
 b, strong { font-weight: 700; }
 button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
 :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 [hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-#app, .screen { height: 100dvh; }
+#app, .screen { height: 100dvh; min-height: -webkit-fill-available; }
 .screen { width: 100%; position: relative; }
 .num { font-variant-numeric: tabular-nums; }
 mark, .hl { background: linear-gradient(transparent 52%, var(--yellow) 52%, var(--yellow) 90%, transparent 90%); color: inherit; padding: 0 2px; }
@@ -73,7 +74,8 @@ mark, .hl { background: linear-gradient(transparent 52%, var(--yellow) 52%, var(
 .title-notice { margin: 12px 0 0; font-size: 14px; color: var(--red); border: var(--bw) solid var(--red); background: var(--red-soft); padding: 8px 12px; border-radius: var(--r-box); }
 
 /* ---------- game layout ---------- */
-.game { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr) auto auto; max-width: 560px; margin: 0 auto; padding: calc(var(--safe-t) + 8px) calc(14px + var(--safe-r)) calc(var(--safe-b) + 16px) calc(14px + var(--safe-l)); gap: 10px; }
+.game { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr) auto auto; max-width: 560px; margin: 0 auto; padding: calc(var(--safe-t) + 12px) calc(16px + var(--safe-r)) calc(var(--safe-b) + 12px) calc(16px + var(--safe-l)); gap: 12px; }
+@media (min-height: 760px) { .game { gap: 16px; } .meters { padding-top: 4px; } .actions { padding-top: 4px; } }
 .topbar { display: flex; align-items: center; gap: 10px; }
 .brand-48 { display: grid; place-items: center; width: 44px; height: 44px; border: var(--bw) solid var(--ink); border-radius: 50%; background: var(--yellow); font-weight: 700; font-size: 18px; letter-spacing: -.03em; }
 .brand-sub { display: none; }
@@ -81,7 +83,7 @@ mark, .hl { background: linear-gradient(transparent 52%, var(--yellow) 52%, var(
 .reign-info b { font-size: 18px; font-weight: 700; color: var(--ink); }
 .reign-info b mark { padding: 0 4px; }
 .top-actions { display: flex; gap: 8px; }
-.weekrow { display: flex; align-items: center; gap: 8px; }
+.weekrow { display: flex; align-items: center; gap: 10px; }
 .weekrow .weekbar { flex: 1; min-width: 48px; }
 .debt { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: var(--bw) solid var(--ink); border-radius: var(--r-pill); background: var(--panel); font-size: 12px; font-weight: 700; }
 .debt b { display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 4px; border-radius: 11px; background: var(--green-soft); font-size: 12px; }
@@ -91,7 +93,7 @@ mark, .hl { background: linear-gradient(transparent 52%, var(--yellow) 52%, var(
 .weekbar::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(var(--ink) 1.2px, transparent 1.5px); background-size: 12px 12px; background-position: 6px 50%; opacity: .35; }
 
 /* meters: four rounded boxes with a dotted progress pill */
-.meters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.meters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .meter { position: relative; display: grid; gap: 4px; padding: 0 2px; }
 .meter-top { display: flex; align-items: center; gap: 4px; }
 .meter-top svg { width: 16px; height: 16px; flex: none; }
@@ -123,7 +125,7 @@ mark, .hl { background: linear-gradient(transparent 52%, var(--yellow) 52%, var(
 
 /* ---------- the card: a "training game" card with a tinted doodle header ---------- */
 .stage { position: relative; display: grid; place-items: center; min-height: 0; }
-.card { position: relative; width: min(100%, 400px); height: 100%; max-height: 580px; min-height: 260px; display: flex; flex-direction: column; background: var(--panel); border: var(--bw) solid var(--ink); border-radius: var(--r-card); box-shadow: var(--glow); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; will-change: transform; }
+.card { position: relative; width: min(100%, 400px); height: 100%; max-height: 760px; min-height: 260px; display: flex; flex-direction: column; background: var(--panel); border: var(--bw) solid var(--ink); border-radius: var(--r-card); box-shadow: var(--glow); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; will-change: transform; }
 .card, .card * { touch-action: none; }
 .card.dragging { cursor: grabbing; }
 .cover { position: relative; flex: 0 0 24%; min-height: 64px; overflow: hidden; border-bottom: var(--bw) solid var(--ink); }
@@ -144,7 +146,9 @@ mark, .hl { background: linear-gradient(transparent 52%, var(--yellow) 52%, var(
 .tag-left { left: 12px; } .tag-right { right: 12px; text-align: right; }
 
 /* result: a "sent" confirmation with a playbook note */
-.result { width: min(100%, 400px); height: 100%; max-height: 580px; min-height: 260px; overflow: auto; background: var(--panel); border: var(--bw) solid var(--ink); border-radius: var(--r-card); box-shadow: var(--glow); padding: 16px; display: flex; flex-direction: column; gap: 12px; animation: resIn var(--motion-200) var(--ease-out); }
+.result { width: min(100%, 400px); height: 100%; max-height: 760px; min-height: 260px; overflow: auto; background: var(--panel); border: var(--bw) solid var(--ink); border-radius: var(--r-card); box-shadow: var(--glow); padding: 16px; display: flex; flex-direction: column; gap: 12px; animation: resIn var(--motion-200) var(--ease-out); }
+/* flex children must not shrink, or the law note is squashed instead of the sheet scrolling */
+.result > * { flex-shrink: 0; }
 @keyframes resIn { from { opacity: 0; transform: translateY(8px); } }
 .result-kicker { align-self: flex-start; margin: 0; padding: 2px 12px; border: var(--bw) solid var(--ink); border-radius: var(--r-pill); background: var(--teal-ink); color: #fff; font-size: 12px; font-weight: 700; }
 .result-choice { font-size: 16px; font-weight: 700; margin: 0; padding: 8px 12px; border-radius: var(--r-box); background: var(--mint); }
@@ -174,7 +178,7 @@ mark, .hl { background: linear-gradient(transparent 52%, var(--yellow) 52%, var(
 .lesson-body .watch b { display: block; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
 
 /* actions: two answer rows with letter badges (A = swipe left, B = swipe right) */
-.actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.actions { position: sticky; bottom: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 .choice { display: flex; align-items: center; gap: 8px; min-height: 76px; padding: 8px 10px; border: var(--bw) solid var(--ink); border-radius: var(--r-box); background: var(--panel); text-align: left; font-size: 14px; font-weight: 600; line-height: 1.25; color: var(--ink); transition: transform var(--motion-100) var(--ease-out); }
 .choice:active:not([disabled]) { transform: scale(.98); transition: none; }
 .choice.preview { background: var(--mint); transform: scale(.98); }
