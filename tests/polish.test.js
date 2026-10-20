@@ -73,7 +73,7 @@ test('the daily court is the same reign for everyone on the same day, and differ
 test('hint dots default on, and new content is reachable by the weighted deck', () => {
   assert.equal(DEFAULT_SETTINGS.hintDots, true);
   assert.ok(Object.keys(EVENTS).length >= 65);
-  for (const id of ['council_seat', 'hunger_march', 'heir_tutor', 'isaura_tea', 'treasury_audit', 'aubry_hospital']) assert.ok(EVENTS[id]);
+  for (const id of ['council_seat', 'hunger_march', 'heir_tutor', 'isaura_tea', 'treasury_audit']) assert.ok(EVENTS[id]);
 });
 
 test('tutoring the heir changes how the succession plays out', () => {

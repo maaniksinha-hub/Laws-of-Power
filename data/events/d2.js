@@ -222,7 +222,7 @@ export default [
     lesson: { law: 19, left: 'Going first shows the team it is safe to speak. How it lands depends on how much they trust you, so read the room before you do it.', right: 'A process fix keeps a tired group calm and still gives a result. It may hide the real issue. Check what people do, not just what they say.' },
   },
   {
-    id: 'd_debt_bill_1', title: 'THE BUG ON THE BOOKING PAGE IS "A DESIGN BUG"', theme: 'reputation',
+    id: 'd_debt_bill_1', story: true, title: 'THE BUG ON THE BOOKING PAGE IS "A DESIGN BUG"', theme: 'reputation',
     char: 'vask', via: 'ticket',
     once: true, when: { turn: [8, null], stat: { debt: [3, null] } },
     text: 'The date picker breaks on mobile Safari in the main booking flow. Support has 60 tickets. Ethan writes in Jira: "Design specs were unclear. Please fix by Wednesday." You know that the edge case was cut in sprint planning and logged "design to follow". The ticket is still open.',
@@ -235,7 +235,7 @@ export default [
     lesson: { law: 35, left: 'Owning the bug now ends the fight before it grows. It leaves you with the work and the blame, even if it was shared.', right: 'Showing the record is true and can protect you, but the timing makes it look like blame. Check whether the other side is hiding facts, or just tired.' },
   },
   {
-    id: 'd_debt_bill_2', title: 'A SCREEN READER USER POSTS ABOUT LUMEN', theme: 'fear',
+    id: 'd_debt_bill_2', story: true, title: 'A SCREEN READER USER POSTS ABOUT LUMEN', theme: 'fear',
     char: 'crowd', who: { name: 'Carmen Diaz', role: 'Customer Support Lead', look: { hue: 5 } }, via: 'slack',
     once: true, when: { turn: [10, null], stat: { debt: [6, null] } },
     text: 'A blind customer has posted a thread, with a screen recording, showing she cannot finish booking. It has 2,000 shares. Carmen forwards it with one line: "This is ours, right?" It is. Three of the failures come from shortcuts that were logged "for v2".',

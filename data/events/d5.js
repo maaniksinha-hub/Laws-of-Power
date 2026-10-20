@@ -243,7 +243,7 @@ export default [
   },
   {
     id: 'd_year_end_plan', title: 'YOUR BIGGEST BET FOR NEXT YEAR', theme: 'ambition',
-    char: 'aldric', via: 'meeting', once: true, urgent: true, story: true, when: { turn: [37, 39] },
+    char: 'aldric', via: 'meeting', once: true, urgent: true, story: true, when: { turn: [36, 39] },
     text: 'The year-end planning doc has one open line for you: "Biggest bet and what we will stop." You can bet on a bold design system v2 and drop 3 small projects. Or you can keep the broad plan and fix what is already shipped.',
     left: { label: 'Bet on v2, stop 3', style: 'force',
       fx: { m: { auth: 3, rep: 2, res: -3 }, stat: { debt: 1 }, chars: { aldric: { trust: 1 }, kovane: { trust: 2 } } },

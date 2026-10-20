@@ -76,7 +76,7 @@ export default [
       result: 'Daniel thanks you for being easy about it. The deck goes up. Ethan asks who made the flows, and Daniel says, "My team."' },
     lesson: { law: 6,
       left: 'Good work must be seen to count, and a name on the file is how it counts. The cost is a manager who may feel watched. Notice a boss who says "my team" about every win.',
-      right: 'Staying quiet protects a boss and keeps peace. The cost is that decision-makers do not know who did the work, and that costs you in calibration. Keep a record anyway.' },
+      right: 'Staying quiet protects a boss and keeps peace. The cost is that leaders do not know who did the work, and that costs you in calibration. Keep a record anyway.' },
   },
 
   // ---------- Law 4: say less ----------
@@ -180,7 +180,7 @@ export default [
     id: 'd_crit_peer_wip', title: 'RAVI\'S WORK IN PROGRESS', theme: 'rivalry',
     char: 'rask', via: 'crit', cooldown: 18,
     when: { turn: [6, 40], rank: [1, 4] },
-    text: 'Ravi Shah shows his pricing page in crit. The hierarchy is muddy and the button text is hard to read. Ravi looks happy. Everyone is waiting. You know the page ships on Thursday, and you know what you think.',
+    text: 'Ravi Shah shows his pricing page in crit. The layout is muddy and the button text is hard to read. Ravi looks happy. Everyone is waiting. You know the page ships on Thursday, and you know what you think.',
     left: { label: 'Give honest critique', style: 'candour',
       fx: { m: { rep: 2 }, stat: { craft: 1, debt: -1 }, chars: { rask: { trust: 1 } } },
       result: 'You say, "The price tiers blur. The grey button text fails contrast." Ravi frowns, then fixes both before Thursday.',
@@ -274,7 +274,7 @@ export default [
       result: 'You say, "It was fine, just keep going." Amara nods and thanks you. She stops asking, and she does not tell you what she does not know.' },
     lesson: { law: 46,
       left: 'Sharing real struggle and credit makes success feel close, and people stop envying you. The cost is a less shiny image. Fake flaws look fake, so only share true ones.',
-      right: 'A calm image keeps your authority and saves a tough talk. The cost is distance: juniors and peers hide their doubts, and envy grows. Check whether a perfect-looking person welcomes questions.' },
+      right: 'A calm image keeps your authority and saves a tough talk. The cost is distance: juniors and peers hide their doubts, and envy grows. Check whether a person who looks perfect welcomes questions.' },
   },
 
   // ---------- Fixed milestone: portfolio review ----------
@@ -282,10 +282,10 @@ export default [
     id: 'd_portfolio_review', title: 'YOUR SENIOR DESIGNER PACKET', theme: 'ambition',
     char: 'anselm', via: 'review',
     once: true, urgent: true, story: true, when: { turn: [18, 36], rank: [1, 3] },
-    text: 'The promotion panel meets Thursday: Maya, Hannah Lee and a guest. Each case gets 20 minutes. You have three projects. One is a big launch, one is a quiet fix to the design system, and one is a failed test that taught you a lot.',
+    text: 'The promotion panel meets Thursday: Maya, Hannah Lee and a guest. Each case gets 20 minutes. You have three projects. One is a big launch. One is a quiet design system fix. One is a failed test that taught you a lot.',
     left: { label: 'Lead with the launch', style: 'charm',
       fx: { m: { rep: 4, auth: 2 }, chars: { aldric: { trust: 1 }, anselm: { trust: 0 } } },
-      result: 'The launch slides are bold, with numbers and a big before-and-after. The panel likes the energy and asks about team impact.',
+      result: 'The launch slides are bold, with numbers and a big visual change. The panel likes the energy and asks about team impact.',
       branches: [
         { when: { stat: { debt: [3, null] } }, fx: { m: { rep: -4, auth: -1 } }, result: 'The panel likes the numbers, then Hannah asks about the bugs and the support spike after launch. You see the shortcuts come back to you.' },
         { when: { stat: { craft: [3, null] } }, fx: { m: { rep: 2 }, flags: ['packet_strong'] }, result: 'The launch slides are bold, and your record of careful craft backs them up. The panel says it is a clear case for Senior.' },
@@ -303,7 +303,7 @@ export default [
 
   // ---------- Debt bill ----------
   {
-    id: 'd_debt_bill_polish', title: 'SUPPORT TICKETS ARE UP 22 PERCENT', theme: 'fear',
+    id: 'd_debt_bill_polish', story: true, title: 'SUPPORT TICKETS ARE UP 22 PERCENT', theme: 'fear',
     char: 'crowd', who: { name: 'Chidi Okeke', role: 'Customer Support Lead', look: { hue: 85 } }, via: 'slack',
     once: true, when: { turn: [10, 40], stat: { debt: [3, null] } },
     text: 'Chidi Okeke posts in Slack. Support tickets are up 22 percent since the last release. Grey text fails contrast, a dropdown clips on small phones, and one empty state says nothing. Each was a "we will fix it in v2." Maya is in the thread.',

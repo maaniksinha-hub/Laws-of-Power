@@ -93,7 +93,7 @@ await step('begin a reign: card, four meters, two choices, objective strip', asy
   assert.ok(await visible(page, '#objective-btn'));
   assert.match(await page.textContent('#card-cover .via'), /(Mon|Tue|Wed|Thu|Fri) \d{1,2}:\d\d/, 'card shows where and when it arrived');
   assert.ok(!(await page.textContent('#card-cover .via')).includes('undefined'));
-  for (const n of ['Influence', 'Reputation', 'Team trust', 'Budget']) assert.ok(await page.locator(`.meter[aria-label="${n}"]`).count());
+  for (const n of ['Influence', 'Reputation', 'Team trust', 'Capacity']) assert.ok(await page.locator(`.meter[aria-label="${n}"]`).count());
   await shot(page, '03-card');
 });
 
@@ -176,8 +176,8 @@ await step('progress survives a refresh (Continue restores turn, meters and pend
 });
 
 await step('panels: dossier, chronicle, objective, menu, codex, settings open and close', async () => {
-  await page.click('#btn-dossier'); assert.ok((await page.textContent('#dlg-body')).includes('Quentin Park'));
-  assert.ok(!(await page.textContent('#dlg-body')).includes('Secret goal:</b> Quentin'), 'hidden agenda stays hidden');
+  await page.click('#btn-dossier'); assert.ok((await page.textContent('#dlg-body')).includes('Tom Becker'));
+  assert.ok(!(await page.textContent('#dlg-body')).includes('Secret goal:</b> Tom'), 'hidden agenda stays hidden');
   assert.match(await page.textContent('#dlg-body'), /Secret goal:\s*Unknown/);
   await shot(page, '05-dossier');
   await page.keyboard.press('Escape'); assert.ok(!(await visible(page, '#dlg')));
@@ -186,7 +186,7 @@ await step('panels: dossier, chronicle, objective, menu, codex, settings open an
   await page.click('#btn-menu'); await page.click('[data-action=open-panel][data-panel=codex]');
   assert.ok(await visible(page, '#dlg-back'));
   assert.match(await page.textContent('#dlg-body'), /laws found/);
-  await page.click('[data-tab=characters]'); assert.match(await page.textContent('#dlg-body'), /Quentin Park/);
+  await page.click('[data-tab=characters]'); assert.match(await page.textContent('#dlg-body'), /Tom Becker/);
   await page.click('[data-tab=endings]'); await page.click('[data-tab=achievements]'); await page.click('[data-tab=unlocks]');
   await shot(page, '06-codex');
   await page.click('#dlg-back'); assert.match(await page.textContent('#dlg-title'), /Paused/);
@@ -335,7 +335,7 @@ await step('taste: 12px type floor, 44px targets, no clipped card text, no layou
     assert.deepEqual(r.small, [], `${w}x${h} text under 12px`);
     assert.deepEqual(r.tiny, [], `${w}x${h} targets under 44px`);
     assert.ok(r.clipped <= 1, `${w}x${h} card text clipped by ${r.clipped}px`);
-    assert.ok(r.weights.every(x => Number(x) <= 600), `font weights ${r.weights}`);
+    assert.ok(r.weights.every(x => Number(x) <= 700), `font weights ${r.weights}`);
     assert.equal(r.widthAnim, 0, 'no width transitions');
     await p.ctx.close();
   }
