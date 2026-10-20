@@ -7,7 +7,7 @@
 :root {
   --bg: #f1f5f7; --panel: #ffffff; --panel2: #f7f9fa; --line: #1a1a1a; --line2: #dfe5e8;
   --ink: #1a1a1a; --ink2: #333a40; --muted: #5b6670;
-  --teal: #3da89c; --teal-d: #2c8c81; --teal-ink: #1f7a70; --mint: #d8f0ea; --pink: #fbd9dd; --yellow: #ffe45e; --yellow-soft: #fff4b8; --lav: #e4ddf8; --sky: #d6e9fb;
+  --bottom: #d9eaea; --teal: #3da89c; --teal-d: #2c8c81; --teal-ink: #1f7a70; --mint: #d8f0ea; --pink: #fbd9dd; --yellow: #ffe45e; --yellow-soft: #fff4b8; --lav: #e4ddf8; --sky: #d6e9fb;
   --green: #217a52; --green-soft: #def3e8; --red: #c4313d; --red-soft: #fde4e6; --blue: #1f5fe0;
   --sans: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --bw: 2px;
@@ -19,7 +19,7 @@
   --ease-out: cubic-bezier(.16, 1, .3, 1); --ease-in: cubic-bezier(.7, 0, .84, 0);
 }
 * { box-sizing: border-box; }
-html { background-color: var(--bg); background-image: radial-gradient(circle at 10% 6%, rgba(255, 228, 94, .38), transparent 36%), radial-gradient(circle at 96% 34%, rgba(251, 217, 221, .75), transparent 40%), radial-gradient(circle at 40% 104%, rgba(61, 168, 156, .22), transparent 46%); background-attachment: fixed; }
+html { background-color: var(--bottom); }
 html, body { margin: 0; height: 100%; min-height: 100dvh; color: var(--ink); font-family: var(--sans); -webkit-text-size-adjust: 100%; overscroll-behavior: none; -webkit-touch-callout: none; touch-action: manipulation; }
 body { overflow: hidden; background: transparent; }
 b, strong { font-weight: 700; }
@@ -28,7 +28,9 @@ button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-c
 [hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* #app is pinned to the real screen edges, so the background and the layout also cover the iPhone home-bar area */
-#app { position: fixed; inset: 0; background-color: var(--bg); background-image: radial-gradient(circle at 10% 6%, rgba(255, 228, 94, .38), transparent 36%), radial-gradient(circle at 96% 34%, rgba(251, 217, 221, .75), transparent 40%), radial-gradient(circle at 40% 104%, rgba(61, 168, 156, .22), transparent 46%); }
+#app { position: fixed; inset: 0; background-color: var(--bg); background-image: radial-gradient(circle at 10% 6%, rgba(255, 228, 94, .38), transparent 36%), radial-gradient(circle at 96% 34%, rgba(251, 217, 221, .75), transparent 40%), linear-gradient(to bottom, rgba(217, 234, 234, 0) 55%, var(--bottom) 100%); }
+/* in a home-screen app the layout can stop above the iPhone home bar; the page colour below it is the same as the end of the gradient */
+@media (display-mode: standalone) { #app { height: 100vh; } }
 .screen { height: 100%; }
 .screen { width: 100%; position: relative; }
 .num { font-variant-numeric: tabular-nums; }
