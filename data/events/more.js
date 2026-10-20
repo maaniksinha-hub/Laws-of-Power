@@ -67,7 +67,7 @@ export default [
   {
     id: 'isaura_tea', title: 'COFFEE WITH THE CHAIR', theme: 'secrets', char: 'isaura', once: true, story: true,
     when: { secret: ['veiled_hand_identity'], notFlags: ['isaura_hostile'], turn: [18, null] },
-    text: "An invitation comes, in the same style as the unsigned messages. Isabel Venn, Chair of the Board, meets you in a corner office full of clocks. 'You followed my car,' she says. 'I was rather pleased. Let us stop pretending and trade.'",
+    text: "An invitation comes, in the same style as the first one. Isabel Venn, Chair of the Board, meets you in a corner office full of clocks. 'You followed my car,' she says. 'I was rather pleased. Let us stop pretending and trade.'",
     left: { label: 'Trade secrets with her', style: 'pragmatism', memo: 'You traded secrets with the Chair.', fx: { reveal: ['agenda_varen'], chars: { isaura: { trust: 12, obligation: 15 } }, stat: { manipulations: 1 } }, result: 'She tells you what Marcus wants. You tell her something about yourself. Each of you thinks you got the better deal.' },
     right: { label: 'Thank her and leave', style: 'restraint', fx: { chars: { isaura: { resent: 6, trust: -4 } }, m: { rep: 2 } }, result: 'Her smile does not change. For a moment, all the clocks agree on the time.' },
     lesson: { law: 3, left: 'Trading secrets with a master of secrets is fair only if you can tell what she gave and what she kept.', right: 'Leaving politely keeps you free. It tells her you cannot be bought with kind words. She will test that again.' },

@@ -114,7 +114,7 @@ export const CHARACTERS = {
   },
   isaura: {
     name: 'The Silent Sponsor', short: 'Silent Sponsor', role: 'Secret Mentor', archetype: 'The Hidden Kingmaker',
-    bio: 'An unsigned message, a car with dark windows, a voice used to being obeyed.',
+    bio: 'An unsigned invite, a quiet table in a cafe, a voice used to being obeyed.',
     publicGoal: 'None known.',
     look: { face: 'long', hue: 260, skin: 2, hair: '#c9ccd3', style: 'bob', outfit: '#16181d', shades: true },
     realName: 'Isabel Venn',
@@ -270,7 +270,7 @@ export const CLUES = {
     { when: { notSecret: ['agenda_sabel'], seen: ['sabel_treaty'] }, text: 'He is strangely pushy about the deadline.' },
   ],
   isaura: [
-    { when: { anyFlags: ['note_answered', 'note_ignored', 'veiled_patron'], notSecret: ['veiled_hand_identity'] }, text: 'An unsigned note, a dark car, a faint perfume. Someone arranged your rise.' },
+    { when: { anyFlags: ['note_answered', 'note_ignored', 'veiled_patron'], notSecret: ['veiled_hand_identity'] }, text: 'An unsigned invite and a quiet coffee. Someone arranged your rise.' },
   ],
   aubry: [{ when: { notSecret: ['agenda_aubry'], seen: ['king_ill'] }, text: 'He guards the quarterly numbers as if they were his own.' }],
 };

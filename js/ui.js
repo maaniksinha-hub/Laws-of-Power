@@ -7,6 +7,7 @@ import { choiceLabel, echoText, eventText, speaker } from './eventEngine.js';
 import { expression } from './characterEngine.js';
 import { finishReign, recordProgress, unlockedBackgrounds } from './meta.js';
 import { objectiveView } from './objectives.js';
+import { CHANNELS } from '../data/channels.js';
 import { THEME_SCENE, avatarSVG, sceneSVG } from './portraits.js';
 import { play, setSoundEnabled } from './audio.js';
 import { CHARACTERS } from '../data/characters.js';
@@ -19,6 +20,23 @@ import { chronicleHTML, codexHTML, dossierHTML, esc, exitFoot, exitHTML, meterIc
 const $ = id => document.getElementById(id);
 export const app = { meta: null, settings: null, state: null, content: DEFAULT_CONTENT, busy: false, resultAt: 0, bg: null, codexTab: 'laws' };
 const MAGNITUDE = d => (Math.abs(d) >= 10 ? 3 : Math.abs(d) >= 5 ? 2 : 1);
+const VIA_ICON = {
+  mail: '<path d="M3 6h18v12H3zM3 7l9 7 9-7"/>', chat: '<path d="M4 5h16v11H9l-5 4z"/>', meet: '<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 19c0-3 2-5 5-5s5 2 5 5M11 19c0-3 2-5 5-5s5 2 5 5"/>',
+  two: '<circle cx="9" cy="8" r="3"/><path d="M4 19c0-3 2-5 5-5s5 2 5 5M16 6l3 3-3 3"/>', call: '<path d="M6 4l3 1 1 4-2 1c1 3 3 5 6 6l1-2 4 1 1 3c-1 2-3 3-5 2-6-1-11-7-12-13 0-2 1-4 3-3z"/>',
+  stage: '<path d="M3 20h18M6 20V9l6-5 6 5v11M10 20v-5h4v5"/>', doc: '<path d="M6 3h9l4 4v14H6zM15 3v4h4M9 12h7M9 16h7"/>', cal: '<path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/>',
+};
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+// A stable, believable time stamp for a card: the same card shows the same time, so it reads like a real message.
+function stamp(ev, turn) {
+  let h = 0; for (const ch of ev.id + turn) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const hour = 8 + (h % 10), min = (h >>> 4) % 60;
+  return `${DAYS[(h >>> 8) % 5]} ${hour}:${String(min).padStart(2, '0')}`;
+}
+const quarter = turn => Math.min(4, Math.ceil(turn / 13));
+function viaHTML(ev, turn) {
+  const v = CHANNELS[ev.via] || CHANNELS.meeting;
+  return `<div class="via" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${VIA_ICON[v.icon] || VIA_ICON.meet}</svg><span>${v.label}</span><time>${stamp(ev, turn)}</time></div>`;
+}
 const reduced = () => document.documentElement.dataset.motion === 'reduce';
 const resultVisible = () => !$('result').hidden;
 
@@ -192,7 +210,7 @@ function renderGame() {
 
 function updateHeader() {
   const s = app.state;
-  $('reign-info').innerHTML = `<b>${RANKS[s.rank].title}</b><br>Career ${s.reignId}, week ${Math.min(s.turn, MAX_TURN)} of ${MAX_TURN}`;
+  $('reign-info').innerHTML = `<b>${RANKS[s.rank].title}</b><br>Career ${s.reignId}, Q${quarter(s.turn)}, week ${Math.min(s.turn, MAX_TURN)} of ${MAX_TURN}`;
   const o = objectiveView(s, app.content.objectives);
   $('objective-btn').innerHTML = o ? `<span class="obj-k">Secret goal</span><span class="obj-t">${esc(o.brief)}</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
   $('objective-btn').setAttribute('aria-label', o ? `Secret goal: ${o.brief}. ${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met.` : 'Objective');
@@ -205,7 +223,7 @@ function renderCard(ev) {
   const sp = speaker(s, ev);
   const others = (ev.others || []).filter(id => !CHARACTERS[id].generic);
   const scene = ev.scene || THEME_SCENE[ev.theme];
-  $('card-cover').innerHTML = sceneSVG(scene) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${avatarSVG(CHARACTERS[id].look, { expression: expression(s, id) })}</span>`).join('')}</div>` : '');
+  $('card-cover').innerHTML = sceneSVG(scene) + viaHTML(ev, s.turn) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${avatarSVG(CHARACTERS[id].look, { expression: expression(s, id) })}</span>`).join('')}</div>` : '');
   $('card-avatar').innerHTML = avatarSVG(sp.look, { label: sp.name, expression: expression(s, sp.id) });
   const echo = echoText(s, ev);
   $('card-echo').hidden = !echo; $('card-echo').textContent = echo;
@@ -224,7 +242,12 @@ function renderCard(ev) {
   for (const id of ['btn-left', 'btn-right']) { $(id).hidden = false; $(id).disabled = false; $(id).classList.remove('preview'); }
   $('btn-next').hidden = true;
   const c = $('card'); c.style.transform = ''; c.style.opacity = ''; setTags(0);
-  if (!reduced()) c.animate([{ opacity: 0, transform: 'translateY(26px) scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'cubic-bezier(.16, 1, .3, 1)' });
+  c.dataset.via = ev.via || 'meeting'; c.classList.toggle('urgent', !!ev.urgent);
+  if (!reduced()) {
+    // One calm entrance: the card settles 8px, then its parts fade in a few tens of ms apart (see .card[data-enter] in the CSS).
+    c.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: 'cubic-bezier(.16, 1, .3, 1)' });
+    c.removeAttribute('data-enter'); void c.offsetWidth; c.setAttribute('data-enter', '');
+  }
   app.busy = false;
   c.focus({ preventScroll: true });
 }
@@ -233,6 +256,7 @@ function setTags(dx) {
   const a = Math.min(Math.abs(dx) / 90, 1);
   showHintDots(Math.abs(dx) > 24 ? (dx < 0 ? 'left' : 'right') : null);
   $('tag-left').style.opacity = dx < 0 ? a : 0; $('tag-right').style.opacity = dx > 0 ? a : 0;
+  const lean = $('lean'); lean.dataset.side = dx < -8 ? 'left' : dx > 8 ? 'right' : ''; lean.style.opacity = a * .9;
   $('btn-left').classList.toggle('preview', dx < -30); $('btn-right').classList.toggle('preview', dx > 30);
 }
 

@@ -91,6 +91,8 @@ await step('begin a reign: card, four meters, two choices, objective strip', asy
   assert.match(await page.textContent('#card-title'), /FIRST DAY/i);
   assert.ok((await page.textContent('#label-left')).length > 3); assert.ok((await page.textContent('#label-right')).length > 3);
   assert.ok(await visible(page, '#objective-btn'));
+  assert.match(await page.textContent('#card-cover .via'), /(Mon|Tue|Wed|Thu|Fri) \d{1,2}:\d\d/, 'card shows where and when it arrived');
+  assert.ok(!(await page.textContent('#card-cover .via')).includes('undefined'));
   for (const n of ['Influence', 'Reputation', 'Team trust', 'Budget']) assert.ok(await page.locator(`.meter[aria-label="${n}"]`).count());
   await shot(page, '03-card');
 });

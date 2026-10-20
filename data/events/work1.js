@@ -1,0 +1,118 @@
+// Real-office scenes, part 1 (laws 1-16). Each one starts from a situation people really meet at work:
+// credit in a deck, a late deliverable, a promotion committee, a bad review, a vendor, a layoff list.
+// `via` says where the message arrives (see data/channels.js). Schema: README "Adding events".
+
+export default [
+  {
+    id: 'w_credit_deck', title: 'YOUR SLIDES, HER NAME', theme: 'reputation', char: 'kovane', via: 'meeting', once: true, when: { turn: [3, 20] },
+    text: "Dana presents the plan to the executives. The analysis on slide four is yours. The chart is yours. Your name is not on it. 'Great work from my team,' she says. She looks at you and smiles, a bit too fast.",
+    left: { label: 'Add your name in the follow-up email', style: 'candour', fx: { m: { rep: 4, auth: -1 }, chars: { kovane: { resent: 8, trust: -4 } } }, result: 'Your email is polite and short. Dana reads it twice. The executives remember who made the chart.' },
+    right: { label: 'Let it go, and talk to Dana alone', style: 'restraint', fx: { m: { loy: 2, rep: -2 }, chars: { kovane: { trust: 6 } } }, result: 'Dana says sorry, and means part of it. Next time your name is on the slide. Nobody else saw that talk.' },
+    lesson: { law: 1, left: 'Fixing the record in writing protects your credit. It can make a proud boss feel watched.', right: 'A private talk keeps the peace and gives your boss a way to do better. It only works if she keeps her word.' },
+  },
+  {
+    id: 'w_ally_late', title: 'THE FRIEND WHO MISSED THE DATE', theme: 'loyalty', char: 'rask', others: ['dorne'], via: 'slack', once: true, when: { turn: [6, 24] },
+    text: "Ryan promised the data export by Friday. It is Monday and nothing came. He says sorry, with a coffee. Selena, who has never liked you, says her team can deliver it by tonight. She has already checked, and she can.",
+    left: { label: 'Give the job to Selena', style: 'pragmatism', fx: { m: { res: 4, loy: -2 }, chars: { dorne: { trust: 8, resent: -6 }, rask: { resent: 8 } } }, result: 'The data arrives at six. Selena is polite, and a bit smug. Ryan finds a new way to be busy.' },
+    right: { label: 'Give Ryan one more day', style: 'charm', fx: { m: { loy: 4, res: -3 }, chars: { rask: { trust: 6 }, dorne: { resent: 4 } } }, result: 'Ryan delivers on Tuesday, late and tired. The deadline slides, and everyone sees who you chose.' },
+    lesson: { law: 2, left: 'Trust people for what they have shown they can do. A former rival with a proven result can be the safer pick.', right: 'Loyalty to a friend builds warmth. If the miss repeats, it starts to look like a habit of yours.' },
+  },
+  {
+    id: 'w_full_plan', title: 'SHOW ME THE WHOLE PLAN', theme: 'secrets', char: 'varen', via: 'oneonone', once: true, when: { turn: [5, 26] },
+    text: "Marcus wants to back your team changes. First he wants the full plan: who moves, who goes, and the dates. 'I can only help if I know everything,' he says. A plan that leaks early can be killed in a day.",
+    left: { label: 'Share the goal, keep the names for later', style: 'guile', fx: { m: { auth: 3 }, chars: { varen: { suspicion: 8 } } }, result: 'Marcus agrees to help, but not warmly. He writes something down and does not say what.' },
+    right: { label: 'Share the whole plan', style: 'candour', fx: { m: { loy: 3, auth: -2 }, chars: { varen: { trust: 8 } } }, result: 'Marcus reads every page. He gives you three good changes. By Thursday half the floor knows your plan.' },
+    lesson: { law: 3, left: 'Sharing in steps protects a plan that is still weak. It also tells a friend you do not fully trust him.', right: 'Full openness builds trust and helps with details. It also lets a leak start the story before you do.' },
+  },
+  {
+    id: 'w_hot_review', title: 'THE QUARTERLY REVIEW GETS HOT', theme: 'reputation', char: 'vask', via: 'meeting', once: true, when: { turn: [7, 30] },
+    text: "Oliver looks at your sales slide in the quarterly review. 'Why are these numbers down eight percent?' Everyone looks at you. You know the reason, and it is long, and part of it is not your fault. The room is waiting.",
+    left: { label: 'Give one clear answer and the next step', style: 'restraint', fx: { m: { rep: 5, auth: 3 } }, result: 'You say the cause, the fix and the date. Oliver nods once and moves to the next slide.' },
+    right: { label: 'Explain the whole story', style: 'candour', fx: { m: { rep: -4, auth: -2 }, chars: { vask: { suspicion: 6 } } }, result: 'You talk for six minutes. Every reason is true. By the end, the room hears excuses.' },
+    lesson: { law: 4, left: 'A short, clear answer sounds calm and in control. It works only when you have the facts ready.', right: 'The more you explain, the more people doubt you. A long answer sounds like a defence.' },
+  },
+  {
+    id: 'w_promo_committee', title: 'THE PROMOTION COMMITTEE', theme: 'ambition', char: 'anselm', via: 'email', once: true, when: { turn: [9, 28], rank: [1, null] },
+    text: "The promotion committee meets Thursday. Andrew says someone told the committee you are 'hard to work with'. It is half a joke from a bad meeting. He needs a one-page reply by tomorrow, and he will read it aloud.",
+    left: { label: 'Reply with facts: results and peer notes', style: 'candour', fx: { m: { rep: 4, loy: 2 }, flags: ['promo_evidence'] }, result: 'Your page has three results and four peer quotes. The comment is dropped from the file.' },
+    right: { label: 'Find out who said it, and reply to them', style: 'guile', fx: { m: { rep: -3, res: -2 }, chars: { anselm: { suspicion: 6 } }, stat: { manipulations: 1 } }, result: 'You find the name. You write a sharp note. Now the committee talks about the note, not the comment.' },
+    lesson: { law: 5, left: 'Answer a rumour with facts and let others judge. It shows you take your name seriously without a fight.', right: 'Chasing the source can feel good. It turns a small comment into a story about how you handle criticism.' },
+  },
+  {
+    id: 'w_two_decks', title: 'TWO PROPOSALS, ONE SLOT', theme: 'opportunity', char: 'quill', others: ['dorne'], via: 'email', once: true, when: { turn: [6, 26] },
+    text: "Only one proposal fits on the CEO's agenda. Selena's is a bold demo with big promises. Yours is a plain, careful plan with real numbers. Quentin says the CEO has ten minutes and a short memory. He asks which you will bring.",
+    left: { label: 'Add a short live demo to your numbers', style: 'charm', fx: { m: { rep: 5, res: -3 }, chars: { dorne: { resent: 5 } } }, result: 'The demo gets a smile. The numbers get a nod. Selena gets a message from the CEO, and so do you.' },
+    right: { label: 'Bring the plain plan, nothing more', style: 'restraint', fx: { m: { auth: 4, rep: -2 } }, result: 'The CEO reads the numbers. Quiet approval, no applause, and the slot goes to the bold demo next time.' },
+    lesson: { law: 6, left: 'Being seen is part of the job. A small show gets attention, and your facts keep it.', right: 'Facts should win. In a crowded room, plain plans are often skipped, because they are easy to forget.' },
+  },
+  {
+    id: 'w_credit_split', title: 'THREE TEAMS, ONE HERO', theme: 'reputation', char: 'dorne', others: ['kovane'], via: 'townhall', once: true, when: { turn: [10, 32] },
+    text: "The product launch worked. Three teams did the work. At the town hall, Selena says 'we' about ten times, and only means her team. The CEO thanks her. Dana's face is blank. Your team lead looks at you.",
+    left: { label: 'Name every team in your own update', style: 'charm', fx: { m: { rep: 3, loy: 6 }, chars: { dorne: { resent: 6 }, kovane: { trust: 8 } } }, result: 'Your thanks are specific and short. Three teams hear their names. Selena claps a little late.' },
+    right: { label: 'Say nothing and keep the peace', style: 'restraint', fx: { m: { loy: -4, auth: 1 }, chars: { kovane: { resent: 5 } } }, result: 'The meeting ends. In the corridor your team says nothing, which is worse than a complaint.' },
+    lesson: { law: 7, left: 'Sharing credit in public costs you nothing and builds trust. People remember who named them.', right: 'Silence keeps the peace today. A team that is not named learns that effort is not seen.' },
+  },
+  {
+    id: 'w_chase_vp', title: 'THE VP WHO CANCELS TWICE', theme: 'negotiation', char: 'vask', via: 'email', once: true, when: { turn: [8, 28] },
+    text: "You asked Oliver for fifteen minutes about next year's budget. He cancelled twice. His assistant says 'maybe Thursday, he is slammed'. You know the budget closes Friday. You can chase him, or you can try something else.",
+    left: { label: 'Send a one-line reason he cannot ignore', style: 'pragmatism', fx: { m: { auth: 3, res: 3 } }, result: 'Your note says what he gains if he reads it. He calls you in ten minutes. He is warmer than before.' },
+    right: { label: 'Keep chasing, and wait outside his door', style: 'candour', fx: { m: { rep: -2, auth: -2 } }, result: 'You get five minutes in a lift. Oliver says yes to half of it, without looking up.' },
+    lesson: { law: 8, left: 'People who are busy answer value, not need. Show what is in it for them.', right: 'Chasing a busy person shows you need him more than he needs you. That sets the price.' },
+  },
+  {
+    id: 'w_test_not_argue', title: 'THE RIVAL SAYS YOU ARE WRONG', theme: 'rivalry', char: 'dorne', via: 'meeting', once: true, when: { turn: [7, 30] },
+    text: "Selena says your onboarding change will lose customers. You think it will win them. The meeting has gone in circles for twenty minutes. Everyone is tired. Someone suggests a vote, which neither of you can win clearly.",
+    left: { label: 'Offer a two-week test with shared numbers', style: 'pragmatism', fx: { m: { rep: 4, res: -2 }, chars: { dorne: { trust: 4 } } }, result: 'You both pick the numbers first. In two weeks the data decides. It is a small win and a big relief.' },
+    right: { label: 'Keep arguing your case', style: 'force', fx: { m: { rep: -3, auth: 2 }, chars: { dorne: { resent: 8 } } }, result: 'You win the meeting. Selena says she will wait for the numbers, and she will.' },
+    lesson: { law: 9, left: 'A small test ends an argument that talk cannot. It protects both sides from losing face.', right: 'Winning an argument can cost you the person. Facts will come anyway, and she will use them.' },
+  },
+  {
+    id: 'w_gloomy_peer', title: 'THE TEAM MEMBER WHO ALWAYS SAYS NO', theme: 'loyalty', char: 'crowd', who: { name: 'A Senior Analyst', role: 'Tired and Negative', look: { hue: 250 } }, via: 'slack', cooldown: 30, when: { turn: [5, null] },
+    text: "Every message from this analyst starts with 'this will not work'. He is clever, and often right. Morale drops each time he speaks in the team channel. Two juniors have started to copy his tone. He is also going through a rough year.",
+    left: { label: 'Talk to him alone and set clear ground rules', style: 'candour', fx: { m: { loy: 4, res: -1 }, chars: { crowd: { trust: 4 } } }, result: 'He is surprised. He says he did not know how it sounded. The channel is calmer by Friday.' },
+    right: { label: 'Move him to a quiet project', style: 'pragmatism', fx: { m: { loy: -2, auth: 3 } }, result: 'The team is cheerful again. He sits in a corner with a very polite smile, and writes his CV.' },
+    lesson: { law: 10, left: 'Set boundaries on behaviour, not on a person. A fair chat often fixes what a transfer only hides.', right: 'Moving people away feels clean. It also tells others you deal with trouble by hiding it.' },
+  },
+  {
+    id: 'w_process_hoard', title: 'ONLY ONE PERSON KNOWS HOW', theme: 'scarcity', char: 'crowd', who: { name: 'The Billing Engineer', role: 'Owns the Old System', look: { hue: 30 } }, via: 'oneonone', once: true, when: { turn: [6, 30] },
+    text: "One engineer is the only person who knows how month-end billing works. He never wrote it down. He says 'it is easier if I just do it'. He is on leave next month. If he quits, the company cannot invoice anyone.",
+    left: { label: 'Make him document it, with a bonus', style: 'pragmatism', fx: { m: { res: -3, auth: 3 }, flags: ['process_documented'] }, result: 'He grumbles, then writes forty good pages. The risk drops. He knows you have not thanked him enough.' },
+    right: { label: 'Keep him happy and do nothing', style: 'restraint', fx: { m: { res: 2 }, flags: ['process_hoarded'] }, result: 'He is delighted. Nothing changes. Everyone prays he does not get a better offer.' },
+    lesson: { law: 11, left: 'Single points of failure are a risk for the company, not a prize for you. Write it down and reward it.', right: 'A person who must stay is a person who can set terms. Needing each other cuts both ways.' },
+  },
+  {
+    id: 'w_layoff_round', title: 'THE LIST OF TEN NAMES', theme: 'fear', char: 'anselm', others: ['aldric'], via: 'oneonone', once: true, urgent: true, when: { turn: [20, 32], meter: { res: [null, 45] } },
+    text: "Budgets are tight. The CEO wants ten roles cut by Friday. Andrew puts a list on your desk. Your team has three names on it. One is a loyal person with a sick parent. One is average. One is a star who is expensive.",
+    left: { label: 'Cut the list and tell the team the truth', style: 'candour', fx: { m: { loy: -3, rep: 3, res: 6 }, chars: { anselm: { trust: 6 } } }, result: 'You tell them yourself, in person. It is the worst day of the year. Those who stay trust you more.' },
+    right: { label: 'Fight to cut fewer, and slow the dates', style: 'charm', fx: { m: { loy: 5, res: -4, auth: -3 }, chars: { aldric: { resent: 6 } } }, result: 'You save two jobs and lose a week. The CEO notes that you pushed back. He does not say if it was good.' },
+    lesson: { law: 12, left: 'Honest news, said early and in person, is the only kind of kindness a layoff allows.', right: 'Protecting people can cost you favour above. It also shows below who you will stand up for.' },
+  },
+  {
+    id: 'w_ask_budget', title: 'ASKING SALES FOR BUDGET', theme: 'negotiation', char: 'dorne', via: 'oneonone', once: true, when: { turn: [6, 28] },
+    text: "You need two engineers from Selena's budget. She likes to help, but not to lose. You could tell her about your hard quarter and ask for a favour. Or you could show her what her team gains from your project.",
+    left: { label: 'Show what Sales gets from the project', style: 'pragmatism', fx: { m: { res: 6, auth: 2 }, chars: { dorne: { trust: 5 } } }, result: 'Selena sees a faster quote tool for her team. She gives you the engineers, and asks to see the demo.' },
+    right: { label: 'Ask her for a favour, as a friend', style: 'charm', fx: { m: { res: 2, rep: -2 }, chars: { dorne: { trust: 2, resent: 3 } } }, result: 'She says yes to one engineer. She adds, in a friendly way, that she will remember it.' },
+    lesson: { law: 13, left: 'People say yes to what helps them. A clear gain is a better ask than a hard luck story.', right: 'Appeals to kindness work once and leave a debt. A deal that works for both sides can be repeated.' },
+  },
+  {
+    id: 'w_recruiter', title: 'A RECRUITER ON LINKEDIN', theme: 'opportunity', char: 'crowd', who: { name: 'A Recruiter', role: 'From a Rival Company', look: { hue: 180 } }, via: 'linkedin', cooldown: 30, when: { turn: [8, null] },
+    text: "A recruiter from a rival company messages you. A bigger title, thirty percent more pay, and a 'quick chat'. Your boss does not know. The recruiter also asks, in a friendly way, what projects your team is working on this quarter.",
+    left: { label: 'Take the chat and share nothing', style: 'restraint', fx: { m: { auth: 3, loy: -2 }, flags: ['took_recruiter_chat'] }, result: 'The offer is real. You say you will think. It changes how you see your own contract.' },
+    right: { label: 'Decline and tell your boss', style: 'candour', fx: { m: { loy: 4, auth: 2 }, chars: { kovane: { trust: 6 } } }, result: 'Dana looks surprised and a bit moved. Within a month your pay is reviewed.' },
+    lesson: { law: 14, left: 'A friendly question can be a search for secrets. Listen well, give nothing, and know your worth.', right: 'Telling your boss turns a quiet risk into a fair talk about your future. It is honest, and useful.' },
+  },
+  {
+    id: 'w_blocker', title: 'THE PROJECT THAT KEEPS GETTING BLOCKED', theme: 'rivalry', char: 'varen', via: 'meeting', once: true, when: { turn: [8, 30] },
+    text: "For the third time, Marcus has found a reason to delay your launch. Security review. Legal review. Now a 'brand check'. Each reason is small. Together they have cost you two months. He smiles as he says it.",
+    left: { label: 'Write down the facts and take them to the CEO', style: 'candour', fx: { m: { auth: 4, rep: 2 }, chars: { varen: { resent: 10 } } }, result: 'Your timeline is short and clear. The CEO sets a date. Marcus has lost a game, and knows it.' },
+    right: { label: 'Offer a deal: his name on the launch', style: 'pragmatism', fx: { m: { rep: -2, res: 3 }, chars: { varen: { trust: 6 } } }, result: 'The launch goes out in a week, with two names on it. Marcus stops blocking. Your team stops speaking to you.' },
+    lesson: { law: 15, left: 'Taking facts upward ends a block without a fight. Keep it about dates and costs, never about him.', right: 'A deal ends the war and can leave a bitter taste. Do not pay in credit that belongs to others.' },
+  },
+  {
+    id: 'w_leave', title: 'TWO WEEKS OFF, ONE QUIET INBOX', theme: 'timing', char: 'quill', via: 'slack', once: true, when: { turn: [14, 34] },
+    text: "You have saved up two weeks of leave. A big decision is coming, and your boss said 'you should be here'. Quentin says people respect someone who can leave, but forget someone who is never seen. You are tired.",
+    left: { label: 'Take the leave and switch off', style: 'restraint', fx: { m: { rep: 3, res: 2, auth: -2 } }, result: 'You come back rested. The team coped, and learned to decide without you. Your boss is a bit surprised.' },
+    right: { label: 'Stay and work through it', style: 'force', fx: { m: { auth: 4, loy: -3 } }, result: 'You are in every thread. Your name is everywhere. By week two you are a bit grey in the face.' },
+    lesson: { law: 16, left: 'A short absence shows your team can work without you. Be gone only when things are in order.', right: 'Being always present makes you useful and easy to take for granted. Rest is part of the job.' },
+  },
+];

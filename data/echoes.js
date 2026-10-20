@@ -24,7 +24,7 @@ export const ECHOES = {
   friend_betrays: [{ when: { chose: { friend_asks: 'left' } }, text: 'You gave him a job because he was your friend.' }],
   rask_wavers: [{ when: { chose: { rask_oath: 'left' } }, text: 'You gave him the bigger title. He has not forgotten that, or what else he might be given.' }],
   retire_offer: [{ when: { meter: { rep: [70, null] } }, text: 'They still say please. The window is closing.' }],
-  king_death: [{ when: { flags: ['heir_promised'] }, text: 'You made a promise in a parking garage. Someone is listening for it.' }],
+  king_death: [{ when: { flags: ['heir_promised'] }, text: 'You made a promise on the phone. Someone is listening for it.' }],
   coalition_moves: [{ when: { stat: { manipulations: [2, null] } }, text: 'Everyone you used has compared notes.' }],
   final_session: [{ when: { flags: ['conspiracy_exposed'] }, text: 'You brought a plot to light. They remember who held the lamp.' }],
 };
