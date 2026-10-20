@@ -56,7 +56,7 @@ function showTitle(notice = null) {
   const msg = notice || ({ corrupt: 'Your saved reign could not be read, so it was set aside. Your codex is safe.', outdated: 'Your saved reign came from a different version of the game and could not be loaded. Your codex is safe.' })[status];
   $('title-notice').hidden = !msg; $('title-notice').textContent = msg || '';
   const m = app.meta;
-  $('title-stats').textContent = m.reigns ? `${m.reigns} reign${m.reigns > 1 ? 's' : ''} lived · ${Object.keys(m.endings).length}/${ENDINGS.length} endings · ${Object.keys(m.laws).length}/48 laws discovered` : 'No reign has been written yet.';
+  $('title-stats').textContent = m.reigns ? `${m.reigns} reign${m.reigns > 1 ? 's' : ''} lived. ${Object.keys(m.endings).length} of ${ENDINGS.length} endings found, ${Object.keys(m.laws).length} of 48 laws discovered.` : 'No reign has been written yet.';
   const d = m.daily?.[todayKey()];
   $('btn-daily').textContent = d ? "Replay today's court" : "Play today's court";
   $('btn-new').focus({ preventScroll: true });
