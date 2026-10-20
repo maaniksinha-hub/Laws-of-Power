@@ -1,0 +1,16 @@
+{
+  "name": "48-laws-of-power-game",
+  "version": "1.0.0",
+  "description": "48: Laws of Power - a swipe-based political intrigue game (vanilla ES modules, no backend).",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test \"tests/*.test.js\"",
+    "test:smoke": "node tests/smoke.mjs",
+    "verify-laws": "node tools/verify-laws.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}

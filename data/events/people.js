@@ -1,0 +1,102 @@
+// Everyday politics: the realm, the council, old friends, new opportunists.
+
+export default [
+  {
+    id: 'grain_shortage', title: 'THIRD-FULL GRANARIES', theme: 'scarcity', char: 'crowd', who: { name: 'The Granary Wardens', role: 'Delegation', look: { hue: 40, hat: 'cap' } }, weight: 2, cooldown: 20,
+    text: "The winter granaries stand a third full. The wardens ask for an order: ration the capital first, or sell what is left abroad, where grain fetches triple. 'The merchants are already counting,' one mutters.",
+    left: { label: 'Ration for the capital', style: 'candour', fx: { m: { rep: 4, loy: 3, res: -8 } }, result: 'Bread lines form. Nobody starves, and everybody notices who decided.' },
+    right: { label: 'Sell abroad at triple price', style: 'pragmatism', fx: { m: { res: 14, rep: -10, loy: -4 } }, result: 'The treasury fattens. The poorer districts remember it for years.' },
+  },
+  {
+    id: 'tax_revolt', title: 'THE HILL VILLAGE', theme: 'fear', char: 'kovane', weight: 1.5, when: { rank: [1, null] },
+    text: "A hill village has refused the harvest tax and driven off the collector. Kovane offers to 'make an example', one hand on his hilt. The village elder's letter is in your other hand. It is very polite.",
+    left: { label: 'Send soldiers', style: 'force', fx: { m: { auth: 8, rep: -8, loy: -4 }, chars: { kovane: { trust: 5 } } }, result: 'The village is quiet by the weekend. So are the next three along the road.' },
+    right: { label: 'Send a pardon and a smiling collector', style: 'charm', fx: { m: { auth: -4, rep: 5, res: -4 }, chars: { kovane: { resent: 3 } } }, result: 'The tax arrives late and in full. The elder sends you a cheese.' },
+    lesson: { law: 15, left: 'Making an example ends one revolt and raises fear across the realm, which is not the same thing as loyalty.', right: 'A visible concession can be read as weakness or wisdom. It works when the villagers see it as a deal they were allowed to refuse.' },
+  },
+  {
+    id: 'widow_petition', title: 'A BAKER\'S WIDOW', theme: 'reputation', char: 'crowd', who: { name: 'Marta Voss', role: "Baker's Widow", look: { hue: 20, hat: 'coif' } },
+    text: "A baker's widow with a market voice petitions for her husband's army pension. The paperwork says no. A crowd is watching to see whether the new face at court has a heart, or a rulebook.",
+    left: { label: 'Grant it from your own purse', style: 'charm', fx: { m: { res: -4, rep: 5 } }, result: 'Marta tells the whole market. By evening it is a legend, and the legend is slightly better than you.' },
+    right: { label: 'Uphold the rule', style: 'restraint', fx: { m: { auth: 2, rep: -4 } }, result: 'The paperwork is correct. The crowd drifts away unconvinced.' },
+  },
+  {
+    id: 'duel_challenge', title: 'SATISFACTION AT DAWN', theme: 'fear', char: 'crowd', who: { name: 'Lord Edmar Thessaly', role: 'Young Noble, Very Drunk', look: { hue: 350, hat: 'cap' } }, others: ['kovane'], cooldown: 25,
+    text: "Lord Thessaly, flushed with wine and cousin to three barons, announces that you stole his seat and his dignity, and demands satisfaction. Kovane, behind you, murmurs that you are actually quite good with a blade.",
+    left: { label: 'Accept the duel', style: 'force', fx: { m: { rep: -10, auth: -6 } }, branches: [{ chance: 0.55, fx: { m: { rep: 20, auth: 9 } }, result: 'Steel flashes, once. Thessaly is bleeding, disarmed and very sober. The court talks about nothing else.' }], result: 'Thessaly is better than he looked, and the cousins are smiling. You limp home.' },
+    right: { label: 'Laugh and buy him a drink', style: 'charm', fx: { m: { rep: 3, auth: -2 } }, result: 'The hall laughs with you. By morning Thessaly cannot remember why he was angry.' },
+    lesson: { law: 36, left: 'Accepting a challenge puts your standing on a coin toss. Fighters are admired, and a sober loss is remembered longer than a win.', right: 'Declining to be provoked denies a rival the attention he wanted. It costs some swagger, and spends no blood.' },
+  },
+  {
+    id: 'feast_spectacle', title: 'MIDSUMMER', theme: 'reputation', char: 'quill', once: true, when: { meter: { res: [35, null] }, turn: [6, null] },
+    text: "Midsummer approaches. 'A great feast, {t},' says Quill, 'would be remembered through a hard winter. A quiet fast would be remembered mostly by the priests.'",
+    left: { label: 'A lavish festival', style: 'charm', fx: { m: { res: -12, rep: 10, loy: 6 } }, result: 'Fireworks, roast ox, six thousand cups. For a night the whole city adores you.' },
+    right: { label: 'A quiet fast with prayers', style: 'restraint', fx: { m: { res: 4, rep: -3, loy: -2 } }, result: 'The city fasts gloomily. The treasury is grateful, and no one else is.' },
+    lesson: { law: 37, left: 'Spectacle is a loan against your reputation: costly, fast, and repaid in goodwill that must be renewed.', right: 'Austerity saves money and signals discipline. People who are not impressed tend to be the ones who needed to be.' },
+  },
+  {
+    id: 'credit_idea', title: 'WHOSE IDEA WAS IT', theme: 'reputation', char: 'varen', once: true, when: { turn: [7, null] },
+    text: "The harvest plan that saved three provinces was drawn up by a junior clerk, Tamsin Ode. Lord Varen leans over. 'It would be tidier, {t}, if the council heard it as yours. Clerks have no use for credit.'",
+    left: { label: 'Credit the clerk publicly', style: 'candour', fx: { m: { loy: 8, rep: 2 }, chars: { varen: { resent: 6, trust: -4 } } }, result: 'Tamsin goes pale, then pink. By evening you have the first dedicated clerk in the realm.' },
+    right: { label: 'Present it as your own', style: 'guile', fx: { m: { rep: 8, auth: 3, loy: -6 }, chars: { varen: { trust: 6 } }, flags: ['clerk_resents'] }, result: 'The council applauds you. Tamsin applauds too, with her hands only.' },
+    lesson: { law: 7, left: 'Crediting a subordinate costs a slice of your glory and makes your whole team want to help next time.', right: 'Claiming credit builds a story faster than doing the work. The person who did it will, sooner or later, tell a different one.' },
+  },
+  {
+    id: 'friend_asks', title: 'AN OLD FRIEND', theme: 'loyalty', char: 'crowd', who: { name: 'Edric Hale', role: 'Your Childhood Friend', look: { hue: 85, hat: 'cap' } }, once: true, when: { turn: [6, null] },
+    text: "Edric Hale has travelled nine days to see you, in a coat as borrowed as yours once was. He wants a post. Any post. 'We always said we would look after each other,' he says. He is not wrong. He is not qualified either.",
+    left: { label: 'Give him a post', style: 'charm', fx: { m: { loy: 4, rep: -2, res: -2 }, flags: ['friend_hired'], queue: [{ id: 'friend_betrays', delay: 9 }] }, result: 'Edric nearly weeps. You have one person at court who thinks you are exactly who you were.' },
+    right: { label: 'Give him money and a kind refusal', style: 'pragmatism', fx: { m: { res: -4, loy: -2 }, flags: ['friend_refused'] }, result: 'Edric takes the purse with great dignity and does not look back.' },
+    lesson: { law: 2, left: 'A friend placed beyond his ability tends to feel the gap as an insult. Affection is not a reference.', right: 'A kind refusal protects the friendship from the job. The cost is a little warmth now, and a little more suspicion from people who watch.' },
+  },
+  {
+    id: 'friend_betrays', title: 'THE LETTER IN HIS HANDWRITING', theme: 'revenge', char: 'crowd', who: { name: 'Edric Hale', role: 'Your Old Friend, Formerly', look: { hue: 85, hat: 'cap' } }, once: true, story: true, when: { flags: ['friend_hired'] },
+    text: "Edric sold a letter to a rival's secretary: your private opinion of the council, in your own handwriting. He waits in your study with his hat in his hands. 'I was owed more,' he says, simply.",
+    left: { label: 'Forgive him', style: 'charm', fx: { m: { loy: 3, rep: -3 }, stat: { betrayals: 1 }, note: 'Edric sold your private letter.' }, result: 'He leaves in tears, which is somehow worse than if he had left defiant.' },
+    right: { label: 'Have him banished', style: 'force', fx: { m: { auth: 4, loy: -3, rep: -1 }, stat: { betrayals: 1 }, note: 'Edric sold your private letter.' }, result: 'The guards walk Edric to the gate. He looks smaller with every step.' },
+    lesson: { law: 2, left: 'Forgiveness shows magnanimity and teaches nobody anything, except that betrayal is survivable.', right: 'Punishing publicly warns others, and ends the last trace of the friendship you thought you were protecting.' },
+  },
+  {
+    id: 'silence_council', title: 'EVERYONE LOOKS AT YOU', theme: 'negotiation', char: 'varen', others: ['dorne', 'kovane'], weight: 1.5, when: { turn: [8, null] },
+    text: "The council debates the border. Dorne wants peace talks, Kovane wants reinforcements, Varen wants a commission to study both. Everyone turns to you. Each of them has already decided what they hope to hear.",
+    left: { label: 'Speak your mind in full', style: 'candour', fx: { m: { rep: 3, auth: -2 }, chars: { varen: { suspicion: 5 } } }, result: 'They listen. Then they each quietly adjust their plans to account for yours.' },
+    right: {
+      label: 'Say little and let them argue', style: 'restraint', fx: { m: { auth: 3, rep: -2 } },
+      branches: [{ when: { meter: { rep: [null, 40] } }, fx: { m: { rep: -4 } }, result: 'Silence reads, from someone with a thin reputation, as having nothing to say.' }],
+      result: 'They argue for an hour. By the end they are asking you to arbitrate, which is not the same as asking you to explain.',
+    },
+    lesson: { law: 4, left: 'Full disclosure shows confidence and gives rivals a map. It works best when you can afford to be predicted.', right: 'Saying little lets others reveal their positions. It signals strength only if the room already takes you seriously.' },
+  },
+  {
+    id: 'rumour_about_you', title: 'A RUMOUR GOES AROUND', theme: 'reputation', char: 'ysolde', weight: 1.5, when: { turn: [5, null] },
+    text: "'There is a rumour, {t},' Ysolde says, 'that you bribed your way onto the council. I mention it only because I did not start it, and because it is spreading faster than mine do.'",
+    left: {
+      label: 'Deny it publicly', style: 'candour', fx: { m: { rep: 4, auth: 2 } },
+      branches: [{ when: { stat: { manipulations: [2, null] } }, fx: { m: { rep: -12 } }, result: 'Someone produces a receipt. A denial is only as good as the record behind it.' }],
+      result: 'You say it plainly and with some heat. The rumour fades by supper.',
+    },
+    right: { label: 'Let it spread and profit by it', style: 'guile', fx: { m: { rep: -3, auth: 4, res: 4 }, stat: { manipulations: 1 } }, result: 'A reputation for bribery has one great advantage: suddenly, people offer.' },
+    lesson: { law: 5, left: 'A denial only works if your record backs it. If it does not, the denial becomes the story.', right: 'Letting a damaging rumour run can look like confidence, and it teaches the court what kind of person you are willing to seem.' },
+  },
+  {
+    id: 'rask_oath', title: 'THE BARON PLEDGES', theme: 'loyalty', char: 'rask', once: true, when: { turn: [4, null] },
+    text: "Baron Rask clasps your hand in both of his. 'I am yours, {t}, in all things,' he says. 'Naturally a man of my abilities would be wasted without some small office. For now.'",
+    left: { label: 'Grant him a minor post', style: 'charm', fx: { m: { loy: 5, res: -3 }, chars: { rask: { trust: 10, obligation: 10 } }, flags: ['rask_bound'] }, result: 'Rask becomes Keeper of the Western Keys. He takes the title very seriously, and the keys not at all.' },
+    right: { label: "Keep him at arm's length", style: 'restraint', fx: { chars: { rask: { trust: -6, resent: 4 } } }, result: 'Rask laughs it off. He files you under: Not Yet.' },
+    lesson: { law: 20, left: 'An office buys a loyal face for as long as you remain the most valuable thing he can be loyal to.', right: 'Keeping an opportunist unrewarded keeps him flexible and available to your enemies.' },
+  },
+  {
+    id: 'rask_wavers', title: 'WHERE THE TABLE IS FULL', theme: 'loyalty', char: 'rask', story: true, once: true, when: { turn: [8, null], any: [{ meter: { rep: [null, 45] } }, { meter: { auth: [null, 38] } }] },
+    text: "Baron Rask has been seen dining with your enemies. 'I eat where the table is full,' he says, quite unembarrassed. 'It would be a shame if yours were emptier than theirs.'",
+    left: { label: 'Match their offer', style: 'pragmatism', memo: 'You outbid Rask\'s other dinner companions.', fx: { m: { res: -8 }, chars: { rask: { trust: 12 } } }, result: 'Rask discovers that your table has always been his favourite.' },
+    right: { label: 'Let him go', style: 'candour', memo: 'You let Rask walk away.', fx: { m: { loy: -6 }, chars: { rask: { status: 'defected', resent: 10 } }, flags: ['rask_defected'], stat: { betrayals: 1 }, note: 'Baron Rask has gone over to your rivals.' }, result: 'Rask shrugs, bows beautifully and takes his seat at the other table.' },
+    lesson: { law: 20, left: 'Buying an opportunist\'s loyalty rents it for as long as your payments are higher than the next offer.', right: 'Letting a fair-weather ally leave shows self-respect and hands your enemies a new face.' },
+  },
+  {
+    id: 'rask_returns', title: 'THE WEATHERVANE TURNS', theme: 'revenge', char: 'rask', allowAbsent: true, story: true, once: true,
+    when: { char: { rask: { status: 'defected' } }, meter: { rep: [55, null] } },
+    text: "Rask is at your door with his hat in his hands and a list of everything your enemies planned at that table. 'I have always admired you,' he says, 'whenever it was convenient.'",
+    left: { label: 'Take him back, at a price', style: 'pragmatism', fx: { m: { auth: 3, loy: -2, rep: 2 }, chars: { rask: { status: 'court', trust: 8, obligation: 20, resent: -20 } } }, result: 'Rask returns, with his list and a new humility that will last until the next draught.' },
+    right: { label: 'Shut the door', style: 'candour', fx: { m: { rep: 2, loy: 3 }, flags: ['rask_shunned'] }, result: 'Rask nods, replaces his hat and walks into the street, already composing a new speech.' },
+    lesson: { law: 20, left: 'A repentant opportunist is useful and never fully safe. Taking him back works if you remember what he is.', right: 'Closing the door on a returning weathervane signals that loyalty counts, and wastes a source of intelligence.' },
+  },
+];

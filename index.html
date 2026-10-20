@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" data-motion="full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#0e0d0c">
+  <meta name="description" content="48: Laws of Power. A swipe-based political thriller. Every decision creates a rival. Every alliance has a price.">
+  <title>48: Laws of Power</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e0d0c'/%3E%3Cpath d='M6 22 L8 11 L13 17 L16 8 L19 17 L24 11 L26 22 Z' fill='%23b8964e'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 18 L4.5 7 L9 12 L12 5 L15 12 L19.5 7 L21 18 Z M4 20 H20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12 Q12 3 22 12 Q12 21 2 12 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-hands" viewBox="0 0 24 24"><path d="M12 20 C5 15 3 11 3 8.5 C3 6 5 4.5 7 4.5 C9 4.5 11 6 12 7.5 C13 6 15 4.5 17 4.5 C19 4.5 21 6 21 8.5 C21 11 19 15 12 20 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5 V16.5 M9.5 10 Q12 8 14.5 10 M9.5 14 Q12 16 14.5 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5 Q8 4 12 6 Q16 4 20 5 V19 Q16 18 12 20 Q8 18 4 19 Z M12 6 V20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7 H20 M4 12 H20 M4 17 H20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 20 Q3 13.5 9 13.5 Q15 13.5 15 20" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16.5 13.8 Q21 14 21 19.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M6 4 H18 V17 Q18 20 15 20 H6 Q9 20 9 17 V7 Q9 4 6 4 Z M12 9 H15 M12 12 H15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 12 H21 M18 12 V16 M21 12 V15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <div id="app">
+    <!-- Title screen -->
+    <main id="screen-title" class="screen title" aria-labelledby="title-h">
+      <div class="title-art" aria-hidden="true"><i class="pillar p1"></i><i class="pillar p2"></i><i class="pillar p3"></i><i class="pillar p4"></i><i class="glow"></i></div>
+      <div class="title-inner">
+        <p class="title-kicker">A game of influence</p>
+        <h1 id="title-h"><span class="t48">48</span><span class="tlaws">Laws of Power</span></h1>
+        <p class="tagline">Every decision creates a rival. Every alliance has a price.</p>
+        <div class="title-menu">
+          <button id="btn-continue-reign" class="btn primary" hidden>Continue Reign</button>
+          <button id="btn-new" class="btn primary">Start New Reign</button>
+          <button id="btn-codex" class="btn">Codex</button>
+          <button id="btn-settings" class="btn">Settings</button>
+        </div>
+        <p id="title-stats" class="title-stats"></p>
+        <p id="title-notice" class="title-notice" role="status" hidden></p>
+      </div>
+    </main>
+
+    <!-- Game screen -->
+    <main id="screen-game" class="screen game" hidden>
+      <header class="topbar">
+        <div class="brand" aria-label="48: Laws of Power"><span class="brand-48">48</span><span class="brand-sub">Laws of Power</span></div>
+        <div class="reign-info" id="reign-info"></div>
+        <nav class="top-actions" aria-label="Game panels">
+          <button class="icon-btn" id="btn-dossier" aria-label="Character dossier" title="Dossier"><svg><use href="#i-people"/></svg></button>
+          <button class="icon-btn" id="btn-chronicle" aria-label="Reign chronicle" title="Chronicle"><svg><use href="#i-scroll"/></svg></button>
+          <button class="icon-btn" id="btn-menu" aria-label="Pause menu" title="Menu"><svg><use href="#i-menu"/></svg></button>
+        </nav>
+      </header>
+      <section class="meters" id="meters" aria-label="Power meters"></section>
+      <button class="objective-strip" id="objective-btn" aria-haspopup="dialog"></button>
+      <section class="stage" id="stage">
+        <article class="card" id="card" tabindex="-1" aria-labelledby="card-title">
+          <div class="card-tag tag-left" id="tag-left" aria-hidden="true"></div>
+          <div class="card-tag tag-right" id="tag-right" aria-hidden="true"></div>
+          <div class="portrait" id="card-portrait"></div>
+          <div class="card-body">
+            <p class="eyebrow" id="card-eyebrow"></p>
+            <h2 class="card-title" id="card-title"></h2>
+            <p class="card-who"><strong id="card-name"></strong><span id="card-role"></span></p>
+            <p class="card-text" id="card-text"></p>
+          </div>
+        </article>
+        <section class="result" id="result" aria-live="polite" hidden></section>
+      </section>
+      <footer class="actions" id="actions">
+        <button class="choice choice-left" id="btn-left"><span class="arrow" aria-hidden="true">&#8249;</span><span class="choice-label" id="label-left"></span></button>
+        <button class="choice choice-right" id="btn-right"><span class="choice-label" id="label-right"></span><span class="arrow" aria-hidden="true">&#8250;</span></button>
+        <button class="btn primary wide" id="btn-next" hidden>Continue</button>
+      </footer>
+      <p class="hint" id="hint"></p>
+      <div class="sr-only" id="sr-live" aria-live="polite" aria-atomic="true"></div>
+    </main>
+
+    <!-- Summary screen -->
+    <main id="screen-summary" class="screen summary" hidden aria-labelledby="sum-title"></main>
+  </div>
+
+  <dialog id="dlg" aria-labelledby="dlg-title">
+    <div class="dlg-frame">
+      <header class="dlg-head">
+        <button class="icon-btn dlg-back" id="dlg-back" aria-label="Back" hidden>&#8249;</button>
+        <h2 id="dlg-title"></h2>
+        <button class="icon-btn" id="dlg-close" aria-label="Close">&#10005;</button>
+      </header>
+      <div class="dlg-body" id="dlg-body"></div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-confirm" aria-labelledby="confirm-title">
+    <form method="dialog" class="dlg-frame confirm">
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-text"></p>
+      <div class="confirm-actions">
+        <button class="btn" value="cancel" id="confirm-cancel" autofocus>Cancel</button>
+        <button class="btn danger" value="ok" id="confirm-ok"></button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
