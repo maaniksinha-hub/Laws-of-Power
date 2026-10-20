@@ -100,7 +100,7 @@ test('attitude: masked characters look friendly until their agenda is known or t
   assert.equal(attitude(s, 'varen').label, 'Devoted');
   s.chars.varen.agendaKnown = true; assert.notEqual(attitude(s, 'varen').label, 'Devoted');
   s.chars.varen.agendaKnown = false; s.chars.varen.resent = 90; assert.notEqual(attitude(s, 'varen').label, 'Devoted');
-  s.chars.varen.status = 'exiled'; assert.equal(attitude(s, 'varen').label, 'Exiled');
+  s.chars.varen.status = 'exiled'; assert.equal(attitude(s, 'varen').label, 'Left the company');
 });
 
 // ---- secrets

@@ -1,0 +1,231 @@
+{
+ "council_seat": {
+  "title": "THE EMPTY EXECUTIVE SEAT",
+  "text": "A seat on the executive team is empty. Selena wants a popular sales leader. Marcus wants his friend, who is very polite and has never had an opinion. The vote will be close, and your vote decides it.",
+  "left": { "label": "Back Selena's sales leader", "result": "The leader takes the seat and promptly votes against everyone, which the staff enjoy." },
+  "right": { "label": "Back Marcus's friend", "result": "The friend takes the seat and many notes. Marcus is happy with both." },
+  "lesson": {
+   "left": "Choosing between two people that others picked is never a free choice. Whoever made the short list already shaped the result.",
+   "right": "Backing the safe name buys a quiet friend and a louder enemy. The seat you fill also fills a rival's book of favours."
+  }
+ },
+ "spy_in_house": {
+  "title": "A LEAK ON YOUR TEAM",
+  "text": "'One of your analysts reports to someone,' says Yara, not unkindly. 'Not to me. I have standards.' He has worked for you well for a year, and he repeats every word you say in your one-to-ones. Someone badly wants those words.",
+  "left": { "label": "Feed him false news", "result": "For two weeks your rivals chase a plan that does not exist. The analyst gets a raise, which pleases him." },
+  "right": { "label": "Move him to another team quietly", "result": "He leaves with a good reference and a worried look. Whoever hired him must now find someone new." },
+  "lesson": {
+   "left": "A spy you know about is a tool. The danger is that your rivals may notice the odd coincidences.",
+   "right": "Removing the spy is safe. It also tells everyone who was listening that you noticed."
+  }
+ },
+ "bridge_toll": {
+  "title": "THE SYSTEM OUTAGE",
+  "who": { "name": "The IT Team", "role": "Engineers" },
+  "text": "A core system is falling apart. The IT team offers two ways to pay for the fix. A fee on customers, which will anger every client. Or a charge to each department, which will anger the department heads. Pick whose anger to spend.",
+  "left": { "label": "Charge customers a fee", "result": "The system is fixed. Customers write angry reviews, none of them kind." },
+  "right": { "label": "Charge each department", "result": "The departments pay, and they remember. The system is fixed, and it feels very much like their system now." }
+ },
+ "hunger_march": {
+  "title": "THE WALKOUT",
+  "text": "Three hundred employees are walking to HQ with signs and Andrew's culture plan. Dana wants the doors locked and security ready. Andrew walks at the front, with no weapon, and asks you to meet them in the plaza.",
+  "left": { "label": "Meet them in the plaza", "memo": "You went out to meet the walkout.", "result": "You speak for ten minutes and listen for an hour. They go back to work. Dana does not forgive the risk." },
+  "right": { "label": "Lock the doors", "memo": "You locked the doors on the walkout.", "result": "The doors hold. The crowd stays outside all day, chanting softly." },
+  "lesson": {
+   "left": "Walking out to meet the crowd shows nerve and gives up the safety of distance. It works when you can keep your word.",
+   "right": "Locked doors keep control today. They also show angry staff exactly what the company thinks of them."
+  }
+ },
+ "heir_tutor": {
+  "title": "THE CEO ASKS A FAVOUR",
+  "text": "The CEO asks if you will spend one evening a week mentoring his successor, a young vice president. She has outlasted four mentors. 'She will run this place before she is ready,' says Alan. 'I want her to learn to read a room.'",
+  "left": { "label": "Accept the mentoring", "memo": "You agreed to mentor the young vice president.", "result": "She asks good questions, and a few you will remember for a long time." },
+  "right": { "label": "Say no, you are too busy", "result": "The CEO nods. Better and worse people have refused him. He looks thoughtfully out of the window." },
+  "lesson": {
+   "left": "Teaching a future leader shapes who follows the old one. It also makes you the nearest person to blame if she disappoints.",
+   "right": "Saying no keeps your time free. It leaves the next leader to learn from someone else."
+  }
+ },
+ "tavern_song": {
+  "title": "A MEME IN EVERY CHAT",
+  "who": { "name": "A Funny Colleague", "role": "Maker of Memes" },
+  "text": "A meme about you is in every chat in the company. It is funny. It gets many facts wrong, all in ways that make you look silly. The colleague who made it will show a new version at the all-hands today.",
+  "left": { "label": "Pay for a better video", "result": "Your video is better. People share both. Your rivals share the first one." },
+  "right": { "label": "Laugh and share it yourself", "result": "You post it with a joke of your own. The company laughs with you. The meme loses its sting." },
+  "lesson": {
+   "left": "Answering mockery with a better story spends money to win an argument you could have ignored.",
+   "right": "Joining the joke takes away its target. It works best when the joke is not true."
+  }
+ },
+ "rival_wedding": {
+  "title": "AN INVITATION IN GOLD",
+  "text": "Selena's team is holding a big celebration, and the whole company will be there. So will the people who would like to see you with fewer friends. An invitation arrives in gold ink. Saying no would be noticed. Going would be noticed more.",
+  "left": { "label": "Go, with a generous gift", "result": "You dance, you listen and you say very little. By midnight you know who owes whom." },
+  "right": { "label": "Send regrets and a small gift", "result": "Your empty chair is noticed, politely, by everyone. Selena sends back a dry thank you." },
+  "lesson": {
+   "left": "Going to the right event costs money and buys news that nobody will sell you.",
+   "right": "Staying away avoids owing anyone. It also leaves the room to the people who are there."
+  }
+ },
+ "border_deserters": {
+  "title": "THREE ENGINEERS QUIT",
+  "text": "Three engineers walked out in the middle of a release. They say their overtime pay has been late for six months. Dana stands stiff. 'The contract is clear,' she says. 'I will do what you decide.'",
+  "left": { "label": "Follow the contract", "result": "The notice is enforced on Friday. The team is fully staffed by Monday, and very quiet." },
+  "right": { "label": "Bring them back and pay what is owed", "result": "The engineers return. Dana notices that her team now has a second person to thank." },
+  "lesson": {
+   "left": "Strict rules keep order and show who decides. They do nothing about why people left.",
+   "right": "Mercy and back pay deal with the cause. They also take some of the manager's power with them."
+  }
+ },
+ "aubry_hospital": {
+  "title": "A WELLBEING ROOM",
+  "text": "Lucas shows you a long empty room in the basement. 'Burnout is expected by autumn,' he says. 'A wellbeing programme costs money, and when it works you see nothing. I think that is why nobody builds one.'",
+  "left": { "label": "Pay for the programme", "result": "The first busy season is calm. Nobody thanks you, which is exactly how it works." },
+  "right": { "label": "Wait for the problem to prove the need", "result": "Burnout hits in October. So do the funds, and so does Lucas's frown." },
+  "lesson": {
+   "left": "Spending on a problem that has not happened yet looks wasteful, until the day it saves you. It is a slow way to buy loyalty.",
+   "right": "Waiting for proof saves money and invites the very thing you wanted to avoid. It also costs you the trust of the one who warned you."
+  }
+ },
+ "isaura_tea": {
+  "title": "COFFEE WITH THE CHAIR",
+  "text": "An invitation comes, in the same style as the unsigned messages. Isabel Venn, Chair of the Board, meets you in a corner office full of clocks. 'You followed my car,' she says. 'I was rather pleased. Let us stop pretending and trade.'",
+  "left": { "label": "Trade secrets with her", "memo": "You traded secrets with the Chair.", "result": "She tells you what Marcus wants. You tell her something about yourself. Each of you thinks you got the better deal." },
+  "right": { "label": "Thank her and leave", "result": "Her smile does not change. For a moment, all the clocks agree on the time." },
+  "lesson": {
+   "left": "Trading secrets with a master of secrets is fair only if you can tell what she gave and what she kept.",
+   "right": "Leaving politely keeps you free. It tells her you cannot be bought with kind words. She will test that again."
+  }
+ },
+ "treasury_audit": {
+  "title": "BALDRIC'S SPREADSHEET",
+  "text": "Oliver has found problems in the finance lead's accounts. Not theft, quite. Payments that happen to end up in Selena's projects by way of three vendors. 'I only mention it,' says Oliver, 'because a leader would want to know before a rival does.'",
+  "left": { "label": "Check the books quietly and say nothing", "result": "The vendors become very careful. Selena cannot tell whether she was noticed." },
+  "right": { "label": "Remove Baldric in public", "result": "The board applauds. Selena does not. She looks at Oliver, who is looking at his shoes." },
+  "lesson": {
+   "left": "A quiet hold works while nobody knows you have it. Once it is known, it becomes a threat.",
+   "right": "Punishing in public stops the wrong. It also gives a rival a complaint with a public face."
+  }
+ },
+ "quill_protocol": {
+  "title": "A QUESTION OF SEATS",
+  "text": "Quentin is in despair. A visiting investor must be seated, and every seat insults someone. 'Marcus insists he sits next to her,' he whispers. 'She insists on the window. Both are right. Neither knows the other is right.'",
+  "left": { "label": "Seat the investor at the window", "result": "The investor is charmed. Marcus is seated right under the air conditioner." },
+  "right": { "label": "Seat Marcus next to her", "result": "Marcus presides, beaming. The investor eats her lunch in the cold and is in a very good mood about it." }
+ },
+ "retire_offer": {
+  "title": "LEAVE WHILE THEY SAY PLEASE",
+  "text": "The CEO sees you alone. 'A fine package, a long holiday and my thanks,' he says. 'Leave while they still say please. In my experience that season is very short.'",
+  "left": { "label": "Accept the package", "memo": "You accepted the CEO's offer to leave.", "result": "You shake his hand, you thank him, and you mean about half of it." },
+  "right": { "label": "Say no, with thanks", "result": "The CEO's smile is a very old one. 'Of course,' he says. 'Ambition is a kind of loyalty, I suppose.'" },
+  "lesson": {
+   "left": "Stepping away at the top turns a career of work into a good ending. Few who rise this high choose it.",
+   "right": "Staying means the next test is harder. And the one who offered you a way out has noted your answer."
+  }
+ },
+ "king_death": {
+  "title": "THE CEO IS LEAVING TODAY",
+  "text": "The CEO has just resigned. The phones will not stop ringing. His chosen successor is a young vice president, and she is scared. The board is hungry. Every eye is on you as the Chair asks who will lead the company for now.",
+  "left": {
+   "label": "Take the top job yourself",
+   "memo": "You took the top job yourself.",
+   "branches": [
+    "Nobody moves to stop you. By evening, the CEO's keycard is on your desk.",
+    "The board says no, politely. A package is arranged for you, also politely.",
+    "You reach for the job and find a dozen hands already on it."
+   ]
+  },
+  "right": {
+   "label": "Back the young successor and guide her",
+   "memo": "You backed the young successor.",
+   "result": "The vice president becomes CEO, and she holds your hand through the whole announcement.",
+   "branches": [
+    "The new CEO takes the stage. She looks for you in the crowd first, finds you, and takes a very deep breath.",
+    "The new CEO takes the stage. At the back of the room, the Chair is seen to nod once.",
+    "The new CEO takes the stage. At the back of the room, the Chair does not clap."
+   ]
+  },
+  "lesson": {
+   "left": "Taking the founder's chair means being compared to him for the rest of your career, by everyone who loved or feared him.",
+   "right": "Leading through a successor gives you power without the comparison. It also ties your fate to a young leader and to those who back her."
+  }
+ },
+ "coalition_moves": {
+  "title": "FOUR EXECS, ONE DINNER",
+  "who": { "name": "A Nervous Intern", "role": "Messenger" },
+  "text": "An intern slips you a folded note with no name. 'Four executives, four grudges, one dinner. They meet tonight to split up your jobs.' Your rivals have stopped fighting each other. That is the most dangerous thing they could do.",
+  "left": {
+   "label": "Break the group: win over its weakest link",
+   "memo": "You bought off one of the group against you.",
+   "branches": [
+    "You offer the angriest of them a lot of promises. The dinner is much quieter than planned.",
+    "You cannot afford them. They sense it, and the dinner becomes a vote."
+   ]
+  },
+  "right": {
+   "label": "Strike first at the loudest one",
+   "memo": "You struck first at the group against you.",
+   "branches": [
+    "Before dessert, their host is called into HR. The others suddenly remember other plans.",
+    "Your guard is half a step slow. The group takes it as an invitation."
+   ]
+  },
+  "lesson": {
+   "left": "Pulling off the weakest link breaks a group cheaply, if you can pay. It fails when you are the one short of resources.",
+   "right": "Striking the loudest voice works only if your power survives being seen. A blow without strength makes the group stronger."
+  }
+ },
+ "coalition_strikes": {
+  "title": "SECURITY AT THE DOOR",
+  "who": { "name": "Your Assistant", "role": "Your Last Loyal Teammate" },
+  "text": "Your assistant bursts in, out of breath. 'They have the board room. Four executives, two directors and the lawyers. They want your badge by dawn, and a quiet exit if you are sensible.'",
+  "left": {
+   "label": "Stand and fight",
+   "branches": [
+    "More people stay loyal than your assistant feared. By dawn, the board room is yours again.",
+    "Your assistant is called away. The rest of your team remembers it has families."
+   ]
+  },
+  "right": { "label": "Ask for a deal to leave", "result": "You leave by the back door with a package, a promise and your reputation." },
+  "lesson": {
+   "left": "A last stand works only if the friends and power were in place before the doors closed.",
+   "right": "Leaving on your own terms saves your future and loses everything else. It is the last move in a game you were already losing."
+  }
+ },
+ "final_session": {
+  "title": "THE BOARD HEARS YOUR STORY",
+  "who": { "name": "The Board Secretary", "role": "Keeper of the Record" },
+  "text": "The board meets to review your time at the company. The secretary puts down the record, and the room goes quiet in the way that means everyone has prepared something.",
+  "left": {
+   "label": "Tell your own story",
+   "result": "You speak well, and mostly truthfully. The room does the rest.",
+   "branches": ["Someone interrupts with screenshots. Your record has more small notes than you remembered."]
+  },
+  "right": { "label": "Let the facts speak", "result": "You say little. The record says a great deal, and mostly good." },
+  "lesson": {
+   "left": "Telling your own story shapes how it is heard. A record with loose ends will be pulled apart.",
+   "right": "Letting results speak shows calm. It relies on others to read them fairly. A strong record needs fewer words."
+  }
+ },
+ "routine_petitions": {
+  "title": "THE MORNING STAND-UP",
+  "who": { "name": "The Whole Team", "role": "Your Colleagues" },
+  "text": "The morning stand-up is long and dull. A fight over a shared folder. A broken printer. A request to rename a meeting room. Each person leaves sure that you listened to them alone.",
+  "left": { "label": "Hear every update in full", "result": "Hours later, the room is called Merrow Room, and Merrow is very pleased." },
+  "right": { "label": "Let the team leads handle it", "result": "The leads are quick. The team is less impressed." }
+ },
+ "routine_envoy": {
+  "title": "THE DAY'S EMAILS",
+  "who": { "name": "A Visiting Consultant", "role": "Bringer of Requests" },
+  "text": "A consultant forwards the day's emails with a face like a closed door. A manager wants a bigger desk. A director wants an award. A minor executive wants to be seen being forgiven for something.",
+  "left": { "label": "Give favours freely", "result": "A dozen small debts are made. You will not know which ones matter for months." },
+  "right": { "label": "Answer nobody until they ask twice", "result": "Half the emails are never asked about again. The other half are asked about very politely." }
+ },
+ "routine_gossip": {
+  "title": "IDLE TALK AT THE COFFEE MACHINE",
+  "who": { "name": "A Cheerful Colleague", "role": "Office Gossip" },
+  "text": "She makes coffee and says nothing important for twenty minutes, which is exactly how you learn things. By the end you know who has argued, who is job hunting, and who is spending too much.",
+  "left": { "label": "Listen and learn", "result": "You use none of it. From now on you just notice who talks to whom." },
+  "right": { "label": "Change the subject", "result": "She laughs, delighted, and tells a different story instead." }
+ }
+}

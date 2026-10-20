@@ -2,7 +2,7 @@
 // Strategy: cache-first for the app shell (fast, offline), refreshed in the background (stale-while-revalidate),
 // so a new deploy is picked up on the next launch. Bump CACHE_VERSION to drop old caches immediately.
 const CACHE_VERSION = 'v2';
-const CACHE = `lop-${CACHE_VERSION}`;
+const CACHE = `corp-${CACHE_VERSION}`;
 const ASSETS = [
   "./",
   "index.html",
@@ -39,8 +39,11 @@ const ASSETS = [
   "data/events/people.js",
   "data/events/rivals.js",
   "data/events/shadows.js",
-  "fonts/im-fell-english-latin-400-italic.woff2",
-  "fonts/im-fell-english-latin-400-normal.woff2",
+  "fonts/ibm-plex-sans-condensed-latin-600-normal.woff2",
+  "fonts/ibm-plex-sans-latin-400-italic.woff2",
+  "fonts/ibm-plex-sans-latin-400-normal.woff2",
+  "fonts/ibm-plex-sans-latin-500-normal.woff2",
+  "fonts/ibm-plex-sans-latin-600-normal.woff2",
   "icons/apple-touch-icon.png",
   "icons/favicon-32.png",
   "icons/icon-192.png",
@@ -55,7 +58,7 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('lop-') && k !== CACHE).map(k => caches.delete(k))))
+    caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('corp-') && k !== CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim()),
   );
 });

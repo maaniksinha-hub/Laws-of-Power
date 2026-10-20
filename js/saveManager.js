@@ -7,7 +7,7 @@ import { OBJECTIVES } from '../data/objectives.js';
 import { META_VERSION, createMeta } from './meta.js';
 import { SAVE_VERSION, newCharState } from './state.js';
 
-export const KEYS = { save: 'lop.save', meta: 'lop.meta', settings: 'lop.settings' };
+export const KEYS = { save: 'corp.save', meta: 'corp.meta', settings: 'corp.settings' };
 export const DEFAULT_SETTINGS = { sound: true, motion: 'auto', showValues: false, hints: true, hintDots: true, autoFullscreen: true, keepAwake: true, vibrate: true };
 
 let store = null;

@@ -1,0 +1,174 @@
+{
+ "ysolde_first": {
+  "title": "COFFEE WITH YARA",
+  "text": "'News is the one thing that grows in value,' says Yara, stirring a coffee she will not drink. 'For one big favour I will tell you who in this building is lying to you. For free, I will tell you to be careful.'",
+  "left": { "label": "Say no", "result": "'Careful, then,' says Yara, and slides you a coffee you did not ask for." },
+  "right": {
+   "label": "Do her the favour",
+   "memo": "You bought a secret from Yara.",
+   "branches": [
+    "She slides over a folded note. The head of the CEO's office sells the CEO's daily plans. To her, and to others.",
+    "'Quentin? He never sells. I have tried.' It is the nearest thing to praise she gives anyone."
+   ]
+  },
+  "lesson": {
+   "left": "Saying no keeps your hands clean and your favours free. But you stay the one who does not know what everyone else knows.",
+   "right": "Bought news is only as good as the seller's reasons. A broker will sell the same true thing to you and to others."
+  }
+ },
+ "ysolde_ledger": {
+  "title": "THE LONG THREAD",
+  "text": "'I keep screenshots,' says Yara. 'Your name has a long thread now. Favours, pressure, a few neat lies. Others would pay well to read it. I would much rather be your friend.'",
+  "left": { "label": "Buy the screenshots", "memo": "You bought the screenshots that had your name.", "result": "The files change hands. Yara keeps a copy, as you would have done." },
+  "right": {
+   "label": "Call her bluff",
+   "memo": "You called Yara's bluff about the screenshots.",
+   "result": "She shrugs, and for once she looks unsure. Maybe she was bluffing.",
+   "branches": [
+    "Yara sells the thread to the highest buyer by morning. Every message leads back to you.",
+    "A few screenshots turn up in the leadership chat. It is not the worst page. It is bad enough."
+   ]
+  },
+  "lesson": {
+   "left": "Paying to keep a record hidden costs less than defending your name. It also keeps the broker in your story.",
+   "right": "Daring a record keeper to publish bets that she values her trade more than the sale. Sometimes she does not."
+  }
+ },
+ "king_ill": {
+  "title": "THE NUMBERS ARE OFF",
+  "text": "Lucas shuts the door and does not sit. 'The quarterly numbers. I have audited many reports. This one is wrong. Someone is changing the figures a little each week.'",
+  "left": { "label": "Look into it quietly", "memo": "You looked into the numbers in secret.", "result": "Lucas gives you a spreadsheet and a list of odd entries. You tell no one." },
+  "right": { "label": "Tell the leadership team", "memo": "You told the leadership team about the numbers.", "result": "The room erupts. Everyone looks shocked. Some of them are very good actors." },
+  "lesson": {
+   "left": "Staying silent keeps the guilty one comfortable, and comfortable people repeat their habits. You bought time with your own safety.",
+   "right": "Telling everyone warns the one who changed the numbers as well as the victim. It also makes you the person who raised the alarm."
+  }
+ },
+ "tasting_cup": {
+  "title": "THE REPORT TO SIGN",
+  "text": "Before the board meeting, the CEO hands you the quarterly report. It is a kind gesture and a sign of trust. Lucas's eyes find yours across the room. The numbers look perfect. A little too perfect.",
+  "left": { "label": "Ask an analyst to check it first", "memo": "You had an analyst check the CEO's report.", "result": "The analyst finds errors within the hour. The report was bad. The office is shocked, quietly." },
+  "right": {
+   "label": "Sign it yourself",
+   "memo": "You signed the CEO's report.",
+   "branches": [
+    "Lucas's notes keep you safe. The board watches someone sign a clean report with proof behind it.",
+    "You sign. Later, the report is found false. The last thing you see is Lucas walking away, and nobody else.",
+    "You are called in, grey in the face. The report was bad. You clear your name in a week. The office tells the story for much longer."
+   ]
+  },
+  "lesson": {
+   "left": "A second check keeps your own hands clean, but someone else does the work, and they did not choose it. People notice who was told to be careful.",
+   "right": "Signing yourself shows strong belief. It can also end your career if you do not know what you are signing."
+  }
+ },
+ "poisoner_unmasked": {
+  "title": "WHO CHANGED THE FIGURES",
+  "text": [
+   "Lucas has traced the changes to the finance team Oliver Vasquez set up. 'He has a reason. A weak quarter gives him more control. He has the means too. That is not proof. But I would check his invoices.'",
+   "Lucas has traced the changes to Selena's sales team. 'Her top manager entered the numbers, and he is terrified. Selena is calm. Either she is innocent, or she is a great actress.'",
+   "Lucas has traced the changes to the CEO's office. 'Quentin's login made the edits that night. Was it for money or from fear? I cannot say. But it was his login.'"
+  ],
+  "left": { "label": "Remove the guilty one quietly", "memo": "You had the person behind the numbers removed quietly.", "result": "It happens in a quiet meeting on Friday. By Monday, the guilty one has simply left the company." },
+  "right": { "label": "Show the proof to the board", "memo": "You showed the board who changed the numbers.", "result": "The board watches {culprit} being walked out. For one afternoon, everyone is on the same side." },
+  "lesson": {
+   "left": "A quiet exit ends the danger but leaves questions. Rumours grow from questions.",
+   "right": "A public hearing gives you the most right to act. It also teaches the next cheat what to hide."
+  }
+ },
+ "anonymous_note": {
+  "title": "A MESSAGE FROM \"I.V.\"",
+  "text": "A private message pops up from an account with no photo. 'Your rise was no accident. Your fall does not have to be one either. Name a place and a time.' It is written by someone who never asks permission.",
+  "left": { "label": "Ignore the message", "result": "You delete it. The next day, a faint perfume lingers in the lift, which is somehow worse." },
+  "right": { "label": "Name a place and a time", "result": "A courier delivers the reply to a car outside the building and vanishes before you finish reading." },
+  "lesson": {
+   "left": "Letting a mystery person come to you keeps the first move. But you are now ignoring a powerful person.",
+   "right": "Choosing the time and place of a secret meeting feels like control. It only helps if you know who you are meeting."
+  }
+ },
+ "veiled_meeting": {
+  "title": "THE CAR WITH DARK WINDOWS",
+  "text": [
+   "The car is waiting outside your building this time. 'It was rude not to answer,' says a calm voice. 'I forgive it once. I can make the board lean your way. All I will ask is a name, when the time comes.'",
+   "A car with dark windows waits outside the parking garage. The woman inside never takes off her sunglasses. 'I can make the board lean your way,' she says. 'All I will ever ask is a name, when the time comes.'"
+  ],
+  "left": { "label": "Refuse the helper", "memo": "You refused the Silent Sponsor.", "result": "The window stays shut. The car drives off at exactly the speed limit." },
+  "right": { "label": "Accept her help", "memo": "You accepted the Silent Sponsor's help.", "result": "By the next board meeting, three locked doors are open." },
+  "lesson": {
+   "left": "Refusing an unknown helper keeps you free. It also makes you a fixed point that someone must now work around.",
+   "right": "A helper makes you depend on her, and she depends on you. But only she knows how long the leash is."
+  }
+ },
+ "veiled_price": {
+  "title": "THE NAME",
+  "text": "The same quiet voice again. 'The name I mentioned,' it says. 'My nephew, a young vice president. When the CEO steps down, you will back him and no one else. I have waited a long time to ask.'",
+  "left": { "label": "Refuse", "memo": "You refused the Silent Sponsor's price.", "result": "Doors close in the order they opened. Her favour was a staircase, and she has taken it away." },
+  "right": { "label": "Promise to back her nephew", "memo": "You promised to back the Silent Sponsor's pick.", "result": "You agree in the car park. It is the first thing you cannot take back." },
+  "lesson": {
+   "left": "Refusing the price loses what you already gained. It also shows others you can say no to the most powerful person in the room.",
+   "right": "The price of free help is shown last. Paying keeps you safe. It also ties your future choices to someone else's plan."
+  }
+ },
+ "unveiling": {
+  "title": "THE PARKING PASS",
+  "text": "The same dark car passes your window again. The driver stops to fix a mirror. For one breath, the parking pass on the dash is visible, with a name on it. You could follow it.",
+  "left": { "label": "Let it go", "result": "The car turns the corner. Some mysteries are more useful when left alone." },
+  "right": {
+   "label": "Follow the car",
+   "memo": "You followed the Silent Sponsor's car.",
+   "result": "It ends at the private entrance of Isabel Venn, Chair of the Board.",
+   "branches": ["It ends at the Chair's private door. Her driver looks straight at you. You have been seen."]
+  },
+  "lesson": {
+   "left": "Leaving a secret alone keeps you off a powerful person's list. It also keeps you blind to the hand that moves the pieces.",
+   "right": "Finding out who a helper is gives you power and a weakness. She will wonder what else you have learned."
+  }
+ },
+ "sabel_gift": {
+  "title": "A GIFT WITH NO STRINGS",
+  "text": "Imre from Southline Group hands you a premium tablet and a free pilot of his software. 'A gift from Southline. No strings, only friendship.' The box is beautifully made, like most traps.",
+  "left": { "label": "Refuse the gift", "result": "Imre nods. Only a very good salesperson is so kind about a refusal." },
+  "right": { "label": "Accept it", "result": "It is a lovely thing. You find yourself thinking of it whenever Imre is in the room." },
+  "lesson": {
+   "left": "Refusing a gift keeps things clean. It costs a little warmth with someone who offered it to build some.",
+   "right": "A gift with \"no strings\" costs less than most and more than it seems. You owe the favour even if the bill never comes."
+  }
+ },
+ "sabel_treaty": {
+  "title": "A CONTRACT BY MORNING",
+  "text": [
+   "'Sign the partnership contract by morning,' says Imre, resting a hand on the tablet he gave you. 'Southline is generous but in a hurry.' In the corner, Oliver shakes his head slightly. Oliver has his own reasons to dislike a rival.",
+   "'Sign the partnership contract by morning,' says Imre. 'Southline is generous but in a hurry.' In the corner, Oliver shakes his head slightly. Oliver has his own reasons to dislike a rival."
+  ],
+  "left": {
+   "label": "Sign it now",
+   "memo": "You signed Southline's contract overnight.",
+   "branches": [
+    "Money flows in. Somewhere in the small print is a clause that nobody read out loud.",
+    "The contract is exactly what it said it was. Imre looks truly relieved."
+   ]
+  },
+  "right": {
+   "label": "Wait and check it",
+   "memo": "You waited to check the contract.",
+   "branches": [
+    "Page nine gives Southline admin access to our core systems. Imre's charm gets thinner.",
+    "The contract is fair. Imre is hurt that you doubted him, and not completely wrong to be."
+   ]
+  },
+  "lesson": {
+   "left": "Signing fast rewards the one who set the deadline. Whether it was a mistake depends on what was in the contract.",
+   "right": "Asking for time to read what you sign is a normal right. People in a hurry treat it as an insult. Being rushed is a warning sign."
+  }
+ },
+ "sabel_betrayal": {
+  "title": "A BACK DOOR, NOT A PARTNERSHIP",
+  "text": "Southline \"support engineers\" are inside our systems, and there are a great many of them. Dana storms in with a printout. 'You gave them the keys. They never needed a partnership. They needed a back door.'",
+  "left": { "label": "Cancel the contract in public", "note": "Imre tricked you with the contract.", "memo": "You cancelled Southline's contract in public.", "result": "You admit the mistake in front of the company and cut Southline off. Dana runs to lock down the systems." },
+  "right": { "label": "Say it was all planned", "note": "Imre tricked you with the contract.", "memo": "You said the contract was part of a plan.", "result": "You tell leadership it is a trap for Southline. Nobody believes it, and a few pretend to." },
+  "lesson": {
+   "left": "Owning a mistake early limits the damage. It makes your next words easier to believe.",
+   "right": "A bluff that hides your own mistake works until someone checks. Then you have two problems."
+  }
+ }
+}

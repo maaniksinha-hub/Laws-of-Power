@@ -1,81 +1,87 @@
-// Original CSS/SVG silhouette portraits generated from a character's `look` data. No external images.
+// Original flat avatars and office scenes drawn in SVG from a character's `look` data. No image files.
+// A card shows a wide scene (the place where the message arrives) and a round avatar on top of it, like a profile page.
 let uid = 0;
 
-const HATS = {
-  crown: (h, a) => `<path d="M72 52 L78 30 L92 44 L100 24 L108 44 L122 30 L128 52 Z" fill="${a}" stroke="rgba(0,0,0,.35)" stroke-width="1.5"/><circle cx="100" cy="26" r="3" fill="#8a1c1c"/>`,
-  helm: (h, a) => `<path d="M70 62 Q70 28 100 28 Q130 28 130 62 L130 68 L70 68 Z" fill="${a}" stroke="rgba(0,0,0,.45)" stroke-width="1.5"/><rect x="97" y="40" width="6" height="34" fill="rgba(0,0,0,.35)"/><path d="M100 28 Q112 12 126 20 Q112 22 106 32 Z" fill="hsl(${h} 45% 35%)"/>`,
-  coif: (h, a) => `<path d="M71 66 Q68 34 100 32 Q132 34 129 66 Q118 52 100 52 Q82 52 71 66 Z" fill="hsl(${h} 25% 16%)"/><path d="M129 66 Q138 78 130 96 Q126 80 122 70 Z" fill="hsl(${h} 25% 16%)"/>`,
-  cap: (h, a) => `<ellipse cx="100" cy="46" rx="34" ry="12" fill="hsl(${h} 30% 20%)"/><path d="M72 48 Q100 24 128 48 Z" fill="hsl(${h} 30% 24%)"/><circle cx="120" cy="38" r="3" fill="${a}"/>`,
-  hood: (h, a) => `<path d="M62 100 Q56 40 100 30 Q144 40 138 100 L120 100 Q124 60 100 56 Q76 60 80 100 Z" fill="hsl(${h} 20% 14%)" stroke="rgba(255,255,255,.06)"/>`,
-  mitre: (h, a) => `<path d="M78 56 L100 6 L122 56 Z" fill="hsl(${h} 25% 78%)" stroke="rgba(0,0,0,.35)"/><path d="M100 12 L100 52" stroke="${a}" stroke-width="3"/><path d="M84 52 H116" stroke="${a}" stroke-width="3"/>`,
-  veil: (h, a) => `<path d="M64 40 Q100 20 136 40 L146 110 L54 110 Z" fill="hsl(${h} 12% 55% / .45)" stroke="rgba(255,255,255,.18)"/><path d="M76 38 Q100 30 124 38" stroke="${a}" stroke-width="3" fill="none"/>`,
-  turban: (h, a) => `<ellipse cx="100" cy="46" rx="34" ry="19" fill="hsl(${h} 45% 40%)"/><path d="M68 46 Q100 64 132 46" stroke="rgba(0,0,0,.3)" stroke-width="2" fill="none"/><path d="M72 38 Q100 56 128 36" stroke="rgba(255,255,255,.25)" stroke-width="2" fill="none"/><circle cx="100" cy="34" r="4" fill="${a}"/>`,
-  none: (h) => `<path d="M72 60 Q74 36 100 34 Q126 36 128 60 Q116 46 100 46 Q84 46 72 60 Z" fill="hsl(${h} 20% 18%)"/>`,
+const SKINS = ['#f5d3b3', '#ecb98d', '#d39a6b', '#b27547', '#80512f', '#523420'];
+const HAIR_STYLES = {
+  short: c => `<path d="M40 49 Q38 27 60 26 Q82 27 80 49 Q74 38 60 37 Q46 38 40 49Z" fill="${c}"/>`,
+  crop: c => `<path d="M41 47 Q40 30 60 29 Q80 30 79 47 Q70 39 60 39 Q50 39 41 47Z" fill="${c}"/>`,
+  part: c => `<path d="M39 51 Q35 25 62 25 Q85 27 81 49 Q72 35 52 38 Q43 41 39 51Z" fill="${c}"/><path d="M52 38 Q58 30 66 28" stroke="rgba(0,0,0,.25)" stroke-width="1.5" fill="none"/>`,
+  long: c => `<path d="M37 56 Q34 25 60 25 Q86 25 83 56 L86 90 L74 72 L74 46 Q60 35 46 46 L46 72 L34 90Z" fill="${c}"/>`,
+  bob: c => `<path d="M37 58 Q33 25 60 24 Q87 25 83 58 L79 62 L77 44 Q60 33 43 44 L41 62Z" fill="${c}"/>`,
+  bun: c => `<circle cx="60" cy="20" r="8" fill="${c}"/><path d="M40 49 Q38 28 60 27 Q82 28 80 49 Q72 38 60 38 Q48 38 40 49Z" fill="${c}"/>`,
+  curly: c => `<g fill="${c}"><circle cx="42" cy="40" r="8"/><circle cx="50" cy="31" r="9"/><circle cx="62" cy="28" r="9"/><circle cx="73" cy="32" r="9"/><circle cx="80" cy="42" r="8"/></g>`,
+  bald: () => '',
 };
-
-// Scene backdrops: the place the conversation happens, drawn behind the speaker. `h` tints them to the speaker.
-const SCENES = {
-  throne: h => `<path d="M0 150 V30 Q0 6 24 6 H30 V150 Z M200 150 V30 Q200 6 176 6 H170 V150 Z" fill="rgba(0,0,0,.42)"/><path d="M52 150 V58 Q100 -6 148 58 V150" fill="none" stroke="rgba(217,185,112,.22)" stroke-width="2"/><path d="M78 0 V22 L88 34 L98 22 V0 M102 0 V22 L112 34 L122 22 V0" fill="hsl(${h} 40% 30% / .55)"/><path d="M0 128 H200" stroke="rgba(217,185,112,.18)"/>`,
-  hall: h => `<path d="M10 150 V70 Q10 40 38 40 Q66 40 66 70 V150 M74 150 V70 Q74 40 102 40 Q130 40 130 70 V150 M138 150 V70 Q138 40 166 40 Q194 40 194 70 V150" fill="rgba(0,0,0,.32)" stroke="rgba(217,185,112,.16)" stroke-width="1.5"/><path d="M0 132 H200 M0 142 H200" stroke="rgba(217,185,112,.12)"/>`,
-  war: h => `<path d="M20 150 V14 M44 150 V30 M156 150 V26 M180 150 V10" stroke="rgba(0,0,0,.5)" stroke-width="2.5"/><path d="M20 14 L42 20 L20 28 Z M180 10 L158 16 L180 24 Z" fill="hsl(${h} 55% 38% / .75)"/><path d="M0 120 L30 96 L58 120 M142 120 L170 92 L200 120" fill="rgba(0,0,0,.38)"/>`,
-  night: h => `<circle cx="158" cy="30" r="15" fill="rgba(239,230,210,.28)"/><circle cx="153" cy="27" r="14" fill="hsl(${h} 25% 12%)"/><path d="M0 150 V108 H16 V94 H30 V108 H48 V86 L60 76 L72 86 V108 H96 V100 H118 V112 H140 V90 H160 V108 H200 V150 Z" fill="rgba(0,0,0,.55)"/><g fill="rgba(239,230,210,.5)"><circle cx="30" cy="20" r="1"/><circle cx="62" cy="40" r="1"/><circle cx="104" cy="14" r="1.2"/><circle cx="186" cy="62" r="1"/></g><rect x="52" y="92" width="4" height="6" fill="rgba(217,185,112,.8)"/>`,
-  counting: h => `<path d="M0 40 H200 M0 80 H200 M0 120 H200" stroke="rgba(0,0,0,.4)" stroke-width="3"/><g fill="rgba(217,185,112,.4)"><circle cx="26" cy="34" r="5"/><circle cx="40" cy="34" r="5"/><circle cx="33" cy="26" r="5"/><circle cx="166" cy="74" r="5"/><circle cx="180" cy="74" r="5"/><circle cx="30" cy="114" r="5"/></g><path d="M150 0 V20 M134 28 H166 M134 28 Q150 44 166 28" stroke="rgba(217,185,112,.45)" fill="none" stroke-width="1.5"/>`,
-  market: h => `<path d="M0 30 H66 L58 52 H8 Z" fill="hsl(${h} 50% 36% / .6)"/><path d="M134 24 H200 L192 46 H142 Z" fill="hsl(${h} 15% 60% / .35)"/><path d="M0 150 V98 H22 V84 H46 V98 H70 V150 M130 150 V92 H150 V80 H178 V92 H200 V150" fill="rgba(0,0,0,.45)"/>`,
-  chapel: h => `<path d="M76 150 V54 Q76 18 100 6 Q124 18 124 54 V150 Z" fill="hsl(${h + 20} 55% 45% / .38)" stroke="rgba(217,185,112,.3)" stroke-width="1.5"/><path d="M100 10 V150 M76 70 H124" stroke="rgba(0,0,0,.4)" stroke-width="2"/><g fill="rgba(255,206,120,.95)"><ellipse cx="34" cy="106" rx="2.4" ry="4.4"/><ellipse cx="166" cy="106" rx="2.4" ry="4.4"/></g><path d="M34 112 V140 M166 112 V140" stroke="rgba(0,0,0,.5)" stroke-width="3"/>`,
-};
-export const THEME_SCENE = { ambition: 'throne', reputation: 'hall', loyalty: 'war', secrets: 'night', rivalry: 'hall', negotiation: 'counting', fear: 'war', scarcity: 'market', revenge: 'night', opportunity: 'chapel', timing: 'throne' };
 
 // Face shapes and expressions. The same hidden state that drives `attitude` drives the expression; a mask slips before it breaks.
-const FACES = {
-  round: { rx: 25, ry: 28, cy: 66 },
-  long: { rx: 21, ry: 32, cy: 67 },
-  square: { rx: 25, ry: 27, cy: 66, r: 9 },
-};
+const FACES = { round: { rx: 21, ry: 23, cy: 52 }, long: { rx: 18, ry: 26, cy: 53 }, square: { rx: 21, ry: 22, cy: 52, r: 7 } };
 const BROWS = {
-  neutral: 'M80 62 L92 61 M108 61 L120 62',
-  warm: 'M80 61 Q86 57 92 60 M108 60 Q114 57 120 61',
-  slip: 'M80 66 L92 61 M108 61 L120 62',
-  wary: 'M80 59 L92 63 M108 63 L120 59',
-  hostile: 'M79 57 L92 65 M108 65 L121 57',
-  afraid: 'M80 62 Q86 55 92 57 M108 57 Q114 55 120 62',
+  neutral: 'M46 44 L56 43 M64 43 L74 44',
+  warm: 'M46 43 Q51 40 56 42 M64 42 Q69 40 74 43',
+  slip: 'M46 47 L56 43 M64 43 L74 44',
+  wary: 'M46 41 L56 45 M64 45 L74 41',
+  hostile: 'M45 40 L56 46 M64 46 L75 40',
+  afraid: 'M46 44 Q51 38 56 40 M64 40 Q69 38 74 44',
 };
 const MOUTHS = {
-  neutral: 'M94 86 H106',
-  warm: 'M92 84 Q100 91 108 84',
-  slip: 'M92 87 Q99 89 105 85 L108 82',
-  wary: 'M95 87 H105',
-  hostile: 'M92 90 Q100 83 108 90',
-  afraid: 'M97 85 Q100 92 103 85 Z',
+  neutral: 'M54 64 H66', warm: 'M52 62 Q60 69 68 62', slip: 'M52 65 Q59 67 65 63 L68 60',
+  wary: 'M55 65 H65', hostile: 'M52 67 Q60 60 68 67', afraid: 'M57 63 Q60 70 63 63 Z',
 };
 
-export function portraitSVG(look = {}, { label = '', expression = 'neutral', scene = null } = {}) {
-  const id = `p${++uid}`;
-  const h = look.hue ?? 30, a = look.accent || '#b8964e';
-  const w = look.build === 'broad' ? 74 : 60;
-  const hat = (HATS[look.hat] || HATS.none)(h, a);
-  const body = `hsl(${h} 22% 20%)`;
-  const veilOn = look.hat === 'veil';
+function hash(n) { let h = 2166136261; for (const ch of String(n)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+export function avatarSVG(look = {}, { label = '', expression = 'neutral' } = {}) {
+  const id = `a${++uid}`;
+  const h = look.hue ?? 210;
+  const skin = SKINS[(look.skin ?? 1 + (hash(h) % 5)) - 1] || SKINS[1];
+  const outfit = look.outfit || `hsl(${h} 38% 30%)`;
+  const hair = look.hair || '#2a2320';
   const f = FACES[look.face] || FACES.round;
-  const face = f.r ? `<rect x="${100 - f.rx}" y="${f.cy - f.ry}" width="${f.rx * 2}" height="${f.ry * 2}" rx="${f.r + 8}" fill="url(#${id}sk)" ${veilOn ? 'opacity=".75"' : ''}/>` : `<ellipse cx="100" cy="${f.cy}" rx="${f.rx}" ry="${f.ry}" fill="url(#${id}sk)" ${veilOn ? 'opacity=".75"' : ''}/>`;
   const ex = BROWS[expression] ? expression : 'neutral';
-  const eyeY = ex === 'afraid' ? 67 : ex === 'warm' ? 69 : 68;
-  const eyeRy = ex === 'afraid' ? 2.6 : ex === 'warm' ? 1.3 : 1.8;
-  return `<svg class="portrait-svg expr-${ex}" viewBox="0 0 200 150" role="img" aria-label="${label ? `Portrait of ${label}, looking ${ex === 'slip' ? 'pleasant, but strained' : ex}` : 'Portrait'}" preserveAspectRatio="xMidYMid slice">
-  <defs>
-    <radialGradient id="${id}bg" cx="50%" cy="38%" r="78%"><stop offset="0" stop-color="hsl(${h} 30% 34%)"/><stop offset=".6" stop-color="hsl(${h} 22% 15%)"/><stop offset="1" stop-color="#0c0b0a"/></radialGradient>
-    <linearGradient id="${id}sk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(28 22% 62%)"/><stop offset="1" stop-color="hsl(24 20% 40%)"/></linearGradient>
-  </defs>
-  <rect width="200" height="150" fill="url(#${id}bg)"/>
-  ${scene && SCENES[scene] ? SCENES[scene](h) : ''}
-  <circle cx="100" cy="64" r="52" fill="rgba(255,240,200,.07)"/>
-  <path d="M${100 - w} 150 Q${100 - w} 104 ${100 - w + 14} 98 Q100 86 ${100 + w - 14} 98 Q${100 + w} 104 ${100 + w} 150 Z" fill="${body}" stroke="rgba(255,255,255,.07)"/>
-  <path d="M86 98 Q100 112 114 98 L114 88 L86 88 Z" fill="url(#${id}sk)" opacity=".9"/>
-  <path d="M86 100 L100 122 L114 100" stroke="${a}" stroke-width="3" fill="none" opacity=".85"/>
-  <circle cx="100" cy="126" r="4.5" fill="${a}" opacity=".9"/>
+  const style = HAIR_STYLES[look.style] ? look.style : 'short';
+  const behind = style === 'long' || style === 'bob';
+  const face = f.r ? `<rect x="${60 - f.rx}" y="${f.cy - f.ry}" width="${f.rx * 2}" height="${f.ry * 2}" rx="${f.r + 8}" fill="${skin}"/>` : `<ellipse cx="60" cy="${f.cy}" rx="${f.rx}" ry="${f.ry}" fill="${skin}"/>`;
+  const eyeRy = ex === 'afraid' ? 2.8 : ex === 'warm' ? 1.4 : 2;
+  const glasses = look.glasses ? `<g fill="none" stroke="#1b2430" stroke-width="1.6"><circle cx="52" cy="52" r="6.5"/><circle cx="68" cy="52" r="6.5"/><path d="M58.5 52 H61.5"/></g>` : '';
+  const shades = look.shades ? `<g fill="#111820"><rect x="43" y="47" width="15" height="9" rx="4"/><rect x="62" y="47" width="15" height="9" rx="4"/><rect x="57" y="50" width="6" height="2"/></g>` : '';
+  const headset = look.headset ? `<path d="M38 50 Q38 22 60 22 Q82 22 82 50" fill="none" stroke="#1b2430" stroke-width="3"/><rect x="34" y="48" width="7" height="12" rx="3" fill="#1b2430"/><path d="M38 60 Q42 70 54 68" fill="none" stroke="#1b2430" stroke-width="2"/>` : '';
+  const stubble = look.beard ? `<path d="M42 56 Q44 76 60 77 Q76 76 78 56 Q70 66 60 66 Q50 66 42 56Z" fill="${hair}" opacity=".85"/>` : '';
+  const tie = look.tie ? `<path d="M57 86 L63 86 L65 96 L60 112 L55 96Z" fill="${look.tie}"/>` : '';
+  const badge = look.badge ? `<path d="M52 86 L50 104 M68 86 L70 104" stroke="#e8edf3" stroke-width="1.5"/><rect x="45" y="104" width="10" height="13" rx="2" fill="#ffffff" stroke="#c4ccd6"/><rect x="47" y="106" width="6" height="5" fill="#2f6fe0"/>` : '';
+  return `<svg class="avatar-svg expr-${ex}" viewBox="0 0 120 120" role="img" aria-label="${label ? `Photo of ${label}, looking ${ex === 'slip' ? 'friendly, but strained' : ex}` : 'Photo'}">
+  <defs><linearGradient id="${id}bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${h} 45% 88%)"/><stop offset="1" stop-color="hsl(${h} 35% 72%)"/></linearGradient><clipPath id="${id}c"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+  <g clip-path="url(#${id}c)">
+  <rect width="120" height="120" fill="url(#${id}bg)"/>
+  <path d="M10 124 Q12 94 30 90 Q46 84 48 84 L72 84 Q74 84 90 90 Q108 94 110 124Z" fill="${outfit}"/>
+  <path d="M48 84 L60 100 L72 84 L66 80 L54 80Z" fill="#f4f6f9"/>
+  <rect x="53" y="68" width="14" height="18" rx="5" fill="${skin}" opacity=".95"/>
+  ${tie}${badge}
+  ${behind ? HAIR_STYLES[style](hair) : ''}
   ${face}
-  <path class="brows" d="${BROWS[ex]}" stroke="rgba(20,12,8,.62)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-  <ellipse cx="90" cy="${eyeY}" rx="2.6" ry="${eyeRy}" fill="rgba(20,12,8,.72)"/><ellipse cx="110" cy="${eyeY}" rx="2.6" ry="${eyeRy}" fill="rgba(20,12,8,.72)"/>
-  <path class="mouth" d="${MOUTHS[ex]}" stroke="rgba(20,12,8,.5)" stroke-width="2" stroke-linecap="round" fill="${ex === 'afraid' ? 'rgba(20,12,8,.5)' : 'none'}"/>
-  ${hat}
-  </svg>`;
+  ${stubble}
+  ${behind ? '' : (HAIR_STYLES[style] || HAIR_STYLES.short)(hair)}
+  <path class="brows" d="${BROWS[ex]}" stroke="rgba(25,18,14,.7)" stroke-width="2" stroke-linecap="round" fill="none"/>
+  ${shades || `<ellipse cx="52" cy="52" rx="2.3" ry="${eyeRy}" fill="rgba(25,18,14,.8)"/><ellipse cx="68" cy="52" rx="2.3" ry="${eyeRy}" fill="rgba(25,18,14,.8)"/>`}
+  ${glasses}
+  <path class="mouth" d="${MOUTHS[ex]}" stroke="rgba(25,18,14,.55)" stroke-width="2" stroke-linecap="round" fill="${ex === 'afraid' ? 'rgba(25,18,14,.5)' : 'none'}"/>
+  ${headset}
+  </g></svg>`;
+}
+export const portraitSVG = avatarSVG;
+
+// Office scenes (wide band). Muted so the avatar and text stay in front.
+const SCENES = {
+  skyline: () => `<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9db7d8"/><stop offset=".7" stop-color="#f1d6b8"/><stop offset="1" stop-color="#f6e7d2"/></linearGradient></defs><rect width="240" height="100" fill="url(#sk)"/><g fill="#52688a" opacity=".85"><rect x="6" y="40" width="26" height="60"/><rect x="38" y="22" width="22" height="78"/><rect x="66" y="50" width="30" height="50"/><rect x="104" y="30" width="24" height="70"/><rect x="134" y="46" width="32" height="54"/><rect x="172" y="18" width="24" height="82"/><rect x="202" y="44" width="34" height="56"/></g><g fill="#ffe9a8" opacity=".9"><rect x="44" y="32" width="4" height="4"/><rect x="52" y="44" width="4" height="4"/><rect x="110" y="42" width="4" height="4"/><rect x="178" y="30" width="4" height="4"/><rect x="186" y="46" width="4" height="4"/><rect x="142" y="60" width="4" height="4"/></g><rect y="86" width="240" height="14" fill="#3b4d68"/>`,
+  boardroom: () => `<rect width="240" height="100" fill="#dfe6ee"/><rect x="16" y="10" width="208" height="46" fill="#b9cbe0"/><path d="M16 56 L60 30 L110 56 L160 24 L224 56Z" fill="#8fa8c4" opacity=".6"/><path d="M60 10 V56 M120 10 V56 M180 10 V56" stroke="#dfe6ee" stroke-width="3"/><ellipse cx="120" cy="76" rx="96" ry="16" fill="#5b4636"/><ellipse cx="120" cy="72" rx="96" ry="14" fill="#7c5f48"/><g fill="#33404f"><rect x="40" y="82" width="16" height="12" rx="4"/><rect x="82" y="86" width="16" height="12" rx="4"/><rect x="142" y="86" width="16" height="12" rx="4"/><rect x="184" y="82" width="16" height="12" rx="4"/></g>`,
+  openplan: () => `<rect width="240" height="100" fill="#e6ecf2"/><g fill="#cdd7e2"><rect x="0" y="0" width="240" height="16"/></g><g fill="#fff" stroke="#b7c3d1"><rect x="14" y="56" width="62" height="10" rx="2"/><rect x="92" y="56" width="62" height="10" rx="2"/><rect x="170" y="56" width="62" height="10" rx="2"/></g><g fill="#27384d"><rect x="28" y="36" width="30" height="20" rx="2"/><rect x="106" y="36" width="30" height="20" rx="2"/><rect x="184" y="36" width="30" height="20" rx="2"/></g><g fill="#6fa3e8" opacity=".8"><rect x="31" y="39" width="24" height="14"/><rect x="109" y="39" width="24" height="14"/><rect x="187" y="39" width="24" height="14"/></g><g fill="#6aa584"><circle cx="82" cy="46" r="7"/><circle cx="160" cy="46" r="7"/></g><rect y="86" width="240" height="14" fill="#c3cfdb"/>`,
+  stage: () => `<rect width="240" height="100" fill="#1b2a42"/><rect x="40" y="10" width="160" height="56" rx="3" fill="#f3f6fa"/><g fill="#2f6fe0"><rect x="64" y="40" width="14" height="18"/><rect x="84" y="32" width="14" height="26"/><rect x="104" y="24" width="14" height="34"/><rect x="124" y="30" width="14" height="28"/><rect x="144" y="20" width="14" height="38"/></g><rect x="60" y="18" width="70" height="4" fill="#ffd84d"/><rect x="104" y="70" width="32" height="30" rx="3" fill="#0f1a2b"/><g fill="#0f1a2b" opacity=".7"><circle cx="20" cy="94" r="8"/><circle cx="46" cy="98" r="8"/><circle cx="200" cy="96" r="8"/><circle cx="224" cy="94" r="8"/></g>`,
+  server: () => `<rect width="240" height="100" fill="#18222f"/><g fill="#243447" stroke="#33465c"><rect x="14" y="8" width="42" height="92"/><rect x="66" y="8" width="42" height="92"/><rect x="118" y="8" width="42" height="92"/><rect x="170" y="8" width="42" height="92"/></g><g fill="#4ee0a1"><rect x="20" y="18" width="4" height="3"/><rect x="20" y="38" width="4" height="3"/><rect x="72" y="28" width="4" height="3"/><rect x="124" y="48" width="4" height="3"/><rect x="176" y="22" width="4" height="3"/></g><g fill="#ffd84d"><rect x="28" y="18" width="4" height="3"/><rect x="80" y="58" width="4" height="3"/><rect x="132" y="28" width="4" height="3"/><rect x="184" y="68" width="4" height="3"/></g><g fill="#e05a5a"><rect x="28" y="38" width="4" height="3"/><rect x="190" y="22" width="4" height="3"/></g>`,
+  garage: () => `<rect width="240" height="100" fill="#4a5461"/><g fill="#6a7482"><rect x="30" y="0" width="22" height="100"/><rect x="130" y="0" width="22" height="100"/></g><g fill="#ffd84d"><path d="M30 60 h22 l-22 12Z M30 74 h22 l-22 12Z"/></g><rect y="82" width="240" height="18" fill="#343c47"/><g fill="#1c242e"><rect x="70" y="62" width="48" height="20" rx="8"/><rect x="170" y="60" width="52" height="22" rx="9"/></g><g fill="#ffe9a8"><rect x="112" y="68" width="5" height="4"/><rect x="170" y="68" width="5" height="4"/></g>`,
+};
+export const THEME_SCENE = { ambition: 'skyline', reputation: 'stage', loyalty: 'openplan', secrets: 'garage', rivalry: 'boardroom', negotiation: 'boardroom', fear: 'server', scarcity: 'openplan', revenge: 'garage', opportunity: 'skyline', timing: 'server' };
+
+export function sceneSVG(scene = 'openplan') {
+  const draw = SCENES[scene] || SCENES.openplan;
+  return `<svg class="scene-svg" viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${draw()}</svg>`;
 }

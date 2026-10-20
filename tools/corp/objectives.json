@@ -1,0 +1,24 @@
+{
+ "influence": { "title": "The Power in the Room", "brief": "Become the most powerful person at the company.", "steps": ["Reach Director or higher", "Keep your influence above 65", "Keep at least two real friends"] },
+ "conspiracy": { "title": "Light in the Dark", "brief": "Uncover a secret plot.", "steps": ["Uncover a plot"] },
+ "remove": { "title": "An Empty Desk", "brief": "Get {target} out of the company.", "steps": ["{target} leaves the company"] },
+ "alliances": { "title": "Friends Worth Having", "brief": "Win three true friends.", "steps": ["Three trusted friends at work"] },
+ "rich_trusted": { "title": "Budget Without Envy", "brief": "Get a big budget without being distrusted.", "steps": ["Budget above 70", "Team trust at least 45", "Reputation at least 45"] },
+ "clean": { "title": "Clean Hands", "brief": "Last 25 weeks without being betrayed.", "steps": ["Reach week 26", "Not be betrayed"] },
+ "summit": { "title": "The Honest Summit", "brief": "Reach the top job and keep a good name.", "steps": ["Become Acting CEO", "Reputation at least 55"] },
+ "agendas": { "title": "Faces Behind Faces", "brief": "Learn what three people at work really want.", "steps": ["Learn three secret goals"] },
+ "unmask": { "title": "Who Pulls the Strings", "brief": "Find out who works in secret behind the board.", "steps": ["Find the Silent Sponsor"] },
+ "_achievements": {
+  "first_reign": { "title": "A Seat at the Table", "desc": "Finish your first career." },
+  "survive25": { "title": "Long Enough to Matter", "desc": "Last 25 weeks." },
+  "five_agendas": { "title": "Faces Behind Faces", "desc": "Learn five secret goals." },
+  "clean_reign": { "title": "Clean Hands", "desc": "Finish a full career without being betrayed." },
+  "expose": { "title": "Daylight", "desc": "Uncover a secret plot." },
+  "lowauth": { "title": "Strength Without a Title", "desc": "Win a showdown while your influence is low." },
+  "three_objectives": { "title": "A Patient Hand", "desc": "Finish three different secret goals." },
+  "endings3": { "title": "Many Roads", "desc": "Reach three different endings." },
+  "supreme": { "title": "The Top Office", "desc": "Become the CEO." },
+  "peaceful": { "title": "Leave While They Say Please", "desc": "Step down on your own terms." },
+  "unmasked": { "title": "Behind the Curtain", "desc": "Find out who the Silent Sponsor is." }
+ }
+}

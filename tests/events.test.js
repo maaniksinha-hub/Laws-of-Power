@@ -133,6 +133,6 @@ test('selection is deterministic for a given seed and varies between seeds', () 
 test('conditional dialogue picks the first matching variant and fills tokens', () => {
   const s = fresh(); s.flags.humble_start = true; s.params.culprit = 'vask';
   const e = ev('t', { text: [{ when: { flags: ['humble_start'] }, t: 'Humble, {t}.' }, 'Other'] });
-  assert.equal(eventText(s, e), 'Humble, newcomer.');
+  assert.equal(eventText(s, e), 'Humble, new hire.');
   delete s.flags.humble_start; assert.equal(eventText(s, e), 'Other');
 });

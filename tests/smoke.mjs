@@ -72,7 +72,7 @@ await step('title screen loads without console errors or missing assets', async 
 
 await step('title: daily court button and bundled font load', async () => {
   assert.ok(await visible(page, '#btn-daily'));
-  assert.ok(await page.evaluate(async () => { await document.fonts.ready; return document.fonts.check('18px "IM Fell English"'); }), 'IM Fell English loaded from /fonts');
+  assert.ok(await page.evaluate(async () => { await document.fonts.ready; return document.fonts.check('18px "IBM Plex Sans"'); }), 'IBM Plex Sans loaded from /fonts');
 });
 
 await step('new reign dialog lists backgrounds; locked ones are disabled', async () => {
@@ -88,10 +88,10 @@ await step('begin a reign: card, four meters, two choices, objective strip', asy
   await page.click('[data-action=begin-reign]');
   await page.waitForSelector('#card:not([hidden])');
   assert.equal(await page.locator('.meter').count(), 4);
-  assert.match(await page.textContent('#card-title'), /STEWARD/i);
+  assert.match(await page.textContent('#card-title'), /FIRST DAY/i);
   assert.ok((await page.textContent('#label-left')).length > 3); assert.ok((await page.textContent('#label-right')).length > 3);
   assert.ok(await visible(page, '#objective-btn'));
-  for (const n of ['Authority', 'Reputation', 'Loyalty', 'Resources']) assert.ok(await page.locator(`.meter[aria-label="${n}"]`).count());
+  for (const n of ['Influence', 'Reputation', 'Team trust', 'Budget']) assert.ok(await page.locator(`.meter[aria-label="${n}"]`).count());
   await shot(page, '03-card');
 });
 
@@ -124,9 +124,10 @@ await step('keyboard: any arrow/A/D continues from result, then A and D choose',
 });
 
 await step('polish: scene portraits, hint dots while dragging, echo line, vignette on crisis', async () => {
-  assert.ok(await page.locator('#card-portrait svg expr-warm, #card-portrait svg[class*=expr-]').count() >= 1, 'expressive portrait');
+  assert.ok(await page.locator('#card-avatar svg[class*=expr-]').count() >= 1, 'expressive portrait');
   const box = await page.locator('#card').boundingBox();
-  await page.mouse.move(box.x + box.width / 2, box.y + 120); await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 + 70, box.y + 120, { steps: 4 });
+  const dir = await page.evaluate(() => (__lop.dots.right.length ? 1 : -1));
+  await page.mouse.move(box.x + box.width / 2, box.y + 120); await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 + 70 * dir, box.y + 120, { steps: 4 });
   const hinted = await page.locator('.meter.hinted').count();
   await page.waitForTimeout(450); await page.mouse.up(); await page.waitForTimeout(300);
   assert.ok(hinted >= 1, 'a hint dot marks an affected meter while dragging right');
@@ -173,17 +174,17 @@ await step('progress survives a refresh (Continue restores turn, meters and pend
 });
 
 await step('panels: dossier, chronicle, objective, menu, codex, settings open and close', async () => {
-  await page.click('#btn-dossier'); assert.ok((await page.textContent('#dlg-body')).includes('Piers Quill'));
-  assert.ok(!(await page.textContent('#dlg-body')).includes('Secret goal:</b> Quill'), 'hidden agenda stays hidden');
+  await page.click('#btn-dossier'); assert.ok((await page.textContent('#dlg-body')).includes('Quentin Park'));
+  assert.ok(!(await page.textContent('#dlg-body')).includes('Secret goal:</b> Quentin'), 'hidden agenda stays hidden');
   assert.match(await page.textContent('#dlg-body'), /Secret goal:\s*Unknown/);
   await shot(page, '05-dossier');
   await page.keyboard.press('Escape'); assert.ok(!(await visible(page, '#dlg')));
-  await page.click('#btn-chronicle'); assert.match(await page.textContent('#dlg-body'), /Turn 1/); await page.click('#dlg-close');
+  await page.click('#btn-chronicle'); assert.match(await page.textContent('#dlg-body'), /Week\s*1/); await page.click('#dlg-close');
   await page.click('#objective-btn'); assert.match(await page.textContent('#dlg-body'), /Only you know this/); await page.click('#dlg-close');
   await page.click('#btn-menu'); await page.click('[data-action=open-panel][data-panel=codex]');
   assert.ok(await visible(page, '#dlg-back'));
   assert.match(await page.textContent('#dlg-body'), /laws found/);
-  await page.click('[data-tab=characters]'); assert.match(await page.textContent('#dlg-body'), /Piers Quill/);
+  await page.click('[data-tab=characters]'); assert.match(await page.textContent('#dlg-body'), /Quentin Park/);
   await page.click('[data-tab=endings]'); await page.click('[data-tab=achievements]'); await page.click('[data-tab=unlocks]');
   await shot(page, '06-codex');
   await page.click('#dlg-back'); assert.match(await page.textContent('#dlg-title'), /Paused/);
@@ -196,7 +197,7 @@ await step('settings: toggles persist; exact values option shows numbers', async
   await page.locator('[data-setting=showValues]').check();
   await page.locator('[data-setting=sound]').uncheck();
   await page.selectOption('[data-setting=motion]', 'reduce');
-  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('lop.settings')));
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('corp.settings')));
   assert.deepEqual([saved.showValues, saved.sound, saved.motion], [true, false, 'reduce']);
   assert.equal(await page.evaluate(() => document.documentElement.dataset.motion), 'reduce');
   await page.click('#dlg-close');
@@ -207,15 +208,15 @@ await step('erase-all requires explicit confirmation (cancel keeps data, confirm
   await page.click('#btn-menu'); await page.click('[data-panel=settings]');
   await page.click('[data-action=erase-all]'); assert.ok(await visible(page, '#dlg-confirm'));
   await page.click('#confirm-cancel');
-  assert.ok(await page.evaluate(() => !!localStorage.getItem('lop.save')), 'cancel keeps the save');
+  assert.ok(await page.evaluate(() => !!localStorage.getItem('corp.save')), 'cancel keeps the save');
   await page.click('[data-action=erase-all]'); await page.click('#confirm-ok');
   await page.waitForSelector('#screen-title:not([hidden])');
-  assert.ok(await page.evaluate(() => !localStorage.getItem('lop.save') && !localStorage.getItem('lop.meta')));
+  assert.ok(await page.evaluate(() => !localStorage.getItem('corp.save') && !localStorage.getItem('corp.meta')));
   assert.ok(!(await visible(page, '#btn-continue-reign')));
 });
 
 await step('corrupted save is ignored with a notice, and the game still starts', async () => {
-  await page.evaluate(() => localStorage.setItem('lop.save', '{broken'));
+  await page.evaluate(() => localStorage.setItem('corp.save', '{broken'));
   await page.reload(); await page.waitForSelector('#screen-title:not([hidden])');
   assert.match(await page.textContent('#title-notice'), /could not read/);
   assert.ok(!(await visible(page, '#btn-continue-reign')));
@@ -240,7 +241,7 @@ await step('every event card renders and both choices work in the UI', async () 
     const ev = await page.evaluate(id => __lop.content.events[id], id);
     assert.equal((await page.textContent('#card-title')).trim(), ev.title, id);
     assert.ok((await page.textContent('#card-text')).trim().length > 40, id + ' text');
-    assert.ok(await page.locator('#card-portrait svg').count() >= 1, id + ' portrait');
+    assert.ok(await page.locator('#card-avatar svg').count() >= 1, id + ' portrait');
     await page.click(side === 'left' ? '#btn-left' : '#btn-right');
     await waitResult(page);
     assert.ok((await page.textContent('#result .result-text')).trim().length > 5, `${id} ${side} result`);
@@ -262,9 +263,9 @@ await step('complete reigns through the UI reach a summary screen (several seeds
     }
     await page.waitForSelector('#screen-summary:not([hidden])', { timeout: 4000 });
     const text = await page.textContent('#screen-summary');
-    for (const need of ['Turns you lasted', 'Your secret goal', 'Friends and enemies', 'Your style']) assert.ok(text.includes(need) || text.toLowerCase().includes(need.toLowerCase()), `summary mentions ${need}`);
+    for (const need of ['Weeks you lasted', 'Your secret goal', 'Friends and enemies', 'Your style']) assert.ok(text.includes(need) || text.toLowerCase().includes(need.toLowerCase()), `summary mentions ${need}`);
     if (seed === 'ui1') await shot(page, '07-summary');
-    assert.ok(await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('lop.meta')).endings).length >= 1), 'ending recorded in meta');
+    assert.ok(await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('corp.meta')).endings).length >= 1), 'ending recorded in meta');
   }
   assert.deepEqual(page.errs.filter(e => !/corrupt|broken/i.test(e)), []);
 });
@@ -351,15 +352,15 @@ await step('PWA: manifest and icons load, service worker installs, the game star
     const cached = (await (await caches.open(keys[0])).keys()).length;
     return { name: man.name, display: man.display, icons, active: !!reg.active, keys, cached, theme: document.querySelector('meta[name=theme-color]').content };
   });
-  assert.equal(m.name, '48: Laws of Power'); assert.equal(m.display, 'fullscreen'); assert.deepEqual(m.icons, [200, 200, 200, 200]);
+  assert.equal(m.name, '48: Laws of Power (Corporate)'); assert.equal(m.display, 'fullscreen'); assert.deepEqual(m.icons, [200, 200, 200, 200]);
   assert.ok(m.active && m.keys.length === 1 && m.cached >= 40, `precached ${m.cached} files`);
   await p.ctx.setOffline(true);
   await p.reload();
   await p.waitForSelector('#btn-new');
   await p.click('#btn-new'); await p.click('[data-action=begin-reign]');
   await p.waitForSelector('#card:not([hidden])');
-  assert.match(await p.textContent('#card-title'), /STEWARD/i);
-  assert.ok(await p.evaluate(() => document.fonts.check('18px "IM Fell English"')), 'bundled font works offline');
+  assert.match(await p.textContent('#card-title'), /FIRST DAY/i);
+  assert.ok(await p.evaluate(() => document.fonts.check('18px "IBM Plex Sans"')), 'bundled font works offline');
   await p.click('#btn-left'); await waitResult(p);
   await p.ctx.setOffline(false);
   await p.ctx.close();
@@ -392,7 +393,7 @@ await step('exit: title and pause menu both offer Exit game, progress is saved, 
   await p.click('[data-action=exit-game]');
   await p.waitForSelector('#dlg[open]');
   assert.match(await p.textContent('#dlg-body'), /saved/);
-  assert.ok(await p.evaluate(() => !!localStorage.getItem('lop.save')), 'reign saved on exit');
+  assert.ok(await p.evaluate(() => !!localStorage.getItem('corp.save')), 'reign saved on exit');
   await p.click('[data-action=resume-from-exit]');
   assert.ok(!(await visible(p, '#dlg')));
   await p.ctx.close();
@@ -403,7 +404,7 @@ await step('immersive settings exist and are saved (full screen, keep awake, vib
   await p.goto(base); await p.click('#btn-settings');
   for (const k of ['autoFullscreen', 'keepAwake', 'vibrate']) assert.ok(await p.locator(`[data-setting=${k}]`).isChecked(), k);
   await p.locator('[data-setting=keepAwake]').uncheck();
-  assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem('lop.settings')).keepAwake), false);
+  assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem('corp.settings')).keepAwake), false);
   await p.ctx.close();
 });
 

@@ -1,0 +1,141 @@
+{
+ "grain_shortage": {
+  "title": "ONLY A THIRD OF THE BUDGET IS LEFT",
+  "who": { "name": "Finance Team", "role": "Budget Owners" },
+  "text": "Only one third of this year's budget is left. Finance asks for a decision. Protect staff jobs and cut projects, or raise prices three times for our biggest customers, who will pay anyway. 'The competitors are already circling,' one mutters.",
+  "left": { "label": "Protect staff jobs and cut projects", "result": "Projects stop. Nobody loses a job, and everybody notices who decided." },
+  "right": { "label": "Triple the price for big customers", "result": "The budget grows fat. The customers remember it for years." }
+ },
+ "tax_revolt": {
+  "title": "THE REGIONAL OFFICE",
+  "text": "A regional office refuses to follow the new reporting rules and has ignored three reminders. Dana offers to \"set an example\", with a hard email to everyone. In your other hand is the office manager's note. It is very polite.",
+  "left": { "label": "Send a hard warning to everyone", "result": "The office complies by Friday. So do the next three offices down the list." },
+  "right": { "label": "Send a thank-you and a helper", "result": "The reports arrive late, but in full. The manager sends you a box of biscuits." },
+  "lesson": {
+   "left": "Making an example ends one revolt and spreads fear across the company. Fear is not the same as loyalty.",
+   "right": "A kind step can look weak or wise. It works when the people see it as a deal they were free to refuse."
+  }
+ },
+ "widow_petition": {
+  "title": "A LONG-TIME EMPLOYEE",
+  "who": { "name": "Marta Voss", "role": "Employee of 25 Years" },
+  "text": "A warehouse worker with a clear, loud voice asks you to change her retirement payment. The policy says no. A crowd watches to see if the new manager has a heart or a rulebook.",
+  "left": { "label": "Pay the difference from your own budget", "result": "Marta tells the whole company. By evening it is a legend, and the legend is a bit better than you." },
+  "right": { "label": "Follow the policy", "result": "The policy is correct. The crowd wanders off, not convinced." }
+ },
+ "duel_challenge": {
+  "title": "A PITCH-OFF AT THE PARTY",
+  "who": { "name": "Edmar Thessaly", "role": "Junior Director, Very Drunk" },
+  "text": "Edmar is flushed with wine and cousin to a board member. He says you stole his project and his pride, and he wants a pitch-off, right now, in front of everyone. Behind you, Dana whispers that you are actually quite good at pitching.",
+  "left": {
+   "label": "Accept the pitch-off",
+   "result": "Edmar is better than he looked, and his cousins are smiling. You walk home in silence.",
+   "branches": ["Your pitch lands, once. Edmar fumbles his slides and goes very sober. The company talks about nothing else."]
+  },
+  "right": { "label": "Laugh and buy him a drink", "result": "The room laughs with you. By morning Edmar cannot remember why he was angry." },
+  "lesson": {
+   "left": "Accepting a challenge puts your standing on a coin toss. People admire fighters, but a loss is remembered longer than a win.",
+   "right": "Refusing to be baited denies a rival the attention he wanted. It costs some pride and no blood."
+  }
+ },
+ "feast_spectacle": {
+  "title": "THE SUMMER PARTY",
+  "text": "The summer party is near. 'A great party,' says Quentin, 'would be remembered all through a hard winter. A quiet lunch would be remembered mostly by HR.'",
+  "left": { "label": "A grand party", "result": "Music, food, games, a thousand photos. For one night the whole company adores you." },
+  "right": { "label": "A quiet team lunch", "result": "The team eats and grumbles. The budget is grateful. Nobody else is." },
+  "lesson": {
+   "left": "A show is a loan against your good name. It is costly and quick, and you repay it with goodwill that you must earn again.",
+   "right": "Going without saves money and shows discipline. The people who are not impressed may be the ones you needed."
+  }
+ },
+ "credit_idea": {
+  "title": "WHOSE IDEA WAS IT",
+  "text": "A young analyst, Tamsin Ode, made the plan that saved the quarter. Marcus leans close. 'It would be neater if the board heard it as yours. Analysts have no use for credit.'",
+  "left": { "label": "Thank the analyst in public", "result": "Tamsin goes pale, then pink. By evening you have the most loyal analyst in the company." },
+  "right": { "label": "Say it was your own idea", "result": "The board applauds you. Tamsin applauds too, but only with her hands." },
+  "lesson": {
+   "left": "Thanking a helper costs you a slice of glory. It makes the whole team want to help you next time.",
+   "right": "Taking credit builds a story faster than doing the work. The person who did it will one day tell a different story."
+  }
+ },
+ "friend_asks": {
+  "title": "AN OLD FRIEND",
+  "who": { "name": "Edric Hale", "role": "Your College Friend" },
+  "text": "Edric Hale flew nine hours to see you, wearing a suit as borrowed as yours once was. He wants a job. Any job. 'We always said we would look after each other,' he says. He is right. He is also not qualified.",
+  "left": { "label": "Give him a job", "result": "Edric nearly cries. At work, one person still thinks you are who you used to be." },
+  "right": { "label": "Give him money and a kind no", "result": "Edric takes the envelope with great dignity and does not look back." },
+  "lesson": {
+   "left": "A friend in a job too big for him feels the gap as an insult. Liking someone is not the same as trusting their skill.",
+   "right": "A kind no protects the friendship from the job. It costs some warmth now and some doubt from people who are watching."
+  }
+ },
+ "friend_betrays": {
+  "title": "THE MESSAGE IN YOUR WORDS",
+  "who": { "name": "Edric Hale", "role": "Your Old Friend, Once" },
+  "text": "Edric sold a private message to a rival's assistant. It holds your honest opinion of the leadership team, in your own words. He waits in your office with his hands in his pockets. 'I was owed more,' he says, simply.",
+  "left": { "label": "Forgive him", "note": "Edric sold your private message.", "result": "He leaves in tears, which is somehow worse than if he had left angry." },
+  "right": { "label": "Have security walk him out", "note": "Edric sold your private message.", "result": "Security walks Edric to the lobby. He looks smaller with every step." },
+  "lesson": {
+   "left": "Forgiving shows a big heart. It also teaches nobody anything, except that betrayal is survivable.",
+   "right": "Punishing him in public warns others. It also ends the last trace of the friendship you were trying to protect."
+  }
+ },
+ "silence_council": {
+  "title": "EVERYONE LOOKS AT YOU",
+  "text": "The leadership meeting argues about pricing. Selena wants a price cut. Dana wants more staff. Marcus wants a study of both. Everyone turns to you. Each of them has already decided what they hope to hear.",
+  "left": { "label": "Say what you really think", "result": "They listen. Then each of them quietly changes their plans to fit yours." },
+  "right": {
+   "label": "Say little and let them argue",
+   "result": "They argue for an hour. At the end they ask you to decide, which is not the same as asking you to explain.",
+   "branches": ["Silence from someone with a weak name looks like having nothing to say."]
+  },
+  "lesson": {
+   "left": "Saying everything shows confidence and hands rivals a map. It works best when you can afford to be predictable.",
+   "right": "Saying little lets others show their hands. It looks strong only if the room already takes you seriously."
+  }
+ },
+ "rumour_about_you": {
+  "title": "A RUMOUR IN THE CHAT",
+  "text": "'There is a rumour that you got your promotion by knowing the CEO's family,' says Yara. 'I only tell you because I did not start it, and because it spreads faster than my own stories.'",
+  "left": {
+   "label": "Deny it in public",
+   "result": "You say it plainly, with some heat. The rumour fades by lunchtime.",
+   "branches": ["Someone shares a screenshot. A denial is only as good as the record behind it."]
+  },
+  "right": { "label": "Let it spread and use it", "result": "A name for knowing the right people has one big plus. Suddenly, people offer." },
+  "lesson": {
+   "left": "A denial only works if your record backs it up. If it does not, the denial becomes the story.",
+   "right": "Letting a harmful rumour run can look confident. It also shows the office what you are willing to seem."
+  }
+ },
+ "rask_oath": {
+  "title": "THE DIRECTOR'S PROMISE",
+  "text": "Ryan Rask grips your hand in both of his. 'I am with you in all things,' he says. 'Of course, a person like me is wasted without a bigger title. A small one. For now.'",
+  "left": { "label": "Give him a bigger title", "result": "Ryan becomes Head of Western Operations. He takes the title very seriously and the work not at all." },
+  "right": { "label": "Keep him at a distance", "result": "Ryan laughs it off. In his mind, you go in the folder marked Not Yet." },
+  "lesson": {
+   "left": "A title buys a loyal face for as long as you are the most useful thing for him to be loyal to.",
+   "right": "Leaving a person who follows power without a reward keeps him free, and open to your rivals."
+  }
+ },
+ "rask_wavers": {
+  "title": "WHERE THE POWER IS",
+  "text": "Ryan has been seen having lunch with your rivals. 'I eat where the table is full,' he says, not embarrassed at all. 'It would be a pity if yours were emptier than theirs.'",
+  "left": { "label": "Match their offer", "memo": "You paid more than Ryan's other lunch friends.", "result": "Ryan finds that your table was always his favourite." },
+  "right": { "label": "Let him go", "memo": "You let Ryan walk away.", "note": "Ryan Rask has gone over to your rivals.", "result": "Ryan shrugs, nods warmly and takes his seat at the other table." },
+  "lesson": {
+   "left": "Buying the loyalty of someone who follows power only rents it. It lasts while you pay more than the next offer.",
+   "right": "Letting a fair-weather friend go shows self-respect. It also gives your rivals a new face."
+  }
+ },
+ "rask_returns": {
+  "title": "THE WEATHERVANE TURNS",
+  "text": "Ryan stands at your door with a folder of everything your rivals planned at that lunch. 'I have always admired you,' he says, 'whenever it was handy.'",
+  "left": { "label": "Take him back, for a price", "result": "Ryan returns with his folder and a new humility. It will last until the next change in the wind." },
+  "right": { "label": "Close the door", "result": "Ryan nods, straightens his tie and walks off, already writing a new speech." },
+  "lesson": {
+   "left": "A person who is sorry and follows power is useful but never fully safe. Taking him back works if you remember what he is.",
+   "right": "Closing the door on a returning weathervane shows that loyalty counts. It also wastes a source of news."
+  }
+ }
+}

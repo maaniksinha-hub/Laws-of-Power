@@ -7,7 +7,7 @@ import { choiceLabel, echoText, eventText, speaker } from './eventEngine.js';
 import { expression } from './characterEngine.js';
 import { finishReign, recordProgress, unlockedBackgrounds } from './meta.js';
 import { objectiveView } from './objectives.js';
-import { THEME_SCENE, portraitSVG } from './portraits.js';
+import { THEME_SCENE, avatarSVG, sceneSVG } from './portraits.js';
 import { play, setSoundEnabled } from './audio.js';
 import { CHARACTERS } from '../data/characters.js';
 import { buzz, canFullscreen, enterFullscreen, isFullscreen, keepAwake, leaveFullscreen, setVibration } from './immersive.js';
@@ -57,13 +57,13 @@ function showTitle(notice = null) {
   const { state, status } = loadReign(app.content);
   app.saved = state;
   $('btn-continue-reign').hidden = !state;
-  if (state) $('btn-continue-reign').textContent = state.ending ? 'View last reign' : `Resume reign (turn ${state.turn})`;
-  const msg = notice || ({ corrupt: 'We could not read your saved reign, so we set it aside. Your notebook is safe.', outdated: 'Your saved reign is from another version of the game, so it could not open. Your notebook is safe.' })[status];
+  if (state) $('btn-continue-reign').textContent = state.ending ? 'View last career' : `Resume career (week ${state.turn})`;
+  const msg = notice || ({ corrupt: 'We could not read your saved career, so we set it aside. Your playbook is safe.', outdated: 'Your saved career is from another version of the game, so it could not open. Your playbook is safe.' })[status];
   $('title-notice').hidden = !msg; $('title-notice').textContent = msg || '';
   const m = app.meta;
-  $('title-stats').textContent = m.reigns ? `${m.reigns} reign${m.reigns > 1 ? 's' : ''} lived. ${Object.keys(m.endings).length} of ${ENDINGS.length} endings found, ${Object.keys(m.laws).length} of 48 laws discovered.` : 'You have not played yet.';
+  $('title-stats').textContent = m.reigns ? `${m.reigns} career${m.reigns > 1 ? 's' : ''} played. ${Object.keys(m.endings).length} of ${ENDINGS.length} endings found, ${Object.keys(m.laws).length} of 48 laws discovered.` : 'You have not played yet.';
   const d = m.daily?.[todayKey()];
-  $('btn-daily').textContent = d ? "Replay today's court" : "Play today's court";
+  $('btn-daily').textContent = d ? "Replay today's office" : "Play today's office";
   $('btn-new').focus({ preventScroll: true });
 }
 
@@ -106,7 +106,7 @@ async function exitGame() {
 
 async function onNewReign() {
   if (app.saved && !app.saved.ending) {
-    const ok = await confirmDialog({ title: 'Start a new reign?', text: 'Your reign is not finished. If you start a new one, this one ends with no ending. Your notebook and awards stay.', ok: 'Give up and start new' });
+    const ok = await confirmDialog({ title: 'Start a new career?', text: 'Your career is not finished. If you start a new one, this one ends with no ending. Your playbook and awards stay.', ok: 'Give up and start new' });
     if (!ok) return;
   }
   openPanel('newreign');
@@ -125,7 +125,7 @@ function resumeSaved() {
 const todayKey = () => new Date().toISOString().slice(0, 10);
 async function startDaily() {
   if (app.saved && !app.saved.ending) {
-    const ok = await confirmDialog({ title: "Play today's court?", text: 'Your reign is not finished. If you start a new one, this one ends with no ending.', ok: 'Give up and play' });
+    const ok = await confirmDialog({ title: "Play today's office?", text: 'Your career is not finished. If you start a new one, this one ends with no ending.', ok: 'Give up and play' });
     if (!ok) return;
   }
   startReign('minor_noble', { seed: `daily-${todayKey()}`, daily: todayKey() });
@@ -192,7 +192,7 @@ function renderGame() {
 
 function updateHeader() {
   const s = app.state;
-  $('reign-info').innerHTML = `<b>${RANKS[s.rank].title}</b><br>Reign ${s.reignId}, turn ${Math.min(s.turn, MAX_TURN)} of ${MAX_TURN}`;
+  $('reign-info').innerHTML = `<b>${RANKS[s.rank].title}</b><br>Career ${s.reignId}, week ${Math.min(s.turn, MAX_TURN)} of ${MAX_TURN}`;
   const o = objectiveView(s, app.content.objectives);
   $('objective-btn').innerHTML = o ? `<span class="obj-k">Secret goal</span><span class="obj-t">${esc(o.brief)}</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
   $('objective-btn').setAttribute('aria-label', o ? `Secret goal: ${o.brief}. ${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met.` : 'Objective');
@@ -205,7 +205,8 @@ function renderCard(ev) {
   const sp = speaker(s, ev);
   const others = (ev.others || []).filter(id => !CHARACTERS[id].generic);
   const scene = ev.scene || THEME_SCENE[ev.theme];
-  $('card-portrait').innerHTML = portraitSVG(sp.look, { label: sp.name, scene, expression: expression(s, sp.id) }) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${portraitSVG(CHARACTERS[id].look, { expression: expression(s, id) })}</span>`).join('')}</div>` : '');
+  $('card-cover').innerHTML = sceneSVG(scene) + (others.length ? `<div class="others" aria-hidden="true">${others.map(id => `<span>${avatarSVG(CHARACTERS[id].look, { expression: expression(s, id) })}</span>`).join('')}</div>` : '');
+  $('card-avatar').innerHTML = avatarSVG(sp.look, { label: sp.name, expression: expression(s, sp.id) });
   const echo = echoText(s, ev);
   $('card-echo').hidden = !echo; $('card-echo').textContent = echo;
   app.dots = { left: Object.keys(ev.left.fx?.m || {}), right: Object.keys(ev.right.fx?.m || {}) };
@@ -307,13 +308,13 @@ function showResult(r, { restored = false } = {}) {
     const word = `${METER_INFO[m].label} ${d > 0 ? 'rose' : 'fell'}${n === 1 ? ' slightly' : n === 3 ? ' sharply' : ''}`;
     return `<li class="chip ${d > 0 ? 'up' : 'down'}" aria-label="${word}">${meterIcon(m)}<span>${METER_INFO[m].label}</span><span class="amt" aria-hidden="true">${(d > 0 ? '▲' : '▼').repeat(n)}</span></li>`;
   }).join('');
-  const KIND = { secret: 'Secret', betrayal: 'Betrayal', status: 'Court', warning: 'Warning', rank: 'Rank', info: 'Note', alliance: 'Plot' };
+  const KIND = { secret: 'Secret', betrayal: 'Betrayal', status: 'Office', warning: 'Warning', rank: 'Rank', info: 'Note', alliance: 'Plot' };
   const notes = (r.notes || []).map(n => `<li class="note ${n.kind}">${n.kind === 'secret' ? '<i class="seal" aria-hidden="true"></i>' : ''}<b>${KIND[n.kind] || 'Note'}</b>${esc(n.text)}</li>`).join('');
   const lesson = r.lesson ? `<details class="lesson" open><summary>Law <span class="num">${r.lesson.n}</span>: ${esc(r.lesson.title)}</summary><div class="lesson-body"><p>${esc(r.lesson.text)}</p><p class="watch"><b>If it were used on you</b>${esc(r.lesson.defense)}</p></div></details>` : '';
   const end = r.ending ? app.content.endings.find(e => e.id === r.ending) : null;
   $('result').innerHTML = `<p class="result-kicker">${esc(r.title)}</p><p class="result-choice">${esc(r.label)}</p><p class="result-text">${esc(r.text)}</p>
     ${chips ? `<ul class="chips" aria-label="Changes">${chips}</ul>` : ''}${notes ? `<ul class="notes">${notes}</ul>` : ''}${lesson}
-    ${end ? `<p class="result-kicker">Your reign has reached its end</p>` : ''}`;
+    ${end ? `<p class="result-kicker">Your career is over</p>` : ''}`;
   $('result').hidden = false; $('result').scrollTop = 0;
   $('btn-next').hidden = false;
   $('btn-next').textContent = r.ending ? 'See what became of you' : 'Draw the next card';
@@ -369,11 +370,11 @@ function showSummary() {
 
 async function shareResult() {
   const s = app.state, sum = buildSummary(s, app.content);
-  const text = `48: Laws of Power. ${sum.ending.title}. ${sum.turns} turns as ${sum.rank}, ${sum.style.top ? STYLES[sum.style.top].label.toLowerCase() : 'unreadable'} style, secret goal ${sum.objective.status === 'done' ? 'done' : 'missed'}.${s.daily ? ` Today's court (${s.daily}).` : ''}`;
+  const text = `48: Laws of Power. ${sum.ending.title}. ${sum.turns} weeks as ${sum.rank}, ${sum.style.top ? STYLES[sum.style.top].label.toLowerCase() : 'unreadable'} style, secret goal ${sum.objective.status === 'done' ? 'done' : 'missed'}.${s.daily ? ` Today's office (${s.daily}).` : ''}`;
   const btn = $('btn-sum-share');
   try {
     if (navigator.share) await navigator.share({ text });
-    else { await navigator.clipboard.writeText(text); btn.textContent = 'Copied to clipboard'; setTimeout(() => { btn.textContent = 'Share this reign'; }, 1800); }
+    else { await navigator.clipboard.writeText(text); btn.textContent = 'Copied to clipboard'; setTimeout(() => { btn.textContent = 'Share this career'; }, 1800); }
   } catch { btn.textContent = text; }
 }
 
@@ -396,12 +397,12 @@ function onKey(e) {
 let panelStack = [];
 const PANELS = {
   menu: { title: 'Paused', render: () => menuHTML() },
-  dossier: { title: 'People at Court', render: () => (app.state ? dossierHTML(app.state) : '<p>Start a reign to meet people.</p>') },
+  dossier: { title: 'People at Work', render: () => (app.state ? dossierHTML(app.state) : '<p>Start a career to meet people.</p>') },
   chronicle: { title: 'Your Choices', render: () => chronicleHTML(app.state) },
   objective: { title: 'Secret Goal', render: () => objectiveHTML(app.state, app.content) },
-  codex: { title: 'Notebook', render: () => codexHTML(app.meta, app.codexTab) },
+  codex: { title: 'Playbook', render: () => codexHTML(app.meta, app.codexTab) },
   settings: { title: 'Settings', render: () => settingsHTML(app.settings, !!app.state && !app.state.ending && !$('screen-game').hidden, { canInstall: canInstall(), standalone: isStandalone(), ios: isIOS() }) },
-  newreign: { title: 'A New Reign', render: () => newReignHTML(app.meta, app.bg && unlockedBackgrounds(app.meta).some(b => b.id === app.bg) ? app.bg : BACKGROUNDS[0].id), foot: newReignFoot },
+  newreign: { title: 'A New Career', render: () => newReignHTML(app.meta, app.bg && unlockedBackgrounds(app.meta).some(b => b.id === app.bg) ? app.bg : BACKGROUNDS[0].id), foot: newReignFoot },
   exit: { title: 'See you soon', render: exitHTML, foot: exitFoot },
 };
 
@@ -434,9 +435,9 @@ async function onPanelClick(e) {
   else if (a === 'to-title') { closePanel(); showTitle(); }
   else if (a === 'begin-reign') { const sel = $('dlg-body').querySelector('input[name="bg"]:checked'); closePanel(); startReign(sel ? sel.value : BACKGROUNDS[0].id); }
   else if (a === 'restart-reign') {
-    if (await confirmDialog({ title: 'Restart this reign?', text: 'This reign will end with no ending. A new one will start with the same background.', ok: 'Restart reign' })) { closePanel(); startReign(app.state.background); }
+    if (await confirmDialog({ title: 'Restart this career?', text: 'This career will end with no ending. A new one will start with the same background.', ok: 'Restart career' })) { closePanel(); startReign(app.state.background); }
   } else if (a === 'erase-all') {
-    if (await confirmDialog({ title: 'Erase everything?', text: 'This deletes your reign, notebook, awards and new starts from this device for good. You cannot undo it.', ok: 'Erase all progress' })) {
+    if (await confirmDialog({ title: 'Erase everything?', text: 'This deletes your career, playbook, awards and new starts from this device for good. You cannot undo it.', ok: 'Erase all progress' })) {
       clearAll(); app.meta = loadMeta(); app.settings = loadSettings(); app.state = null; applySettings(); closePanel(); showTitle('Everything you saved was erased.');
     }
   }

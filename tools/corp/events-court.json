@@ -1,0 +1,174 @@
+{
+ "arrival": {
+  "title": "YOUR FIRST DAY",
+  "text": "Welcome aboard. Your badge works and your laptop is ready. Nobody has told you where to sit, so I will. I can give you a desk on the executive floor, where everyone can see you. Or a quiet desk at the back, where the honest people sit.",
+  "left": { "label": "Take the quiet desk at the back", "result": "Quentin nods, as if you passed a test you did not know about." },
+  "right": { "label": "Take the desk by the executive floor", "result": "Heads turn. Someone smiles. Someone else stops smiling." },
+  "lesson": {
+   "left": "A quiet desk costs you attention. But it keeps you from being the first thing a nervous office looks at.",
+   "right": "A desk by the executives shows you are bold. It also tells the people who waited years for that spot that you are in their way."
+  }
+ },
+ "varen_guard": {
+  "title": "THE AMBITIOUS RIGHT HAND",
+  "text": "Dana's team is getting more popular than is safe. Put the Delivery team under my control. Then I will make sure she never becomes a danger to your plans. Or to you.",
+  "left": { "label": "Say no", "memo": "You said no when he asked for the Delivery team.", "result": "Marcus smiles a little too wide." },
+  "right": { "label": "Give him the Delivery team", "memo": "You gave him control of the Delivery team.", "result": "Marcus thanks you warmly. Dana leaves the room without being dismissed." },
+  "lesson": {
+   "left": "Saying no keeps Delivery in your hands. But a helpful friend turns into a quiet critic. The cost of a no comes slowly.",
+   "right": "Someone who asks for power \"to protect you\" has already thought about how to use it. You win his thanks today. You lose some of your own choices."
+  }
+ },
+ "rumour_meeting": {
+  "title": "A LIGHT IN ROOM 4",
+  "text": "The lights in meeting room 4 were on until midnight. Two people were inside. One was Marcus. The other wore an Operations badge. The booking was hidden. I notice things like this. What do you want me to do with it?",
+  "left": { "label": "Ignore it", "result": "Yara shrugs. The gossip goes to look for another buyer." },
+  "right": {
+   "label": "Check the badge and booking logs",
+   "memo": "You checked the logs for Marcus.",
+   "result": "You pay for a quiet look at the logs.",
+   "branches": [
+    "The logs show a name, a signed note and a deal made in room 4. Marcus and Dana have joined forces.",
+    "The logs show a request about overtime pay. Marcus offered to carry it for her. Nothing wrong at all."
+   ]
+  },
+  "lesson": {
+   "left": "Ignoring gossip saves the cost of checking it. If it was true, the plot keeps growing in the dark.",
+   "right": "Checking logs gives you facts, not proof of guilt. You may find a guilty friend or clear an innocent one. If they catch you looking, you lose trust either way."
+  }
+ },
+ "varen_confront": {
+  "title": "THE PROOF",
+  "text": "You have the proof. Marcus and Dana stand in your office. Marcus is already planning his excuse. 'It is a mix-up,' he says smoothly. Dana stares at the floor.",
+  "left": {
+   "label": "Name them in the leadership meeting",
+   "memo": "You named Marcus and Dana in the leadership meeting.",
+   "branches": [
+    "You have little influence and few friends. Your charge falls flat. Marcus forgives you, loudly.",
+    "You have little influence, but many friends. The leaders look at the proof, then at you, and back you up. Marcus is escorted out.",
+    "The room goes silent. Marcus is walked out with great dignity and no friends."
+   ]
+  },
+  "right": {
+   "label": "Win Dana over in private",
+   "memo": "You turned Dana against Marcus in private.",
+   "result": "Dana agrees to work for you and forget room 4. Marcus now holds a team that no longer obeys him."
+  },
+  "lesson": {
+   "left": "Calling it out in public removes the leader and shames his follower. You need proof and enough power to act. Without them it backfires.",
+   "right": "Winning over the follower leaves the leader alone, with no show. But a person who knows you know is still dangerous."
+  }
+ },
+ "conspiracy_ripens": {
+  "title": "A NEW TEAM CHANNEL",
+  "text": "A new chat channel called ops-alpha has appeared. People wear matching hoodies. Nobody will say what it means. The team leads will not look me in the eye. And Marcus is very cheerful these days.",
+  "left": { "label": "Change the team leads", "memo": "You changed the team leads in a hurry.", "result": "Half the leads are gone by Monday. The other half watch you closely." },
+  "right": {
+   "label": "Praise Dana in public",
+   "memo": "You praised Dana in public.",
+   "result": "Dana takes the praise. She does not take off the hoodie.",
+   "branches": ["Dana blinks. A person who is praised in public finds it hard to plot in private. The hoodies quietly disappear."]
+  },
+  "lesson": {
+   "left": "Changing the leads stops a plot. But it also tells the plotters that you know. Do it badly and the plot may start sooner.",
+   "right": "Praise works on someone who feels ignored. It fails on someone who has already picked a side. You need to know which Dana you have."
+  }
+ },
+ "the_coup": {
+  "title": "FOR THE GOOD OF THE COMPANY",
+  "text": "Marcus walks into your office with Dana and two directors. 'For the good of the company,' he says gently, 'we think you should step aside from this project. The board is ready to vote.'",
+  "left": {
+   "label": "Ask your team to back you",
+   "branches": [
+    "Your people speak up. The directors hesitate. That is enough. Marcus is walked out. Dana hands in her badge without a word.",
+    "Nobody speaks. The new hoodies are bright on their shoulders."
+   ]
+  },
+  "right": {
+   "label": "Offer Marcus a seat on the steering group",
+   "branches": [
+    "He accepts a title and the budget keys. You keep your job. You are no longer sure who really holds it.",
+    "Marcus smiles at your offer. Then he asks security to walk you out."
+   ]
+  },
+  "lesson": {
+   "left": "You can only win a fight like this if you built loyalty and influence long before. If not, it is a coin toss.",
+   "right": "Giving way can save you, if you still have a good name or money to trade. It works best when you saw it coming."
+  }
+ },
+ "watchers_found": {
+  "title": "THE ACCESS LOG",
+  "text": "Marcus holds up a printout. 'IT told me you pulled the door logs for room 4. I was arranging overtime pay for Dana's team. If you had doubts, you could simply have asked me.'",
+  "left": { "label": "Say sorry and explain", "memo": "You told him you checked his logs.", "result": "Marcus accepts your apology. He is so calm about it that you feel you owe him another." },
+  "right": { "label": "Deny everything", "memo": "You lied about the logs.", "result": "Marcus looks at the printout, then at you. His polite face does not change at all." },
+  "lesson": {
+   "left": "Owning up to a small fault can calm a bigger worry. You trade a little pride for trust.",
+   "right": "A flat denial works only until the first piece of proof. Then it costs more than the first mistake."
+  }
+ },
+ "kovane_parade": {
+  "title": "THE TEAM OFFSITE",
+  "text": "The Operations team has not had an offsite in three years. 'They need to see that the company cares,' says Dana, a little too fast. 'So do I.' It would cost a month of the team budget.",
+  "left": { "label": "Not this year", "result": "Dana nods stiffly. Her face tells you what she thinks of stiff nods." },
+  "right": { "label": "Pay for the offsite", "result": "A day of games, food and pep talks. The team loves it. Dana looks ten years younger." },
+  "lesson": {
+   "left": "Saving the money keeps the budget healthy. It also tells the team how much it matters.",
+   "right": "A big event costs money and soon fades. But it turns private loyalty into a public story that people repeat for you."
+  }
+ },
+ "border_raid": {
+  "title": "A BIG CUSTOMER IS LEAVING",
+  "text": "Our largest customer is about to walk away. Dana offers to fly out and fix it herself. 'A week there, a week to follow up.' Marcus watches her face like someone counting.",
+  "left": { "label": "Send Dana", "result": "Dana flies out at dawn. The office feels both safer and strangely empty." },
+  "right": { "label": "Send another manager and keep Dana close", "result": "The manager you send is able but not respected. Dana takes it personally." },
+  "lesson": {
+   "left": "Sending away a person who could rival you makes her famous far from home. It also leaves your team thin. Being away changes who is missed.",
+   "right": "Keeping your top operator close keeps her where you can see her. It also shows her how little you trust her."
+  }
+ },
+ "kovane_returns": {
+  "title": "THE HERO COMES BACK",
+  "text": "Dana returns with the customer saved. The whole floor claps. People chant her name in the chat. She looks at you, then at the crowd. She waits to see what you will do.",
+  "left": { "label": "Praise her in public", "memo": "You praised Dana for saving the customer.", "result": "You give her a big shout-out at the all-hands. The team cheers, because it was their win too." },
+  "right": { "label": "Keep it cool and ask for the report", "memo": "You gave Dana a cool welcome.", "result": "The report is in order. The crowd noticed how you treated her, not the report." },
+  "lesson": {
+   "left": "Sharing the glory costs you some shine. It makes a loyal person famous, and she stays yours.",
+   "right": "Reminding a hero who is in charge protects your place. It also shows her how much she may be loved."
+  }
+ },
+ "kovane_doubt": {
+  "title": "DANA'S QUESTION",
+  "text": "'Tell me the truth,' says Dana. She holds her coffee like a shield. 'Am I being replaced? Marcus's analysts are in my team channels. They count my people like headcount.'",
+  "left": { "label": "Promise nothing", "memo": "You would not promise Dana her job.", "result": "Dana nods slowly. She heard the truth. She does not like it." },
+  "right": { "label": "Promise she will always run Operations", "memo": "You promised Dana she would always run Operations.", "result": "She smiles, to her own surprise. You bought a very loyal operator. You also gave away a lot of choice." },
+  "lesson": {
+   "left": "A worried person hears silence as bad news. Being honest is polite, but it is not always safe.",
+   "right": "A promise made to calm one person ties your hands later. Loyalty bought with a promise makes you less free."
+  }
+ },
+ "audience_list": {
+  "title": "WHO SEES THE CEO",
+  "text": "Everyone wants time with the CEO, and I manage the calendar. Marcus's group and Selena's group both expect slots this week. I can keep it fair. Or I can tilt it your way.",
+  "left": { "label": "Keep it fair", "result": "Quentin puts the calendar in order and looks happy about it." },
+  "right": { "label": "Put your friends first", "memo": "You had Quentin tilt the calendar.", "result": "Your people get the CEO. The others wait. Nobody says anything. Everyone notices." },
+  "lesson": {
+   "left": "Fair rules win trust slowly. They give nobody a reason to be angry with you.",
+   "right": "Choosing who gets in is quiet power. But the people left in the hall can count."
+  }
+ },
+ "quill_leak": {
+  "title": "THE SIDE CHAT",
+  "text": "You find Quentin in a private chat with Yara, forwarding a calendar. He does not deny it. 'Everyone sells something. I sell the CEO's daily plans. I never share his secrets. You know the difference.'",
+  "left": {
+   "label": "Feed him false news",
+   "memo": "You used Quentin's leak to spread false news.",
+   "result": "Your rivals chase a rumour you made up and waste a month.",
+   "branches": ["Yara sells the false news back to you, with a wink. The leak runs both ways."]
+  },
+  "right": { "label": "Remove him from the CEO's office", "memo": "You removed Quentin for selling the CEO's plans.", "result": "Quentin leaves quietly. Within a week the office forgets how to book a room." },
+  "lesson": {
+   "left": "A leak is useful once you know where it goes. It works until the other side learns that you know.",
+   "right": "Removing the spy stops the leak. It also loses the one person who knew how the office really worked."
+  }
+ }
+}

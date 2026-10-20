@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-  <meta name="theme-color" content="#0e0d0c">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="48: Laws of Power. A game about power at court. Swipe to choose. Every decision creates a rival. Every alliance has a price.">
-  <title>48: Laws of Power</title>
+  <meta name="theme-color" content="#eef1f5">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="48: Laws of Power, Corporate Edition. A game about power at the office. Swipe to choose. Every decision creates a rival. Every alliance has a price.">
+  <title>48: Laws of Power (Corporate Edition)</title>
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
@@ -14,11 +14,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="48">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="preload" href="fonts/im-fell-english-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3 L5 13.5 H11 L10 21 L19 9.5 H13 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5 L14.6 9 L20.5 9.7 L16.2 13.8 L17.3 19.7 L12 16.8 L6.7 19.7 L7.8 13.8 L3.5 9.7 L9.4 9 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 20 Q3 13.5 9 13.5 Q15 13.5 15 20" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16.5 13.8 Q21 14 21 19.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
     <symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 18 L4.5 7 L9 12 L12 5 L15 12 L19.5 7 L21 18 Z M4 20 H20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12 Q12 3 22 12 Q12 21 2 12 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
     <symbol id="i-hands" viewBox="0 0 24 24"><path d="M12 20 C5 15 3 11 3 8.5 C3 6 5 4.5 7 4.5 C9 4.5 11 6 12 7.5 C13 6 15 4.5 17 4.5 C19 4.5 21 6 21 8.5 C21 11 19 15 12 20 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
@@ -33,16 +36,16 @@
   <div id="app">
     <!-- Title screen -->
     <main id="screen-title" class="screen title" aria-labelledby="title-h">
-      <div class="title-art" aria-hidden="true"><i class="pillar p1"></i><i class="pillar p2"></i><i class="pillar p3"></i><i class="pillar p4"></i><i class="glow"></i><i class="mote m1"></i><i class="mote m2"></i><i class="mote m3"></i><i class="mote m4"></i><i class="mote m5"></i><i class="mote m6"></i><i class="mote m7"></i><i class="mote m8"></i><i class="mote m9"></i><i class="mote m10"></i><i class="mote m11"></i><i class="mote m12"></i></div>
+      <div class="title-art" aria-hidden="true"><i class="sheet sh1"></i><i class="sheet sh2"></i><i class="sheet sh3"></i></div>
       <div class="title-inner">
-        <p class="title-kicker">A game of power</p>
-        <h1 id="title-h"><span class="t48">48</span><span class="tlaws">Laws of Power</span></h1>
+        <p class="title-kicker">Corporate Edition</p>
+        <h1 id="title-h"><span class="t48"><mark>48</mark></span><span class="tlaws">Laws of Power</span></h1>
         <p class="tagline">Every decision creates a rival. Every alliance has a price.</p>
         <div class="title-menu">
-          <button id="btn-continue-reign" class="btn primary" hidden>Resume reign</button>
-          <button id="btn-new" class="btn primary">Start new reign</button>
-          <button id="btn-daily" class="btn">Play today's court</button>
-          <button id="btn-codex" class="btn">Open notebook</button>
+          <button id="btn-continue-reign" class="btn primary" hidden>Resume career</button>
+          <button id="btn-new" class="btn primary">Start new career</button>
+          <button id="btn-daily" class="btn">Play today's office</button>
+          <button id="btn-codex" class="btn">Open playbook</button>
           <button id="btn-settings" class="btn">Open settings</button>
           <button id="btn-exit" class="btn">Exit game</button>
         </div>
@@ -58,7 +61,7 @@
         <div class="brand" aria-label="48: Laws of Power"><span class="brand-48">48</span><span class="brand-sub">Laws of Power</span></div>
         <div class="reign-info" id="reign-info"></div>
         <nav class="top-actions" aria-label="Game panels">
-          <button class="icon-btn" id="btn-dossier" aria-label="People at court" title="People"><svg><use href="#i-people"/></svg></button>
+          <button class="icon-btn" id="btn-dossier" aria-label="People at work" title="People"><svg><use href="#i-people"/></svg></button>
           <button class="icon-btn" id="btn-chronicle" aria-label="Your choices" title="Your choices"><svg><use href="#i-scroll"/></svg></button>
           <button class="icon-btn" id="btn-menu" aria-label="Pause menu" title="Menu"><svg><use href="#i-menu"/></svg></button>
         </nav>
@@ -69,7 +72,8 @@
         <article class="card" id="card" tabindex="-1" aria-labelledby="card-title">
           <div class="card-tag tag-left" id="tag-left" aria-hidden="true"></div>
           <div class="card-tag tag-right" id="tag-right" aria-hidden="true"></div>
-          <div class="portrait" id="card-portrait"></div>
+          <div class="cover" id="card-cover"></div>
+          <div class="avatar" id="card-avatar"></div>
           <div class="card-body">
             <h2 class="card-title" id="card-title"></h2>
             <p class="card-who"><strong id="card-name"></strong><span id="card-role"></span></p>

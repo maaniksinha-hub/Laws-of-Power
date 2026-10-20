@@ -2,7 +2,7 @@
 name: Deploy to GitHub Pages
 on:
   push:
-    branches: [main, claude/zen-fermat-sxqa5k]
+    branches: [main, claude/zen-fermat-sxqa5k, corporate-edition]
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,11 +26,16 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # The court edition lives at the site root, the corporate edition at /corporate/.
       - uses: actions/checkout@v4
+        with: { ref: claude/zen-fermat-sxqa5k, path: court }
+      - uses: actions/checkout@v4
+        with: { ref: corporate-edition, path: corp }
       - name: Assemble the static site (game files only, no references/tests/tools)
         run: |
-          mkdir _site
-          cp -r index.html manifest.webmanifest sw.js styles js data fonts icons _site/
+          mkdir -p _site/corporate
+          (cd court && cp -r index.html manifest.webmanifest sw.js styles js data fonts icons ../_site/)
+          (cd corp && cp -r index.html manifest.webmanifest sw.js styles js data fonts icons ../_site/corporate/)
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

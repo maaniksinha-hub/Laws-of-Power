@@ -128,7 +128,7 @@ export function rollVariants(state) {
 export function attitude(state, id) {
   const c = state.chars[id], def = CHARACTERS[id];
   if (!c) return { label: 'Unknown', tone: 'neutral' };
-  if (c.status !== 'court') return { label: { dead: 'Dead', exiled: 'Exiled', defected: 'Turned against you', imprisoned: 'Imprisoned' }[c.status] || c.status, tone: 'neutral' };
+  if (c.status !== 'court') return { label: { dead: 'Left the company', exiled: 'Left the company', defected: 'Turned against you', imprisoned: 'Removed' }[c.status] || c.status, tone: 'neutral' };
   if (def.mask && !c.agendaKnown && c.resent < 70) return { label: def.mask, tone: 'good', masked: true };
   const score = c.trust - c.resent - c.suspicion * 0.4;
   if (c.fear >= 60 && score < 50) return { label: 'Afraid of you', tone: 'neutral' };

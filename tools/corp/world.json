@@ -1,0 +1,29 @@
+{
+ "backgrounds": {
+  "minor_noble": { "name": "Graduate Hire", "desc": "A good degree opens doors, but not very wide." },
+  "merchant_ward": { "name": "Hired from a Startup", "desc": "You moved fast and broke things. Now you must learn the rules." },
+  "veteran_officer": { "name": "Laid-Off Manager", "desc": "Your old team remembers you. HR would rather forget you." },
+  "archivist": { "name": "Assistant's Helper", "desc": "You have read what others only whisper. You already know one secret goal.", "unlock": "Finish one career." },
+  "returned_exile": { "name": "Boomerang Employee", "desc": "You left once and came back. You know how this place works, and you have no friends. You already know one secret goal.", "unlock": "Reach three different endings." },
+  "grey_pawn": { "name": "The Sponsor's Pick", "desc": "Someone arranged your hiring, and she expects you to pay her back.", "unlock": "Find the Silent Sponsor in any career." }
+ },
+ "pressures": {
+  "tyranny": "You hold on so tight that people have started to avoid you.",
+  "envy_fame": "Everyone is talking about you, and not all of it is kind.",
+  "entitlement": "Your team now expects more than you can give.",
+  "envy_wealth": "Your budget gets more attention than your advice.",
+  "weakness": "People answer your requests with polite delay.",
+  "disrepute": "Talk stops when you walk into a room.",
+  "desertion": "There are empty chairs where your friends used to sit.",
+  "penury": "People you owe have started to smile at you."
+ },
+ "styles": {
+  "charm": { "label": "Charm", "blurb": "You win rooms with praise, shows and careful handling of egos." }
+ },
+ "meters": {
+  "authority": "How much people follow your lead.",
+  "reputation": "How leaders and colleagues see you.",
+  "loyalty": "Who will back you when it counts.",
+  "resources": "Budget, favours and the means to get things done."
+ }
+}

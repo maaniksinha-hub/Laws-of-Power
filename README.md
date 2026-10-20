@@ -1,10 +1,12 @@
-# 48: Laws of Power
+# 48: Laws of Power — Corporate Edition
 
-> Every decision creates a rival. Every alliance has a price.
+> Every decision creates a rival. Every all**Corporate Edition.** The same game, moved from a royal court to a modern company. You start as a new hire and
+try to reach Acting CEO. Meters: Influence, Reputation, Team trust, Budget. The cast (chief of staff, head of sales,
+board investor, internal audit, a silent sponsor on the board) all want something. Every card is a work dilemma with
+two options. The court version lives on the `claude/zen-fermat-sxqa5k` branch and at the site root; this edition is
+published under `/corporate/`.
 
-A swipe-based political thriller for the browser, inspired by the *Reigns* interaction model and by the themes of
-*The 48 Laws of Power*. You arrive at court as a newcomer. Every card is a dilemma with two options and incomplete
-information. The consequences are remembered: by the four meters, by the people involved, and by the people who
+who
 were watching.
 
 Vanilla HTML/CSS/JS (ES modules). No backend, no framework, no API keys, no build step. All artwork is generated in
