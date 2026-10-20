@@ -359,7 +359,7 @@ function showResult(r, { restored = false } = {}) {
 }
 
 function next() {
-  if (app.busy || !resultVisible() || performance.now() - app.resultAt < 250) return;
+  if (app.busy || !resultVisible() || performance.now() - app.resultAt < 150) return;
   const s = app.state;
   const ev = continueReign(s, app.content);
   saveReign(s);
