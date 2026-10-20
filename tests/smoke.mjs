@@ -317,6 +317,27 @@ for (const [name, w, h] of [['phone-small', 360, 640], ['phone', 390, 844], ['ta
   });
 }
 
+await step('taste: 12px type floor, 44px targets, no clipped card text, no layout-property animation', async () => {
+  for (const [w, h] of [[360, 640], [390, 844], [1280, 800]]) {
+    const p = await newPage({ viewport: { width: w, height: h } });
+    await startReign(p);
+    const r = await p.evaluate(() => {
+      const small = [...document.querySelectorAll('body *')].filter(e => e.offsetParent && !e.closest('svg') && !e.classList.contains('sr-only') && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()) && parseFloat(getComputedStyle(e).fontSize) < 12).map(e => e.className || e.tagName);
+      const tiny = [...document.querySelectorAll('button')].filter(b => b.offsetParent && !b.hidden).filter(b => { const r = b.getBoundingClientRect(); return r.height < 44 || r.width < 44; }).map(b => b.id || b.className);
+      const body = document.querySelector('.card-body');
+      const weights = new Set([...document.querySelectorAll('body *')].filter(e => e.offsetParent).map(e => getComputedStyle(e).fontWeight));
+      const widthAnim = [...document.styleSheets[0].cssRules].filter(r => r.style && /width/.test(r.style.transitionProperty || '')).length;
+      return { small, tiny, clipped: body.scrollHeight - body.clientHeight, weights: [...weights], widthAnim };
+    });
+    assert.deepEqual(r.small, [], `${w}x${h} text under 12px`);
+    assert.deepEqual(r.tiny, [], `${w}x${h} targets under 44px`);
+    assert.ok(r.clipped <= 1, `${w}x${h} card text clipped by ${r.clipped}px`);
+    assert.ok(r.weights.every(x => Number(x) <= 600), `font weights ${r.weights}`);
+    assert.equal(r.widthAnim, 0, 'no width transitions');
+    await p.ctx.close();
+  }
+});
+
 await step('reduced-motion preference is honoured automatically', async () => {
   const p = await newPage({ reducedMotion: 'reduce' });
   await p.goto(base); assert.equal(await p.evaluate(() => document.documentElement.dataset.motion), 'reduce');

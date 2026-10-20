@@ -40,7 +40,7 @@ function dossierItem(state, id, met) {
     <div class="pt">${portraitSVG(def.look, { label: nameOf(state, id) })}</div>
     <div>
       <h4>${esc(nameOf(state, id))}</h4>
-      <div class="sub">${esc(id === 'isaura' && state.secrets.veiled_hand_identity ? def.realRole : c.role)} &middot; ${esc(def.archetype)}</div>
+      <div class="sub">${esc(id === 'isaura' && state.secrets.veiled_hand_identity ? def.realRole : c.role)}<br>${esc(def.archetype)}</div>
       <p>${tag(STATUS_LABEL[c.status], c.status === 'court' ? '' : 'bad')}${c.status === 'court' ? tag(att.label + (att.masked ? '' : ''), att.tone === 'good' ? 'good' : att.tone === 'bad' ? 'bad' : '') : ''}${c.agendaKnown ? tag('Agenda known', 'gold') : ''}</p>
       <p><b>Stated aim:</b> ${esc(def.publicGoal)}</p>
       ${agenda ? `<p><b>Hidden aim:</b> ${esc(agenda)}</p>` : '<p><b>Hidden aim:</b> Unknown.</p>'}
@@ -65,7 +65,7 @@ function relLine(state, a, b) {
 // ---------- chronicle ----------
 export function chronicleHTML(state) {
   if (!state.history.length) return '<p>Nothing has happened yet.</p>';
-  return `<div class="list">${[...state.history].reverse().map(h => `<article class="item"><div class="sub">Turn ${h.turn} &middot; ${esc(h.theme || '')}</div><h4>${esc(h.title)}</h4><p><em>${esc(h.label)}.</em> ${esc(h.result)}</p></article>`).join('')}</div>`;
+  return `<div class="list">${[...state.history].reverse().map(h => `<article class="item"><div class="sub">Turn <span class="num">${h.turn}</span></div><h4>${esc(h.title)}</h4><p><em>${esc(h.label)}.</em> ${esc(h.result)}</p></article>`).join('')}</div>`;
 }
 
 export function objectiveHTML(state, content) {
@@ -79,7 +79,7 @@ export function objectiveHTML(state, content) {
 export const CODEX_TABS = [['laws', 'Laws'], ['characters', 'Characters'], ['stories', 'Stories'], ['endings', 'Endings'], ['achievements', 'Achievements'], ['unlocks', 'Unlocks']];
 
 export function codexHTML(meta, tab) {
-  const tabs = `<div class="tabs" role="tablist" aria-label="Codex sections">${CODEX_TABS.map(([k, l]) => `<button class="tab" role="tab" data-action="codex-tab" data-tab="${k}" aria-selected="${k === tab}">${l}</button>`).join('')}</div>`;
+  const tabs = `<div class="tabs" role="tablist" aria-label="Codex sections">${CODEX_TABS.map(([k, l]) => `<button class="tab" role="tab" data-action="codex-tab" data-tab="${k}" aria-selected="${k === tab}" tabindex="${k === tab ? 0 : -1}">${l}</button>`).join('')}</div>`;
   return tabs + `<div role="tabpanel" class="list">${codexTab(meta, tab)}</div>`;
 }
 
@@ -88,9 +88,9 @@ function codexTab(meta, tab) {
     const found = LAWS.filter(l => meta.laws[l.id]).length;
     const head = `<p>${found} of 48 laws discovered. Each is revealed by living through a situation that shows it, never before.</p>`;
     const cards = LAWS.map(l => {
-      if (!meta.laws[l.id]) return `<article class="item locked"><h4>Law ${l.n}</h4><p class="sub">Not yet discovered.</p></article>`;
+      if (!meta.laws[l.id]) return `<article class="item locked"><h4>Law <span class="num">${l.n}</span></h4><p class="sub">Not yet discovered.</p></article>`;
       const seen = EVENT_LIST.filter(e => e.lesson?.law === l.n && meta.events[e.id]).map(e => e.title);
-      return `<article class="item"><div class="sub">Law ${l.n} &middot; met ${meta.laws[l.id].count}&times;</div><h4>${esc(l.title)}</h4>
+      return `<article class="item"><div class="sub">Law <span class="num">${l.n}</span>, met ${meta.laws[l.id].count} time${meta.laws[l.id].count > 1 ? "s" : ""}</div><h4>${esc(l.title)}</h4>
         <p><b>Principle.</b> ${esc(l.principle)}</p><p><b>Useful when / failure mode.</b> ${esc(l.risk)}</p><p><b>In practice.</b> ${esc(l.application)}</p><p><b>Spotting it used on you.</b> ${esc(l.defense)}</p>
         <div>${l.clusters.map(c => tag(c)).join('')}</div>${seen.length ? `<p class="sub">Seen in: ${esc(seen.join(', '))}</p>` : ''}</article>`;
     }).join('');
@@ -114,7 +114,7 @@ function codexTab(meta, tab) {
   if (tab === 'endings') {
     const found = ENDINGS.filter(e => meta.endings[e.id]).length;
     return `<p>${found} of ${ENDINGS.length} endings found.</p>` + ENDINGS.map(e => meta.endings[e.id]
-      ? `<article class="item"><div class="sub">${esc(e.kind)} &middot; reached ${meta.endings[e.id]}&times;</div><h4>${esc(e.title)}</h4><p><em>${esc(e.epitaph)}</em></p></article>`
+      ? `<article class="item"><div class="sub">${esc(e.kind)} reached ${meta.endings[e.id]} time${meta.endings[e.id] > 1 ? 's' : ''}</div><h4>${esc(e.title)}</h4><p><em>${esc(e.epitaph)}</em></p></article>`
       : `<article class="item locked"><h4>? ? ?</h4><p class="sub">An ending you have not yet reached.</p></article>`).join('');
   }
   if (tab === 'achievements') {
@@ -143,12 +143,12 @@ export function settingsHTML(settings, hasReign) {
 
 export function menuHTML() {
   return `<div class="menu-list">
-    <button class="btn primary" data-action="resume">Resume</button>
-    <button class="btn" data-action="open-panel" data-panel="objective">Secret objective</button>
-    <button class="btn" data-action="open-panel" data-panel="dossier">Character dossier</button>
-    <button class="btn" data-action="open-panel" data-panel="chronicle">Reign chronicle</button>
-    <button class="btn" data-action="open-panel" data-panel="codex">Codex</button>
-    <button class="btn" data-action="open-panel" data-panel="settings">Settings</button>
+    <button class="btn primary" data-action="resume">Resume reign</button>
+    <button class="btn" data-action="open-panel" data-panel="objective">View secret objective</button>
+    <button class="btn" data-action="open-panel" data-panel="dossier">View dossier</button>
+    <button class="btn" data-action="open-panel" data-panel="chronicle">View chronicle</button>
+    <button class="btn" data-action="open-panel" data-panel="codex">Open Codex</button>
+    <button class="btn" data-action="open-panel" data-panel="settings">Open settings</button>
     <button class="btn" data-action="to-title">Save and return to title</button>
   </div>`;
 }

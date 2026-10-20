@@ -96,7 +96,7 @@ Content is data; the engine contains no scenario-specific logic. Rendering never
 ```bash
 npm test             # 124 logic tests (node:test): meters, crises, eligibility, flags, repetition, relationships,
                      #   secrets, objectives, endings, save/load/corruption, content integrity, scripted + 200 random reigns
-npm run test:smoke   # 26-step browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
+npm run test:smoke   # 27-step browser test (Playwright + Chromium): real mouse, keyboard and touch input, refresh persistence,
                      #   panels, every card × both choices, full reigns to the summary, 5 viewports, accessibility basics
 node tools/sim.mjs 400 random   # balance report: endings, objective rates, events never seen
 ```
@@ -194,3 +194,11 @@ Codex is kept.
 * The deck holds 58 cards; a long-time player will start seeing familiar scenes, though agendas and outcomes vary
   per reign.
 * The browser test targets Chromium only.
+
+## Design rules the interface is held to
+
+The UI was audited against the VectorLab UX skills (type, spacing, colour, motion, keyboard, viewports, verbs) and the
+browser test enforces the measurable ones: no text under 12px, no font weight above 600, 44px minimum targets, card text
+never clipped at 360×640, no layout-property transitions. Motion uses four durations (100/150/200/300ms) and animates
+only transform and opacity. The one decorative loop is the ember drift on the title screen. Metadata is plain text, not
+pills. Buttons are verb-first sentence case ("Draw the next card", "Open Codex").

@@ -52,13 +52,13 @@ function showTitle(notice = null) {
   const { state, status } = loadReign(app.content);
   app.saved = state;
   $('btn-continue-reign').hidden = !state;
-  if (state) $('btn-continue-reign').textContent = state.ending ? 'View Last Reign' : `Continue Reign (turn ${state.turn})`;
+  if (state) $('btn-continue-reign').textContent = state.ending ? 'View last reign' : `Resume reign (turn ${state.turn})`;
   const msg = notice || ({ corrupt: 'Your saved reign could not be read, so it was set aside. Your codex is safe.', outdated: 'Your saved reign came from a different version of the game and could not be loaded. Your codex is safe.' })[status];
   $('title-notice').hidden = !msg; $('title-notice').textContent = msg || '';
   const m = app.meta;
   $('title-stats').textContent = m.reigns ? `${m.reigns} reign${m.reigns > 1 ? 's' : ''} lived · ${Object.keys(m.endings).length}/${ENDINGS.length} endings · ${Object.keys(m.laws).length}/48 laws discovered` : 'No reign has been written yet.';
   const d = m.daily?.[todayKey()];
-  $('btn-daily').textContent = d ? "Today's court (played)" : "Today's court";
+  $('btn-daily').textContent = d ? "Replay today's court" : "Play today's court";
   $('btn-new').focus({ preventScroll: true });
 }
 
@@ -81,6 +81,7 @@ function bindStatic() {
   $('dlg').addEventListener('click', e => { if (e.target === $('dlg')) closePanel(); });
   $('dlg-body').addEventListener('click', onPanelClick);
   $('dlg-body').addEventListener('change', onPanelChange);
+  $('dlg-body').addEventListener('keydown', onPanelKey);
   document.addEventListener('keydown', onKey);
   bindCardDrag();
 }
@@ -137,7 +138,7 @@ function updateMeters(changes = null) {
   for (const m of METERS) {
     const el = $('meters').querySelector(`[data-key="${m}"]`);
     const v = s.meters[m];
-    el.querySelector('.meter-fill').style.width = `${v}%`;
+    el.querySelector('.meter-fill').style.transform = `scaleX(${v / 100})`;
     const crit = v <= 15 || v >= 85;
     el.classList.toggle('critical', crit);
     el.classList.toggle('low', v <= 15); el.classList.toggle('high', v >= 85);
@@ -169,7 +170,7 @@ function renderGame() {
 
 function updateHeader() {
   const s = app.state;
-  $('reign-info').innerHTML = `Reign ${s.reignId} · Turn <b>${Math.min(s.turn, MAX_TURN)}</b>/${MAX_TURN}<br>${RANKS[s.rank].title}`;
+  $('reign-info').innerHTML = `<b>${RANKS[s.rank].title}</b><br>Reign ${s.reignId}, turn ${Math.min(s.turn, MAX_TURN)} of ${MAX_TURN}`;
   const o = objectiveView(s, app.content.objectives);
   $('objective-btn').innerHTML = o ? `<span class="obj-k">Secret objective</span><span class="obj-t">${esc(o.brief)}</span><span class="pips" aria-label="${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met">${o.steps.map(x => `<i class="pip ${x.done ? 'on' : ''}"></i>`).join('')}</span>` : '';
   $('objective-btn').setAttribute('aria-label', o ? `Secret objective: ${o.brief}. ${o.steps.filter(x => x.done).length} of ${o.steps.length} steps met.` : 'Objective');
@@ -200,7 +201,7 @@ function renderCard(ev) {
   for (const id of ['btn-left', 'btn-right']) { $(id).hidden = false; $(id).disabled = false; $(id).classList.remove('preview'); }
   $('btn-next').hidden = true;
   const c = $('card'); c.style.transform = ''; c.style.opacity = ''; setTags(0);
-  if (!reduced()) c.animate([{ opacity: 0, transform: 'translateY(26px) scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'cubic-bezier(.2,.8,.2,1)' });
+  if (!reduced()) c.animate([{ opacity: 0, transform: 'translateY(26px) scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'cubic-bezier(.16, 1, .3, 1)' });
   app.busy = false;
   c.focus({ preventScroll: true });
 }
@@ -243,7 +244,7 @@ function bindCardDrag() {
     else {
       setTags(0);
       if (reduced()) card.style.transform = '';
-      else card.animate([{ transform: card.style.transform }, { transform: 'none' }], { duration: 220, easing: 'ease-out' }).onfinish = () => { card.style.transform = ''; };
+      else card.animate([{ transform: card.style.transform }, { transform: 'none' }], { duration: 200, easing: 'cubic-bezier(.16, 1, .3, 1)' }).onfinish = () => { card.style.transform = ''; };
     }
   };
   card.addEventListener('pointerup', end);
@@ -270,13 +271,14 @@ function flyOut(side, fromDx) {
   setTags(sign * 100);
   if (reduced()) return new Promise(r => setTimeout(r, 120));
   const from = fromDx ? card.style.transform : 'none';
-  return card.animate([{ transform: from, opacity: 1 }, { transform: `translateX(${sign * 140}%) rotate(${sign * 18}deg)`, opacity: 0 }], { duration: 260, easing: 'ease-in', fill: 'forwards' }).finished.catch(() => {});
+  return card.animate([{ transform: from, opacity: 1 }, { transform: `translateX(${sign * 140}%) rotate(${sign * 18}deg)`, opacity: 0 }], { duration: 200, easing: 'cubic-bezier(.7, 0, .84, 0)', fill: 'forwards' }).finished.catch(() => {});
 }
 
 // ------------------------------------------------------------------ result / debrief
 function showResult(r, { restored = false } = {}) {
   const s = app.state;
   $('card').hidden = true; $('card').getAnimations().forEach(a => a.cancel());
+  showHintDots(null);
   $('btn-left').hidden = $('btn-right').hidden = true;
   const chips = METERS.filter(m => r.changes[m]).map(m => {
     const d = r.changes[m], n = MAGNITUDE(d);
@@ -285,14 +287,14 @@ function showResult(r, { restored = false } = {}) {
   }).join('');
   const KIND = { secret: 'Secret', betrayal: 'Betrayal', status: 'Court', warning: 'Warning', rank: 'Rank', info: 'Note', alliance: 'Intrigue' };
   const notes = (r.notes || []).map(n => `<li class="note ${n.kind}">${n.kind === 'secret' ? '<i class="seal" aria-hidden="true"></i>' : ''}<b>${KIND[n.kind] || 'Note'}</b>${esc(n.text)}</li>`).join('');
-  const lesson = r.lesson ? `<details class="lesson" open><summary>Principle · Law ${r.lesson.n}: ${esc(r.lesson.title)}</summary><div class="lesson-body"><p>${esc(r.lesson.text)}</p><p class="watch"><b>If it were used on you</b>${esc(r.lesson.defense)}</p></div></details>` : '';
+  const lesson = r.lesson ? `<details class="lesson" open><summary>Law <span class="num">${r.lesson.n}</span>: ${esc(r.lesson.title)}</summary><div class="lesson-body"><p>${esc(r.lesson.text)}</p><p class="watch"><b>If it were used on you</b>${esc(r.lesson.defense)}</p></div></details>` : '';
   const end = r.ending ? app.content.endings.find(e => e.id === r.ending) : null;
   $('result').innerHTML = `<p class="result-kicker">${esc(r.title)}</p><p class="result-choice">${esc(r.label)}</p><p class="result-text">${esc(r.text)}</p>
     ${chips ? `<ul class="chips" aria-label="Changes">${chips}</ul>` : ''}${notes ? `<ul class="notes">${notes}</ul>` : ''}${lesson}
     ${end ? `<p class="result-kicker">Your reign has reached its end</p>` : ''}`;
   $('result').hidden = false; $('result').scrollTop = 0;
   $('btn-next').hidden = false;
-  $('btn-next').textContent = r.ending ? 'See what became of you' : 'Continue';
+  $('btn-next').textContent = r.ending ? 'See what became of you' : 'Draw the next card';
   app.busy = false; app.resultAt = performance.now();
   updateMeters(restored ? null : r.changes);
   updateHeader();
@@ -408,6 +410,14 @@ async function onPanelClick(e) {
       clearAll(); app.meta = loadMeta(); app.settings = loadSettings(); app.state = null; applySettings(); closePanel(); showTitle('All saved progress has been erased.');
     }
   }
+}
+function onPanelKey(e) {
+  const t = e.target.closest('[role=tab]');
+  if (!t || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+  const tabs = [...$('dlg-body').querySelectorAll('[role=tab]')];
+  const i = tabs.indexOf(t);
+  const n = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+  e.preventDefault(); app.codexTab = tabs[n].dataset.tab; openPanel('codex', { push: false }); $('dlg-body').querySelector('[aria-selected="true"]')?.focus();
 }
 function onPanelChange(e) {
   const t = e.target.closest('[data-setting]');
