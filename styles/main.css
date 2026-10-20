@@ -447,3 +447,16 @@ dialog::backdrop { background: rgba(14, 17, 22, .5); }
 .skip { border-radius: var(--r-box); }
 .vignette { box-shadow: inset 0 0 0 8px rgba(205, 43, 49, .5); }
 .hint { background: linear-gradient(transparent, var(--panel) 55%); }
+
+/* roomier card on phones: shorter cover, tighter rhythm, and the first-run hint gets its own strip so it never sits on the text */
+@media (min-height: 701px) {
+  .game { gap: 12px; padding-top: calc(var(--safe-t) + 16px); }
+  .cover { flex-basis: 17%; min-height: 56px; }
+  .avatar { top: calc(17% - 32px); width: 64px; height: 64px; }
+  .via-slot { top: calc(17% + 6px); left: 88px; }
+  .card-body { padding: 44px 16px 28px; }
+  .card-title { font-size: clamp(20px, 5.6vw, 24px); }
+  .card-text { font-size: 15px; line-height: 1.45; margin-top: 2px; }
+  .meters { padding: 8px 12px; }
+}
+.hint { padding: 8px 16px 8px; background: var(--panel); border-top: 1px solid var(--line2); }
